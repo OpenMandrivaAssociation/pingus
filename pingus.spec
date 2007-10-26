@@ -1,6 +1,6 @@
 %define	name	pingus
 %define	version	0.7.1
-%define	release	1
+%define	release	2
 %define	Summary	Pingus - A free Lemmings clone
 
 Summary:	%{Summary}
@@ -11,7 +11,7 @@ Source0:	http://dark.x.dtu.dk/~grumbel/pingus/%{name}-%{version}.tar.bz2
 Source11:	%{name}.16.png
 Source12:	%{name}.32.png
 Source13:	%{name}.48.png
-Patch1:		pingus-0.7.0-dataloc.patch
+Patch1:		pingus-0.7.1-dataloc.patch
 Patch2:		pingus-0.7.1-boost.patch
 URL:		http://pingus.seul.org/
 License:	GPL
@@ -25,14 +25,14 @@ BuildRequires:	libpng-devel
 BuildRequires:	physfs-devel
 
 %description
-Pingus is a free Lemmings clone covered under the GPL. Pingus uses ClanLib,
+Pingus is a free Lemmings clone covered under the GPL. Pingus uses SDL,
 which should make it portable over a lot of operating systems in the future. At
 the moment the main target is Linux. It is possible to play Pingus in a X
-window or in fullscreen using DGA or fbdev.
+window or in fullscreen.
 
 %prep
 %setup -q
-#%patch1 -p1 -b .dataloc
+%patch1 -p1 -b .dataloc
 %patch2 -p0 -b .boost
 sed -i 's/BINDIR="\$1\/bin\/"/BINDIR="\$1\/games"/' install.sh
 sed -i 's/DATADIR="\$1\/share\/pingus\/"/DATADIR="\$1\/share\/games\/pingus\/"/' install.sh
