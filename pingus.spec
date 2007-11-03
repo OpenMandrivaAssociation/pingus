@@ -38,7 +38,7 @@ sed -i 's/BINDIR="\$1\/bin\/"/BINDIR="\$1\/games"/' install.sh
 sed -i 's/DATADIR="\$1\/share\/pingus\/"/DATADIR="\$1\/share\/games\/pingus\/"/' install.sh
 
 %build
-scons configure CCFLAGS="%{optflags}" CPPFLAGS="%{optflags}"
+scons configure CCFLAGS="%{optflags}" CPPFLAGS="%{optflags}" with_wiimote=True
 
 scons
 
