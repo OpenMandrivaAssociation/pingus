@@ -1,6 +1,6 @@
 %define	name	pingus
-%define	version	0.7.1
-%define	release	2
+%define	version	0.7.2
+%define	release	1
 %define	Summary	Pingus - A free Lemmings clone
 
 Summary:	%{Summary}
@@ -14,7 +14,7 @@ Source13:	%{name}.48.png
 Patch1:		pingus-0.7.1-dataloc.patch
 Patch2:		pingus-0.7.1-boost.patch
 URL:		http://pingus.seul.org/
-License:	GPL
+License:	GPLv2+
 Group:		Games/Arcade
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	scons
@@ -86,5 +86,3 @@ rm -rf $RPM_BUILD_ROOT
 %{_miconsdir}/%{name}.png
 %{_iconsdir}/%{name}.png
 %{_liconsdir}/%{name}.png
-
-
