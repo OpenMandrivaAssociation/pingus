@@ -59,9 +59,9 @@ StartupNotify=true
 Categories=Game;ArcadeGame;
 EOF
 
-install -m644 %{SOURCE11} -D $RPM_BUILD_ROOT%{_miconsdir}/%{name}.png
-install -m644 %{SOURCE12} -D $RPM_BUILD_ROOT%{_iconsdir}/%{name}.png
-install -m644 %{SOURCE13} -D $RPM_BUILD_ROOT%{_liconsdir}/%{name}.png
+install -m644 %{SOURCE11} -D $RPM_BUILD_ROOT%{_iconsdir}/hicolor/16x16/apps/%{name}.png
+install -m644 %{SOURCE12} -D $RPM_BUILD_ROOT%{_iconsdir}/hicolor/32x32/apps/%{name}.png
+install -m644 %{SOURCE13} -D $RPM_BUILD_ROOT%{_iconsdir}/hicolor/48x48/apps/%{name}.png
 
 %find_lang %{name}
 
@@ -70,12 +70,14 @@ rm -f $RPM_BUILD_ROOT%{_datadir}/locale/locale.alias
 %post
 %{update_menus}
 %_install_info %{name}.info
+%update_icon_cache hicolor
 
 %preun
 %_remove_install_info %{name}.info
 
 %postun
 %{clean_menus}
+%clean_icon_cache hicolor
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -86,6 +88,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_gamesbindir}/pingus
 %{_gamesdatadir}/%{name}
 %{_datadir}/applications/mandriva-%{name}.desktop
-%{_miconsdir}/%{name}.png
-%{_iconsdir}/%{name}.png
-%{_liconsdir}/%{name}.png
+%{_iconsdir}/hicolor/*/apps/%{name}.png
