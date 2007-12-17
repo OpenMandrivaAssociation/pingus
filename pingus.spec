@@ -21,7 +21,6 @@ BuildRequires:	SDL_mixer-devel
 BuildRequires:	SDL_image-devel
 BuildRequires:	libpng-devel
 BuildRequires:	physfs-devel
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 Pingus is a free Lemmings clone covered under the GPL. Pingus uses SDL,
