@@ -67,16 +67,22 @@ install -m644 %{SOURCE13} -D %{buildroot}%{_iconsdir}/hicolor/48x48/apps/%{name}
 rm -f %{buildroot}%{_datadir}/locale/locale.alias
 
 %post
+%if %mdkversion < 200900
 %{update_menus}
+%endif
 %_install_info %{name}.info
+%if %mdkversion < 200900
 %update_icon_cache hicolor
+%endif
 
 %preun
 %_remove_install_info %{name}.info
 
+%if %mdkversion < 200900
 %postun
 %{clean_menus}
 %clean_icon_cache hicolor
+%endif
 
 %clean
 rm -rf %{buildroot}
