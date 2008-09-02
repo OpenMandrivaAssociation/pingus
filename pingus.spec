@@ -15,6 +15,7 @@ Source11:	%{name}.16.png
 Source12:	%{name}.32.png
 Source13:	%{name}.48.png
 Patch1:		pingus-0.7.1-dataloc.patch
+Patch2:		pingus-0.7.2-gcc43.patch
 BuildRequires:	scons
 BuildRequires:	boost-devel
 BuildRequires:	SDL_mixer-devel 
@@ -32,6 +33,7 @@ window or in fullscreen.
 %prep
 %setup -q
 %patch1 -p1 -b .dataloc
+%patch2 -p1
 
 sed -i 's/BINDIR="\$1\/bin\/"/BINDIR="\$1\/games"/' install.sh
 sed -i 's/DATADIR="\$1\/share\/pingus\/"/DATADIR="\$1\/share\/games\/pingus\/"/' install.sh
