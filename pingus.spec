@@ -1,6 +1,6 @@
 %define	name	pingus
 %define	version	0.7.2
-%define	release	2
+%define	release 3
 %define	Summary	Pingus - A free Lemmings clone
 
 Summary:	%{Summary}
@@ -22,6 +22,7 @@ BuildRequires:	SDL_mixer-devel
 BuildRequires:	SDL_image-devel
 BuildRequires:	libpng-devel
 BuildRequires:	physfs-devel
+BuildRequires:	cwiid-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
