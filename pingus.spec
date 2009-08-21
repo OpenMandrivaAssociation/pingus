@@ -1,6 +1,6 @@
 %define	name	pingus
 %define	version	0.7.2
-%define	release 3
+%define	release 4
 %define	Summary	Pingus - A free Lemmings clone
 
 Summary:	%{Summary}
@@ -15,7 +15,7 @@ Source11:	%{name}.16.png
 Source12:	%{name}.32.png
 Source13:	%{name}.48.png
 Patch1:		pingus-0.7.1-dataloc.patch
-Patch2:		pingus-0.7.2-gcc43.patch
+Patch3:		pingus-0.7.2-gcc44.patch
 BuildRequires:	scons
 BuildRequires:	boost-devel
 BuildRequires:	SDL_mixer-devel 
@@ -34,15 +34,19 @@ window or in fullscreen.
 %prep
 %setup -q
 %patch1 -p1 -b .dataloc
-%patch2 -p1
+%patch3 -p1
 
 sed -i 's/BINDIR="\$1\/bin\/"/BINDIR="\$1\/games"/' install.sh
 sed -i 's/DATADIR="\$1\/share\/pingus\/"/DATADIR="\$1\/share\/games\/pingus\/"/' install.sh
 
 %build
-scons configure CCFLAGS="%{optflags}" CPPFLAGS="%{optflags}" with_wiimote=True
-
-scons
+%configure_scons \
+	prefix=%{_prefix} \
+	execprefix=%{_gamesbindir} \
+	datadir=%{_gamesdatadir} \
+	libdir=%{_libdir} \
+	with_wiimote=True
+%scons
 
 %install
 rm -rf %{buildroot}
