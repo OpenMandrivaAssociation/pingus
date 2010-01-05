@@ -1,6 +1,6 @@
 %define	name	pingus
 %define	version	0.7.2
-%define	release 4
+%define	release 5
 %define	Summary	Pingus - A free Lemmings clone
 
 Summary:	%{Summary}
