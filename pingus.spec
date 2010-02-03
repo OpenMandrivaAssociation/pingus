@@ -1,12 +1,12 @@
 %define	name	pingus
 %define	version	0.7.2
-%define	release 5
+%define	rel 6
 %define	Summary	Pingus - A free Lemmings clone
 
 Summary:	%{Summary}
 Name:		%{name}
 Version:	%{version}
-Release:	%mkrel %{release}
+Release:	%mkrel %{rel}
 License:	GPLv2+
 Group:		Games/Arcade
 URL:		http://pingus.seul.org
