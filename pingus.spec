@@ -1,6 +1,6 @@
 %define	name	pingus
-%define	version	0.7.2
-%define	rel 8
+%define	version	0.7.3
+%define	rel 1
 %define	Summary	Pingus - A free Lemmings clone
 
 Summary:	%{Summary}
@@ -36,7 +36,7 @@ window or in fullscreen.
 %prep
 %setup -q
 %patch1 -p1 -b .dataloc
-%patch3 -p1
+# %patch3 -p1
 
 sed -i 's/BINDIR="\$1\/bin\/"/BINDIR="\$1\/games"/' install.sh
 sed -i 's/DATADIR="\$1\/share\/pingus\/"/DATADIR="\$1\/share\/games\/pingus\/"/' install.sh
