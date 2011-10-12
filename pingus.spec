@@ -14,8 +14,8 @@ Source0:	http://dark.x.dtu.dk/~grumbel/pingus/%{name}-%{version}.tar.bz2
 Source11:	%{name}.16.png
 Source12:	%{name}.32.png
 Source13:	%{name}.48.png
-Patch1:		pingus-0.7.1-dataloc.patch
-Patch3:		pingus-0.7.2-gcc44.patch
+# Patch1:		pingus-0.7.1-dataloc.patch
+#Patch3:		pingus-0.7.2-gcc44.patch
 BuildRequires:	scons
 BuildRequires:	boost-devel
 BuildRequires:	SDL_mixer-devel 
@@ -35,7 +35,7 @@ window or in fullscreen.
 
 %prep
 %setup -q
-%patch1 -p1 -b .dataloc
+# %patch1 -p1 -b .dataloc
 # %patch3 -p1
 
 sed -i 's/BINDIR="\$1\/bin\/"/BINDIR="\$1\/games"/' install.sh
