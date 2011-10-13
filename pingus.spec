@@ -14,8 +14,6 @@ Source0:	http://dark.x.dtu.dk/~grumbel/pingus/%{name}-%{version}.tar.bz2
 Source11:	%{name}.16.png
 Source12:	%{name}.32.png
 Source13:	%{name}.48.png
-# Patch1:		pingus-0.7.1-dataloc.patch
-#Patch3:		pingus-0.7.2-gcc44.patch
 BuildRequires:	scons
 BuildRequires:	boost-devel
 BuildRequires:	SDL_mixer-devel 
@@ -35,24 +33,25 @@ window or in fullscreen.
 
 %prep
 %setup -q
-# %patch1 -p1 -b .dataloc
-# %patch3 -p1
 
-sed -i 's/BINDIR="\$1\/bin\/"/BINDIR="\$1\/games"/' install.sh
-sed -i 's/DATADIR="\$1\/share\/pingus\/"/DATADIR="\$1\/share\/games\/pingus\/"/' install.sh
+# sed -i 's/BINDIR="\$1\/bin\/"/BINDIR="\$1\/games"/' install.sh
+# sed -i 's/DATADIR="\$1\/share\/pingus\/"/DATADIR="\$1\/share\/games\/pingus\/"/' install.sh
 
 %build
-%configure_scons \
+%scons \
 	prefix=%{_prefix} \
 	execprefix=%{_gamesbindir} \
 	datadir=%{_gamesdatadir} \
-	libdir=%{_libdir} \
-	with_wiimote=True
-%scons
+	libdir=%{_gameslibdir} 
 
 %install
 rm -rf %{buildroot}
-./install.sh %{buildroot}/usr
+%makeinstall \
+	DATADIR=%{buildroot}/%{_gamesdatadir}/%{name} \
+	MANDIR=%{buildroot}/%{_mandir} \
+	BINDIR=%{buildroot}/%{_gamesbindir} \
+	LIBDIR=%{buildroot}/%{_gameslibdir}
+
 
 install -m 755 -d %{buildroot}%{_datadir}/applications/
 cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
@@ -100,6 +99,8 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc AUTHORS COPYING README* TODO
 %{_gamesbindir}/pingus
+%{_gamesbindir}/pingus.bin
 %{_gamesdatadir}/%{name}
 %{_datadir}/applications/mandriva-%{name}.desktop
 %{_iconsdir}/hicolor/*/apps/%{name}.png
+%{_mandir}/man1/pingus.6.xz
