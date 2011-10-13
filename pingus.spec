@@ -103,4 +103,4 @@ rm -rf %{buildroot}
 %{_gamesdatadir}/%{name}
 %{_datadir}/applications/mandriva-%{name}.desktop
 %{_iconsdir}/hicolor/*/apps/%{name}.png
-%{_mandir}/man1/pingus.6.xz
+%{_mandir}/man1/pingus.6.*
