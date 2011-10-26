@@ -1,5 +1,5 @@
 %define	name	pingus
-%define	version	0.7.4
+%define	version	0.7.5
 %define	rel 1
 %define	Summary	Pingus - A free Lemmings clone
 
@@ -74,23 +74,14 @@ install -m644 %{SOURCE13} -D %{buildroot}%{_iconsdir}/hicolor/48x48/apps/%{name}
 
 rm -f %{buildroot}%{_datadir}/locale/locale.alias
 
+sed -i "s^%{buildroot}/^^g" %buildroot%_gamesbindir/pingus
+
+
 %post
-%if %mdkversion < 200900
-%{update_menus}
-%endif
 %_install_info %{name}.info
-%if %mdkversion < 200900
-%update_icon_cache hicolor
-%endif
 
 %preun
 %_remove_install_info %{name}.info
-
-%if %mdkversion < 200900
-%postun
-%{clean_menus}
-%clean_icon_cache hicolor
-%endif
 
 %clean
 rm -rf %{buildroot}
