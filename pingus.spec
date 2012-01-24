@@ -1,5 +1,5 @@
 %define	name	pingus
-%define	version	0.7.5
+%define	version	0.7.6
 %define	rel 1
 %define	Summary	Pingus - A free Lemmings clone
 
@@ -10,7 +10,7 @@ Release:	%mkrel %{rel}
 License:	GPLv2+
 Group:		Games/Arcade
 URL:		http://pingus.seul.org
-Source0:	http://dark.x.dtu.dk/~grumbel/pingus/%{name}-%{version}.tar.bz2
+Source0:	http://pingus.googlecode.com/files/%{name}-%{version}.tar.bz2
 Source11:	%{name}.16.png
 Source12:	%{name}.32.png
 Source13:	%{name}.48.png
