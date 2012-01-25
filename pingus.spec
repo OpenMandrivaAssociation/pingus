@@ -86,7 +86,7 @@ sed -i "s^%{buildroot}/^^g" %buildroot%_gamesbindir/pingus
 %clean
 rm -rf %{buildroot}
 
-%files -f %{name}.lang
+%files # -f %{name}.lang
 %defattr(-,root,root)
 %doc AUTHORS COPYING README* TODO
 %{_gamesbindir}/pingus
