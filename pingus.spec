@@ -70,7 +70,7 @@ install -m644 %{SOURCE11} -D %{buildroot}%{_iconsdir}/hicolor/16x16/apps/%{name}
 install -m644 %{SOURCE12} -D %{buildroot}%{_iconsdir}/hicolor/32x32/apps/%{name}.png
 install -m644 %{SOURCE13} -D %{buildroot}%{_iconsdir}/hicolor/48x48/apps/%{name}.png
 
-%find_lang %{name}
+# %find_lang %{name}
 
 rm -f %{buildroot}%{_datadir}/locale/locale.alias
 
