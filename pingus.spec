@@ -73,13 +73,6 @@ rm -f %{buildroot}%{_datadir}/locale/locale.alias
 
 sed -i "s^%{buildroot}/^^g" %{buildroot}%{_gamesbindir}/pingus
 
-
-%post
-%_install_info %{name}.info
-
-%preun
-%_remove_install_info %{name}.info
-
 %files
 # -f %{name}.lang
 %doc AUTHORS COPYING README* TODO
