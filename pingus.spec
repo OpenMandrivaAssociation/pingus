@@ -21,6 +21,7 @@ BuildRequires:	SDL_image-devel
 BuildRequires:	libpng-devel
 BuildRequires:	physfs-devel
 BuildRequires:	cwiid-devel
+BuildRequires:	bluez-devel >= 4.101-3
 # To avoid automatic Requires on file
 BuildRequires:	guile
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -42,7 +43,8 @@ window or in fullscreen.
 	prefix=%{_prefix} \
 	execprefix=%{_gamesbindir} \
 	datadir=%{_gamesdatadir} \
-	libdir=%{_gameslibdir} 
+	libdir=%{_gameslibdir} \
+	with_wiimote=True
 
 %install
 rm -rf %{buildroot}
