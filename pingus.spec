@@ -11,6 +11,7 @@ Source0:	http://pingus.googlecode.com/files/%{name}-%{version}.tar.bz2
 Source11:	%{name}.16.png
 Source12:	%{name}.32.png
 Source13:	%{name}.48.png
+Patch0:		pingus-0.7.6-fix-wiimote-driver-build.patch
 BuildRequires:	scons
 BuildRequires:	boost-devel
 BuildRequires:	SDL_mixer-devel 
@@ -30,6 +31,7 @@ window or in fullscreen.
 
 %prep
 %setup -q
+%patch0 -p1 -b .wiimote~
 
 # sed -i 's/BINDIR="\$1\/bin\/"/BINDIR="\$1\/games"/' install.sh
 # sed -i 's/DATADIR="\$1\/share\/pingus\/"/DATADIR="\$1\/share\/games\/pingus\/"/' install.sh
@@ -67,14 +69,9 @@ install -m644 %{SOURCE11} -D %{buildroot}%{_iconsdir}/hicolor/16x16/apps/%{name}
 install -m644 %{SOURCE12} -D %{buildroot}%{_iconsdir}/hicolor/32x32/apps/%{name}.png
 install -m644 %{SOURCE13} -D %{buildroot}%{_iconsdir}/hicolor/48x48/apps/%{name}.png
 
-# %find_lang %{name}
-
-rm -f %{buildroot}%{_datadir}/locale/locale.alias
-
 sed -i "s^%{buildroot}/^^g" %{buildroot}%{_gamesbindir}/pingus
 
 %files
-# -f %{name}.lang
 %doc AUTHORS COPYING README* TODO
 %{_gamesbindir}/pingus
 %{_gamesbindir}/pingus.bin
