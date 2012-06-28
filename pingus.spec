@@ -1,12 +1,9 @@
-%define	name	pingus
-%define	version	0.7.6
-%define	rel 1
 %define	Summary	Pingus - A free Lemmings clone
 
 Summary:	%{Summary}
-Name:		%{name}
-Version:	%{version}
-Release:	%mkrel %{rel}
+Name:		pingus
+Version:	0.7.6
+Release:	2
 License:	GPLv2+
 Group:		Games/Arcade
 URL:		http://pingus.seul.org
@@ -24,7 +21,6 @@ BuildRequires:	cwiid-devel
 BuildRequires:	bluez-devel >= 4.101-3
 # To avoid automatic Requires on file
 BuildRequires:	guile
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 Pingus is a free Lemmings clone covered under the GPL. Pingus uses SDL,
@@ -47,15 +43,14 @@ window or in fullscreen.
 	with_wiimote=True
 
 %install
-rm -rf %{buildroot}
 %makeinstall \
-	DATADIR=%{buildroot}/%{_gamesdatadir}/%{name} \
-	MANDIR=%{buildroot}/%{_mandir} \
-	BINDIR=%{buildroot}/%{_gamesbindir} \
-	LIBDIR=%{buildroot}/%{_gameslibdir}
+	DATADIR=%{buildroot}%{_gamesdatadir}/%{name} \
+	MANDIR=%{buildroot}%{_mandir} \
+	BINDIR=%{buildroot}%{_gamesbindir} \
+	LIBDIR=%{buildroot}%{_gameslibdir}
 
 
-install -m 755 -d %{buildroot}%{_datadir}/applications/
+install -d %{buildroot}%{_datadir}/applications/
 cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
 [Desktop Entry]
 Name=Pingus
@@ -76,7 +71,7 @@ install -m644 %{SOURCE13} -D %{buildroot}%{_iconsdir}/hicolor/48x48/apps/%{name}
 
 rm -f %{buildroot}%{_datadir}/locale/locale.alias
 
-sed -i "s^%{buildroot}/^^g" %buildroot%_gamesbindir/pingus
+sed -i "s^%{buildroot}/^^g" %{buildroot}%{_gamesbindir}/pingus
 
 
 %post
@@ -85,12 +80,8 @@ sed -i "s^%{buildroot}/^^g" %buildroot%_gamesbindir/pingus
 %preun
 %_remove_install_info %{name}.info
 
-%clean
-rm -rf %{buildroot}
-
 %files
 # -f %{name}.lang
-%defattr(-,root,root)
 %doc AUTHORS COPYING README* TODO
 %{_gamesbindir}/pingus
 %{_gamesbindir}/pingus.bin
