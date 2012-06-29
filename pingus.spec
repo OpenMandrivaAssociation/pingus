@@ -41,7 +41,6 @@ window or in fullscreen.
 	prefix=%{_prefix} \
 	execprefix=%{_gamesbindir} \
 	datadir=%{_gamesdatadir} \
-	libdir=%{_gameslibdir} \
 	with_wiimote=True \
 	CC="gcc %{optflags} %{ldflags}" \
 	CXX="g++ %{optflags} %{ldflags}" \
