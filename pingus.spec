@@ -35,16 +35,18 @@ window or in fullscreen.
 %patch0 -p1 -b .wiimote~
 %patch1 -p1 -b .perms~
 
-# sed -i 's/BINDIR="\$1\/bin\/"/BINDIR="\$1\/games"/' install.sh
-# sed -i 's/DATADIR="\$1\/share\/pingus\/"/DATADIR="\$1\/share\/games\/pingus\/"/' install.sh
-
 %build
+# XXX: passing of flags through CXXFLAGS etc. is fscked..
 %scons \
 	prefix=%{_prefix} \
 	execprefix=%{_gamesbindir} \
 	datadir=%{_gamesdatadir} \
 	libdir=%{_gameslibdir} \
-	with_wiimote=True
+	with_wiimote=True \
+	CC="gcc %{optflags} %{ldflags}" \
+	CXX="g++ %{optflags} %{ldflags}" \
+	CCFLAGS="-Ofast" \
+	CXXFLAGS="-Ofast"
 
 %install
 %makeinstall \
