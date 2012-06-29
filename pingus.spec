@@ -49,11 +49,11 @@ window or in fullscreen.
 	CXXFLAGS="-Ofast"
 
 %install
-%makeinstall \
-	DATADIR=%{buildroot}%{_gamesdatadir}/%{name} \
-	MANDIR=%{buildroot}%{_mandir} \
-	BINDIR=%{buildroot}%{_gamesbindir} \
-	LIBDIR=%{buildroot}%{_gameslibdir}
+%makeinstall_std \
+	DATADIR=%{_gamesdatadir}/%{name} \
+	MANDIR=%{_mandir} \
+	BINDIR=%{_gamesbindir} \
+	LIBDIR=%{_gameslibdir}
 
 
 install -d %{buildroot}%{_datadir}/applications/
