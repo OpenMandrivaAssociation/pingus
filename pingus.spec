@@ -2,6 +2,8 @@
 # missing #include "pingus/debug.hpp
 %define build_extra_input 0
 
+%define debug_package %{nil}
+
 Summary:	A free Lemmings clone
 Name:		pingus
 Version:	0.7.6
