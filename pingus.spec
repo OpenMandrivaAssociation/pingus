@@ -2,10 +2,10 @@
 # missing #include "pingus/debug.hpp
 %define build_extra_input 0
 
-Summary:	- A free Lemmings clone
+Summary:	A free Lemmings clone
 Name:		pingus
 Version:	0.7.6
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		Games/Arcade
 URL:		http://pingus.seul.org
