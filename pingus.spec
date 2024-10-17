@@ -10,7 +10,7 @@ Version:	0.7.6
 Release:	5
 License:	GPLv2+
 Group:		Games/Arcade
-URL:		http://pingus.seul.org
+URL:		https://pingus.seul.org
 Source0:	http://pingus.googlecode.com/files/%{name}-%{version}.tar.bz2
 Source11:	%{name}.16.png
 Source12:	%{name}.32.png
