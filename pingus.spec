@@ -28,6 +28,7 @@ BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(xi)
 BuildRequires:	physfs-devel
 BuildRequires:	cwiid-devel
+BuildRequires:	git-core
 # To avoid automatic Requires on file
 BuildRequires:	guile
 
