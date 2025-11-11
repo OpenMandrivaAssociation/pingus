@@ -1,0 +1,39 @@
+From b3a0ac7cb45969a3e7ba140bfd8714a48bbeaf36 Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Fri, 10 May 2013 04:22:34 +0200
+Subject: [PATCH 043/129] Fixed some compiler warnings
+
+---
+ src/engine/display/font.cpp | 2 +-
+ src/math/vector3f.hpp       | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/engine/display/font.cpp b/src/engine/display/font.cpp
+index 07a057e5e..b147082e0 100644
+--- a/src/engine/display/font.cpp
++++ b/src/engine/display/font.cpp
+@@ -168,7 +168,7 @@ public:
+ 
+   Size get_size(const std::string& text) const
+   {
+-    return Size(get_width(text), get_height());
++    return Size(static_cast<int>(get_width(text)), get_height());
+   }
+ 
+   Rect bounding_rect(int x, int y, const std::string& str) const
+diff --git a/src/math/vector3f.hpp b/src/math/vector3f.hpp
+index cdc6e5b52..148aa2472 100644
+--- a/src/math/vector3f.hpp
++++ b/src/math/vector3f.hpp
+@@ -88,7 +88,7 @@ public:
+   {
+     float f = Math::sqrt(x * x + y * y + z * z);
+ 
+-    if (f)
++    if (f != 0.0f)
+     {
+       x /= f;
+       y /= f;
+-- 
+2.51.2
+

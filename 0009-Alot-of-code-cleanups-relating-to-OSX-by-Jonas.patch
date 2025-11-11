@@ -1,0 +1,166 @@
+From 093d3eb273a01ed27f45d96f9c252be1046b8849 Mon Sep 17 00:00:00 2001
+From: Josh Dye <josh.jpenguin@gmail.com>
+Date: Wed, 28 Dec 2011 18:42:46 -0800
+Subject: [PATCH 009/129] Alot of code cleanups relating to OSX by Jonas
+
+---
+ INSTALL.macosx             |  2 ++
+ Makefile.macosx            | 14 +++++---------
+ src/pingus/pingus_main.cpp | 33 +++++++++++++++++----------------
+ src/util/system.cpp        | 21 +++++++++++++++++++++
+ 4 files changed, 45 insertions(+), 25 deletions(-)
+
+diff --git a/INSTALL.macosx b/INSTALL.macosx
+index 5070b6420..5dbc6dc0d 100644
+--- a/INSTALL.macosx
++++ b/INSTALL.macosx
+@@ -8,6 +8,8 @@ The following guide assumes that you use macports to install the requirements.
+ You can also do this the hard way by finding/compiling the stuff yourself,
+ but if you're capable of doing so you won't need this guide anyway.
+ 
++See http://code.google.com/p/pingus/wiki/MacOS_X_Compiling if you are adventurous or do not want to us macports.
++
+ This guide was written on OS X 10.5 "Leopard", where XCode brings gcc-4.0.
+ Since that's too old gcc-4.4 is installed using macports and also referenced
+ in the Makefile.macosx. If you have a recent compiler, just skip these parts
+diff --git a/Makefile.macosx b/Makefile.macosx
+index 29a84eeb8..4abc65a07 100644
+--- a/Makefile.macosx
++++ b/Makefile.macosx
+@@ -32,23 +32,19 @@ bundle: install-exec install-data install-icon
+ create-app-bundle: build/pingus.icns
+ 	mkdir -p $(BUNDLE)/Contents/MacOS
+ 	mkdir -p $(BUNDLE)/Contents/Resources
+-	mkdir -p $(BUNDLE)/Contents/bin
+-	mkdir -p $(BUNDLE)/Contents/lib
+-	mkdir -p $(BUNDLE)/Contents/data
++	mkdir -p $(BUNDLE)/Contents/libs
+ 	echo "APPL" > $(BUNDLE)/Contents/PkgInfo
+-	echo "#!/bin/bash\nbase=\$${0/MacOS\\/[Pp]ingus/}\nlang=`defaults read .GlobalPreferences AppleLanguages | tr -d [:space:] | cut -c2-3`\nexec \$$base/bin/pingus --language=\$$lang --datadir \"\$$base/data\"" > $(BUNDLE)/Contents/MacOS/pingus
+-	chmod 755 $(BUNDLE)/Contents/MacOS/pingus
+ 
+ install-icon: create-app-bundle build/pingus
+ 	install build/pingus.icns $(BUNDLE)/Contents/Resources
+ 	echo "<plist version=\"1.0\"><dict><key>CFBundleIconFile</key><string>pingus.icns</string></dict></plist>" > $(BUNDLE)/Contents/Info.plist
+ 
+ install-exec: create-app-bundle build/pingus
+-	install build/pingus $(BUNDLE)/Contents/bin
+-	dylibbundler -b -x $(BUNDLE)/Contents/bin/pingus -od -d $(BUNDLE)/Contents/lib/ -p @executable_path/../lib/
++	install build/pingus $(BUNDLE)/Contents/MacOS
++	dylibbundler -b -x $(BUNDLE)/Contents/MacOS/pingus -od -d $(BUNDLE)/Contents/libs/
+ 
+ install-data:
+-	find data \
++	for file in `( cd data ; find . \
+         -type f -a  \( \
+         -name "*.png" -o \
+         -name "*.jpg" -o \
+@@ -67,7 +63,7 @@ install-data:
+         -name "*.pingus" -o \
+         -name "*.levelset" -o \
+         -name "*.sprite" \
+-        \) -exec  $(INSTALL) -D {} $(BUNDLE)/Contents/{} \;
++        \) )`; do  $(INSTALL) -D data/$$file $(BUNDLE)/Contents/Resources/$$file; done
+ 
+ package: bundle
+ 	hdiutil create -size 100M -fs HFS+J -volname $(PACKAGE) $(PACKAGE)-tmp.dmg
+diff --git a/src/pingus/pingus_main.cpp b/src/pingus/pingus_main.cpp
+index 10e9b0f02..4c83542ac 100644
+--- a/src/pingus/pingus_main.cpp
++++ b/src/pingus/pingus_main.cpp
+@@ -431,11 +431,12 @@ PingusMain::parse_args(int argc, char** argv)
+ }
+ 
+ #if defined(__APPLE__)
+-	int fexist( char *filename ) {
+-	  struct stat buffer ;
+-	  if ( stat( filename, &buffer ) ) return 1 ;
+-	  return 0 ;
+-	}
++// private helper to check if a file exists
++static bool file_exists(char *filename)
++{
++  struct stat buffer ;
++  return stat( filename, &buffer );
++}
+ #endif
+ 
+ // Get all filenames and directories
+@@ -454,23 +455,23 @@ PingusMain::init_path_finder()
+   else
+   { // do magic to guess the datadir
+ #if defined(__APPLE__)
+-	char path[PATH_MAX];
++    char path[PATH_MAX];
+     getcwd(path, PATH_MAX);
+-    char resource_path[PATH_MAX];
+-    CFURLRef ref = CFBundleCopyResourcesDirectoryURL(CFBundleGetMainBundle());
+-    if (!ref || !CFURLGetFileSystemRepresentation(ref, true, (UInt8*)resource_path, PATH_MAX))
+-    {
+-      std::cout << "Error: Couldn't get Resources path.\n" << std::endl;
+-      exit(EXIT_FAILURE);
+-    }
+-    if (fexist(strcat(path,"data")))
++    if (file_exists(strcat(path,"data")))
+     {
+       g_path_manager.set_path("data"); // assume game is run from source dir
+     }
+     else
+     {
+-    	CFRelease(ref);
+-    	g_path_manager.set_path(resource_path);
++      char resource_path[PATH_MAX];
++      CFURLRef ref = CFBundleCopyResourcesDirectoryURL(CFBundleGetMainBundle());
++      if (!ref || !CFURLGetFileSystemRepresentation(ref, true, (UInt8*)resource_path, PATH_MAX))
++      {
++        std::cout << "Error: Couldn't get Resources path.\n" << std::endl;
++        exit(EXIT_FAILURE);
++      }
++      CFRelease(ref);
++      g_path_manager.set_path(resource_path);
+     }
+ #else
+     g_path_manager.set_path("data"); // assume game is run from source dir
+diff --git a/src/util/system.cpp b/src/util/system.cpp
+index 26597c365..c4e0674ec 100644
+--- a/src/util/system.cpp
++++ b/src/util/system.cpp
+@@ -23,6 +23,11 @@
+ #include <stdexcept>
+ #include <string.h>
+ 
++#ifdef __APPLE__
++#include <CoreFoundation/CFLocale.h>
++#include <CoreFoundation/CFString.h>
++#endif
++
+ #ifndef WIN32
+ #  include <dirent.h>
+ #  include <fcntl.h>
+@@ -444,7 +449,23 @@ System::get_language()
+ 
+   if (lang.empty() || lang == "C")
+   {
++#ifndef __APPLE__
+     return globals::default_language;
++#else /* on Mac OS X we get "C" if launched using Finder, so we ask the OS for the language */
++    /* Note: this is used as last resort to allow the use of LANG when starting via Terminal */
++    CFArrayRef preferred_languages = CFLocaleCopyPreferredLanguages();
++    //CFShow(preferred_languages);
++    CFStringRef language = (CFStringRef)CFArrayGetValueAtIndex(preferred_languages, 0 /* most important language */);
++    //CFShow(language);
++    CFRelease(preferred_languages);
++    CFStringRef substring = CFStringCreateWithSubstring(NULL, language, CFRangeMake(0, 2));
++    CFRelease(language);
++    char buff[3];
++    CFStringGetCString(substring, buff, 3, kCFStringEncodingUTF8);
++    CFRelease(substring);
++    lang = buff;
++    return lang;
++#endif
+   }
+   else
+   {
+-- 
+2.51.2
+

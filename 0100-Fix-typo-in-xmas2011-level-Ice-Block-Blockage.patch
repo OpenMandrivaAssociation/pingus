@@ -1,0 +1,488 @@
+From 894ec0b10c46bd5cc292b732926563bf690aa176 Mon Sep 17 00:00:00 2001
+From: Bugdebugger <bugdebugger@users.noreply.github.com>
+Date: Thu, 9 Apr 2015 17:28:55 +0200
+Subject: [PATCH 100/129] Fix typo in xmas2011 level "Ice Block Blockage"
+
+Fixes Pingus/pingus#126
+---
+ data/levels/xmas2011/xmas08-grumbel.pingus | 2 +-
+ data/po/ast.po                             | 2 +-
+ data/po/bg.po                              | 2 +-
+ data/po/ca.po                              | 2 +-
+ data/po/cs.po                              | 2 +-
+ data/po/da.po                              | 2 +-
+ data/po/de.po                              | 2 +-
+ data/po/eo.po                              | 2 +-
+ data/po/es.po                              | 2 +-
+ data/po/fi.po                              | 2 +-
+ data/po/fr.po                              | 2 +-
+ data/po/gd.po                              | 2 +-
+ data/po/gl.po                              | 2 +-
+ data/po/hu.po                              | 2 +-
+ data/po/it.po                              | 2 +-
+ data/po/ja.po                              | 2 +-
+ data/po/lt.po                              | 2 +-
+ data/po/nb.po                              | 2 +-
+ data/po/nl.po                              | 2 +-
+ data/po/nn.po                              | 2 +-
+ data/po/oc.po                              | 2 +-
+ data/po/pingus.pot                         | 2 +-
+ data/po/pl.po                              | 2 +-
+ data/po/pt.po                              | 2 +-
+ data/po/pt_BR.po                           | 2 +-
+ data/po/ru.po                              | 2 +-
+ data/po/sq.po                              | 2 +-
+ data/po/sr.po                              | 2 +-
+ data/po/sv.po                              | 2 +-
+ data/po/th.po                              | 2 +-
+ data/po/tr.po                              | 2 +-
+ data/po/uk.po                              | 2 +-
+ data/po/zh_CN.po                           | 2 +-
+ data/po/zh_TW.po                           | 2 +-
+ 34 files changed, 34 insertions(+), 34 deletions(-)
+
+diff --git a/data/levels/xmas2011/xmas08-grumbel.pingus b/data/levels/xmas2011/xmas08-grumbel.pingus
+index 14d0d3fb9..6a941180e 100644
+--- a/data/levels/xmas2011/xmas08-grumbel.pingus
++++ b/data/levels/xmas2011/xmas08-grumbel.pingus
+@@ -3,7 +3,7 @@
+   (head 
+     (license "GPLv3+")
+     (levelname "Ice Block Blockage")
+-    (description "What's this? A gigantic ice block straight in the path? Where did that come from? No time wondering about things like that. The Pingus need to get to the exist and it's your job to find a way around the block.")
++    (description "What's this? A gigantic ice block straight in the path? Where did that come from? No time wondering about things like that. The Pingus need to get to the exit and it's your job to find a way around the block.")
+     (author "Ingo Ruhnke <grumbel@gmail.com>")
+     (number-of-pingus 30)
+     (number-to-save 25)
+diff --git a/data/po/ast.po b/data/po/ast.po
+index f861daaf9..6dae0794d 100644
+--- a/data/po/ast.po
++++ b/data/po/ast.po
+@@ -2007,7 +2007,7 @@ msgstr ""
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas09-grumbel.pingus:5
+diff --git a/data/po/bg.po b/data/po/bg.po
+index 30ca9cb5a..98805be96 100644
+--- a/data/po/bg.po
++++ b/data/po/bg.po
+@@ -2024,7 +2024,7 @@ msgstr ""
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas09-grumbel.pingus:5
+diff --git a/data/po/ca.po b/data/po/ca.po
+index d3b82f8ad..adf826fbd 100644
+--- a/data/po/ca.po
++++ b/data/po/ca.po
+@@ -2383,7 +2383,7 @@ msgstr "Blocats pel bloc de gel"
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ "Què és això? Un enorme bloc de gel al mig del camí? D'on ha sortit? No hi ha "
+ "temps per fer-se aquesta mena de preguntes. Els pingus necessiten arribar a "
+diff --git a/data/po/cs.po b/data/po/cs.po
+index c242bf227..60896325a 100644
+--- a/data/po/cs.po
++++ b/data/po/cs.po
+@@ -2244,7 +2244,7 @@ msgstr ""
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas09-grumbel.pingus:5
+diff --git a/data/po/da.po b/data/po/da.po
+index 76d74be39..cf8d1cde4 100644
+--- a/data/po/da.po
++++ b/data/po/da.po
+@@ -2120,7 +2120,7 @@ msgstr ""
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas09-grumbel.pingus:5
+diff --git a/data/po/de.po b/data/po/de.po
+index 6438e8d3c..bdd740717 100644
+--- a/data/po/de.po
++++ b/data/po/de.po
+@@ -2429,7 +2429,7 @@ msgstr "Eisblockade"
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ "Was ist das? Ein gigantischer Eisblock mitten im Weg? Woher kam es? Keine "
+ "Zeit, sich über solche Dinge zu fragen. Die Pingus müssen zum Ausgang und es "
+diff --git a/data/po/eo.po b/data/po/eo.po
+index f9aaa8eec..b265693bb 100644
+--- a/data/po/eo.po
++++ b/data/po/eo.po
+@@ -2061,7 +2061,7 @@ msgstr ""
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas09-grumbel.pingus:5
+diff --git a/data/po/es.po b/data/po/es.po
+index 30ae61a1b..d6e13ec5b 100644
+--- a/data/po/es.po
++++ b/data/po/es.po
+@@ -2389,7 +2389,7 @@ msgstr "Bloqueo por bloque de hielo"
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ "¿Qué es esto? ¿Un enorme bloque de hielo en mitad del camino? ¿De dónde ha "
+ "salido? No hay tiempo para hacerse esta clase de preguntas. Los pingus "
+diff --git a/data/po/fi.po b/data/po/fi.po
+index de886a2ac..4bb241e4c 100644
+--- a/data/po/fi.po
++++ b/data/po/fi.po
+@@ -2137,7 +2137,7 @@ msgstr ""
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas09-grumbel.pingus:5
+diff --git a/data/po/fr.po b/data/po/fr.po
+index 7e13bb97a..fbb884528 100644
+--- a/data/po/fr.po
++++ b/data/po/fr.po
+@@ -2415,7 +2415,7 @@ msgstr "Blocage de Blocs de Glace"
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ "Qu'est-ce ? Un gigantesque bloc de glace est sur le chemin ? D'où vient-il ? "
+ "Pas le temps de se poser des questions. Les Pingus doivent rejoindre la "
+diff --git a/data/po/gd.po b/data/po/gd.po
+index 4baace6ca..44c7adb1e 100644
+--- a/data/po/gd.po
++++ b/data/po/gd.po
+@@ -2416,7 +2416,7 @@ msgstr "Bloca deighe san rathad"
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ "Dè tha seo? Cùis-uamhais de bhloca deighe dìreach san rathad? Cò às a "
+ "thàinig e? Chan eil ùine ann gus cnuasadh air. Feumaidh na cinn-fhionn an "
+diff --git a/data/po/gl.po b/data/po/gl.po
+index 93c9ea842..ea571af13 100644
+--- a/data/po/gl.po
++++ b/data/po/gl.po
+@@ -2006,7 +2006,7 @@ msgstr ""
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas09-grumbel.pingus:5
+diff --git a/data/po/hu.po b/data/po/hu.po
+index 6028e502b..b06fdfd93 100644
+--- a/data/po/hu.po
++++ b/data/po/hu.po
+@@ -2131,7 +2131,7 @@ msgstr ""
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas09-grumbel.pingus:5
+diff --git a/data/po/it.po b/data/po/it.po
+index c80030a75..b2e0777ad 100644
+--- a/data/po/it.po
++++ b/data/po/it.po
+@@ -2392,7 +2392,7 @@ msgstr "Bloccati da un blocco di ghiaccio"
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ "Cos'è questo? Un gigante blocco di ghiaccio dritto sul percorso? Da dove è "
+ "venuto? Non c'è tempo per farci domande a riguardo. I Pingus hanno bisogno "
+diff --git a/data/po/ja.po b/data/po/ja.po
+index ad2eb5ffd..4f760985f 100644
+--- a/data/po/ja.po
++++ b/data/po/ja.po
+@@ -2016,7 +2016,7 @@ msgstr ""
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas09-grumbel.pingus:5
+diff --git a/data/po/lt.po b/data/po/lt.po
+index 06bd8db79..1183edb21 100644
+--- a/data/po/lt.po
++++ b/data/po/lt.po
+@@ -2023,7 +2023,7 @@ msgstr ""
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas09-grumbel.pingus:5
+diff --git a/data/po/nb.po b/data/po/nb.po
+index 67ff8d159..b81f2e22c 100644
+--- a/data/po/nb.po
++++ b/data/po/nb.po
+@@ -2089,7 +2089,7 @@ msgstr ""
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas09-grumbel.pingus:5
+diff --git a/data/po/nl.po b/data/po/nl.po
+index c5f048137..ea0472163 100644
+--- a/data/po/nl.po
++++ b/data/po/nl.po
+@@ -2188,7 +2188,7 @@ msgstr ""
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas09-grumbel.pingus:5
+diff --git a/data/po/nn.po b/data/po/nn.po
+index 5b2f290c1..7370726ea 100644
+--- a/data/po/nn.po
++++ b/data/po/nn.po
+@@ -2357,7 +2357,7 @@ msgstr "Isblokkering"
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ "Kva er dette?  Ein enorm isblokk midt på stien?  Kvar kom den frå?  Det er "
+ "ikkje nok tid til å bry seg om slikt. Pingusane må kome til utgangen og det "
+diff --git a/data/po/oc.po b/data/po/oc.po
+index 49908d873..17cbf0db4 100644
+--- a/data/po/oc.po
++++ b/data/po/oc.po
+@@ -2012,7 +2012,7 @@ msgstr ""
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas09-grumbel.pingus:5
+diff --git a/data/po/pingus.pot b/data/po/pingus.pot
+index 4b72122a1..62396a2f4 100644
+--- a/data/po/pingus.pot
++++ b/data/po/pingus.pot
+@@ -2006,7 +2006,7 @@ msgstr ""
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas09-grumbel.pingus:5
+diff --git a/data/po/pl.po b/data/po/pl.po
+index 3f711cc4d..28d2d020d 100644
+--- a/data/po/pl.po
++++ b/data/po/pl.po
+@@ -2327,7 +2327,7 @@ msgstr "Zapora lodowcowa"
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ "Cóż to? Ogromny blok lodowy na środku drogi? Skąd to się wzięło? Nie ma czasu "
+ "na zastanawianie się, Pingusy muszą przejść do wyjścia, a twoim zadaniem jest "
+diff --git a/data/po/pt.po b/data/po/pt.po
+index 435d5e3bb..1981db472 100644
+--- a/data/po/pt.po
++++ b/data/po/pt.po
+@@ -2131,7 +2131,7 @@ msgstr ""
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas09-grumbel.pingus:5
+diff --git a/data/po/pt_BR.po b/data/po/pt_BR.po
+index 1ff2407c0..deeecf0d8 100644
+--- a/data/po/pt_BR.po
++++ b/data/po/pt_BR.po
+@@ -2386,7 +2386,7 @@ msgstr "Bloqueio do bloco de gelo"
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ "O que é isto? Um bloco de gelo gigante bem no caminho? De onde ele veio? Não "
+ "há tempo para pensar nessas coisas. Os Pingus precisam chegar à saída e é "
+diff --git a/data/po/ru.po b/data/po/ru.po
+index bf632e514..b31286515 100644
+--- a/data/po/ru.po
++++ b/data/po/ru.po
+@@ -2105,7 +2105,7 @@ msgstr "Ледяное препятствие"
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ "Что это? Гигантская глыба льда прямо на пути? Откуда она взялась? Но "
+ "размышлять об этом нет времени. Пингусам нужно дойти до выхода, и ваша "
+diff --git a/data/po/sq.po b/data/po/sq.po
+index 42e91d889..86bdde4db 100644
+--- a/data/po/sq.po
++++ b/data/po/sq.po
+@@ -2012,7 +2012,7 @@ msgstr ""
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas09-grumbel.pingus:5
+diff --git a/data/po/sr.po b/data/po/sr.po
+index 4ed21aab3..277e5b7a7 100644
+--- a/data/po/sr.po
++++ b/data/po/sr.po
+@@ -2365,7 +2365,7 @@ msgstr "Ледени брег на путу"
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ "Шта је ово? Џиновски ледени брег на путу? Одакле ли се само створио? Нема "
+ "времена за размишљање о таквим стварима. Пингвинци морају да стигну до "
+diff --git a/data/po/sv.po b/data/po/sv.po
+index 068ba4efa..a54b917a4 100644
+--- a/data/po/sv.po
++++ b/data/po/sv.po
+@@ -2171,7 +2171,7 @@ msgstr ""
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas09-grumbel.pingus:5
+diff --git a/data/po/th.po b/data/po/th.po
+index 7ec751caa..21cc0a25e 100644
+--- a/data/po/th.po
++++ b/data/po/th.po
+@@ -2011,7 +2011,7 @@ msgstr ""
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas09-grumbel.pingus:5
+diff --git a/data/po/tr.po b/data/po/tr.po
+index bac36c465..e0fd01874 100644
+--- a/data/po/tr.po
++++ b/data/po/tr.po
+@@ -2348,7 +2348,7 @@ msgstr "Buz Bloğu Engeli"
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ "Bu da ne? Devasa bir buz bloğu yolun önünde mi? Nereden geldi? Bunları "
+ "düşünmek için zaman yok. Pingular çıkışa gitmeli ve bloğun çevresinde bir "
+diff --git a/data/po/uk.po b/data/po/uk.po
+index 27fa3db5f..b88dab846 100644
+--- a/data/po/uk.po
++++ b/data/po/uk.po
+@@ -2037,7 +2037,7 @@ msgstr ""
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas09-grumbel.pingus:5
+diff --git a/data/po/zh_CN.po b/data/po/zh_CN.po
+index 553d73471..efc37e719 100644
+--- a/data/po/zh_CN.po
++++ b/data/po/zh_CN.po
+@@ -2085,7 +2085,7 @@ msgstr ""
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas09-grumbel.pingus:5
+diff --git a/data/po/zh_TW.po b/data/po/zh_TW.po
+index 0329bc62c..ce367b71f 100644
+--- a/data/po/zh_TW.po
++++ b/data/po/zh_TW.po
+@@ -2188,7 +2188,7 @@ msgstr "冰塊的阻擋"
+ msgid ""
+ "What's this? A gigantic ice block straight in the path? Where did that come "
+ "from? No time wondering about things like that. The Pingus need to get to "
+-"the exist and it's your job to find a way around the block."
++"the exit and it's your job to find a way around the block."
+ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas09-grumbel.pingus:5
+-- 
+2.51.2
+

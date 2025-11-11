@@ -1,0 +1,47 @@
+From 0a57cc08428f52740e38f288f6c2475f42d7c2b6 Mon Sep 17 00:00:00 2001
+From: Bugdebugger <bugdebugger@users.noreply.github.com>
+Date: Thu, 9 Apr 2015 08:08:36 +0200
+Subject: [PATCH 090/129] Fix wrong level timer display
+
+Timer now shows correct remaining time when playing a level.
+In developer mode instead the elapsed time is shown.
+
+Fixes Pingus/pingus#121
+---
+ src/pingus/components/time_display.cpp | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/src/pingus/components/time_display.cpp b/src/pingus/components/time_display.cpp
+index 38bfd794d..d6700da20 100644
+--- a/src/pingus/components/time_display.cpp
++++ b/src/pingus/components/time_display.cpp
+@@ -26,6 +26,7 @@
+ #include "pingus/world.hpp"
+ #include "util/log.hpp"
+ #include "util/string_util.hpp"
++#include <algorithm>
+ 
+ TimeDisplay::TimeDisplay (GameSession* c) :
+   server(c->get_server()),
+@@ -38,13 +39,15 @@ TimeDisplay::TimeDisplay (GameSession* c) :
+ void
+ TimeDisplay::draw (DrawingContext& gc)
+ {
+-  if (server->get_plf().get_time() != -1 || globals::developer_mode)
++  int level_time = server->get_plf().get_time();
++  if (level_time >= 0 || globals::developer_mode)
+   {
++    // get elapsed time from server
+     int time_value = server->get_world()->get_time();
+ 
+-    if (server->get_plf().get_time() != -1 && !globals::developer_mode)
++    if (!globals::developer_mode)
+     {
+-      time_value = time_value - server->get_plf().get_time();
++      time_value = std::max(0, level_time - time_value);
+     }
+ 
+     std::string time_string = GameTime::ticks_to_realtime_string(time_value);
+-- 
+2.51.2
+

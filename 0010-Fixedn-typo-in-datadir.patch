@@ -1,0 +1,40 @@
+From 415e12e7f7c85f0801c3a629e1ff52da5c5b0f37 Mon Sep 17 00:00:00 2001
+From: Josh Dye <josh.jpenguin@gmail.com>
+Date: Wed, 28 Dec 2011 19:50:40 -0800
+Subject: [PATCH 010/129] Fixedn typo in datadir
+
+---
+ src/pingus/pingus_main.cpp | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/src/pingus/pingus_main.cpp b/src/pingus/pingus_main.cpp
+index 4c83542ac..9543bb18b 100644
+--- a/src/pingus/pingus_main.cpp
++++ b/src/pingus/pingus_main.cpp
+@@ -434,8 +434,12 @@ PingusMain::parse_args(int argc, char** argv)
+ // private helper to check if a file exists
+ static bool file_exists(char *filename)
+ {
+-  struct stat buffer ;
+-  return stat( filename, &buffer );
++	struct stat buf;
++    if (stat(filename, &buf) != -1)
++    {
++        return true;
++    }
++    return false;
+ }
+ #endif
+ 
+@@ -457,7 +461,7 @@ PingusMain::init_path_finder()
+ #if defined(__APPLE__)
+     char path[PATH_MAX];
+     getcwd(path, PATH_MAX);
+-    if (file_exists(strcat(path,"data")))
++    if (file_exists(strcat(path,"/data/images/fonts/chalk-40px.font")))
+     {
+       g_path_manager.set_path("data"); // assume game is run from source dir
+     }
+-- 
+2.51.2
+

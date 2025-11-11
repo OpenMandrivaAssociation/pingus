@@ -1,0 +1,1972 @@
+From 7a5ee63b5e443ae56a126b603921a27fe1666e51 Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Sun, 27 Jul 2014 05:58:39 +0200
+Subject: [PATCH 077/129] Switched source over to logmich's format string based
+ logging
+
+---
+ extra/image-info.cpp                      |  2 +-
+ extra/pingus-level-resave.cpp             |  2 +-
+ extra/pingus-level-resource-check.cpp     |  2 +-
+ extra/pingus-level2png.cpp                |  2 +-
+ src/editor/editor_level.cpp               |  8 +++----
+ src/editor/editor_screen.cpp              |  8 +++----
+ src/editor/file_dialog.cpp                |  4 ++--
+ src/editor/file_list.cpp                  |  2 +-
+ src/editor/group_level_obj.cpp            |  2 +-
+ src/editor/level_properties.cpp           |  4 ++--
+ src/editor/object_properties.cpp          |  2 +-
+ src/editor/viewport.cpp                   |  4 +---
+ src/engine/display/blitter_impl.hpp       |  2 +-
+ src/engine/display/delta/rect_merger.cpp  |  8 +++----
+ src/engine/display/display.cpp            |  4 +---
+ src/engine/display/drawing_context.cpp    |  4 ++--
+ src/engine/display/font.cpp               |  6 ++---
+ src/engine/display/null_framebuffer.cpp   |  7 +++---
+ src/engine/display/screenshot.cpp         | 10 ++++----
+ src/engine/display/sdl_framebuffer.cpp    |  2 +-
+ src/engine/display/sprite_description.cpp |  2 +-
+ src/engine/display/sprite_impl.cpp        |  2 +-
+ src/engine/display/surface.cpp            |  4 ++--
+ src/engine/gui/gui_manager.cpp            |  4 ++--
+ src/engine/input/controller.cpp           |  4 ----
+ src/engine/input/evdev/evdev_device.cpp   | 10 ++++----
+ src/engine/input/evdev/evdev_driver.cpp   |  2 +-
+ src/engine/input/manager.cpp              | 24 +++++++++----------
+ src/engine/input/sdl_driver.cpp           |  6 ++---
+ src/engine/screen/gui_screen.cpp          |  8 +++----
+ src/engine/screen/screen_manager.cpp      |  4 +---
+ src/engine/sound/sound.cpp                |  2 +-
+ src/engine/sound/sound_dummy.cpp          |  4 ++--
+ src/engine/sound/sound_real.cpp           |  8 +++----
+ src/engine/sound/sound_res_mgr.cpp        |  6 ++---
+ src/engine/system/sdl_system.cpp          |  2 +-
+ src/pingus/collision_mask.cpp             | 28 +++++++++++------------
+ src/pingus/config_manager.cpp             | 22 +++++++++---------
+ src/pingus/global_event.cpp               |  2 +-
+ src/pingus/ground_map.cpp                 |  4 ++--
+ src/pingus/groundtype.cpp                 |  4 ++--
+ src/pingus/levelset.cpp                   |  4 ++--
+ src/pingus/options.cpp                    |  4 ++--
+ src/pingus/path_manager.cpp               |  2 +-
+ src/pingus/pingu.cpp                      |  2 +-
+ src/pingus/pingu_action.cpp               |  2 +-
+ src/pingus/pingus_level.cpp               |  8 +++----
+ src/pingus/pingus_main.cpp                | 14 ++++++------
+ src/pingus/plf_res_mgr.cpp                | 10 ++++----
+ src/pingus/resource.cpp                   |  4 ++--
+ src/pingus/savegame_manager.cpp           |  8 ++++---
+ src/pingus/screens/credits.cpp            |  7 +++---
+ src/pingus/screens/demo_session.cpp       |  9 ++++----
+ src/pingus/screens/font_test_screen.cpp   |  2 +-
+ src/pingus/screens/game_session.cpp       |  4 ++--
+ src/pingus/screens/level_menu.cpp         |  2 +-
+ src/pingus/screens/option_menu.cpp        |  6 ++---
+ src/pingus/server.cpp                     |  5 ++--
+ src/pingus/server_event.cpp               |  4 ++--
+ src/pingus/stat_manager.cpp               |  2 +-
+ src/pingus/worldmap/drawable_factory.cpp  |  2 +-
+ src/pingus/worldmap/graph.hpp             |  2 +-
+ src/pingus/worldmap/path_graph.cpp        |  8 +++----
+ src/pingus/worldmap/pathfinder.hpp        |  3 ---
+ src/pingus/worldmap/pingus.cpp            |  1 -
+ src/pingus/worldmap/story_dot.cpp         |  2 +-
+ src/pingus/worldmap/worldmap.cpp          |  2 +-
+ src/pingus/worldobj_factory.cpp           |  2 +-
+ src/pingus/worldobj_renderer.cpp          |  4 ++--
+ src/pingus/worldobjs/entrance.cpp         |  4 ++--
+ src/util/pathname.cpp                     |  4 ++--
+ src/util/raise_exception.hpp              | 23 +++++++++++++++++--
+ src/util/system.cpp                       | 14 ++++++------
+ src/util/utf8.cpp                         |  4 ++--
+ 74 files changed, 207 insertions(+), 204 deletions(-)
+
+diff --git a/extra/image-info.cpp b/extra/image-info.cpp
+index 2e335627d..29921c0e6 100644
+--- a/extra/image-info.cpp
++++ b/extra/image-info.cpp
+@@ -12,7 +12,7 @@ int main(int argc, char** argv)
+     SDL_Surface* surface = IMG_Load(argv[i]);
+     if (!surface)
+     {
+-      log_error("failed to load: " << argv[i]);
++      log_error("failed to load: %1%", argv[i]);
+     }
+     else
+     {
+diff --git a/extra/pingus-level-resave.cpp b/extra/pingus-level-resave.cpp
+index ce81f1940..3441bcdb3 100644
+--- a/extra/pingus-level-resave.cpp
++++ b/extra/pingus-level-resave.cpp
+@@ -35,7 +35,7 @@ int main(int argc, char** argv)
+     }
+     catch(const std::exception& err)
+     {
+-      log_error(argv[i] << ": exception catched: " << err.what());
++      log_error("%1%: exception catched: %2%", argv[i], err.what());
+     }
+   }
+ 
+diff --git a/extra/pingus-level-resource-check.cpp b/extra/pingus-level-resource-check.cpp
+index bbb77a2bd..7ac46c698 100644
+--- a/extra/pingus-level-resource-check.cpp
++++ b/extra/pingus-level-resource-check.cpp
+@@ -34,7 +34,7 @@ int main(int argc, char** argv)
+     }
+     catch(const std::exception& err)
+     {
+-      log_error(argv[i] << ": exception catched: " << err.what());
++      log_error("%1%: exception catched: %2%", argv[i], err.what());
+     }
+   }
+ 
+diff --git a/extra/pingus-level2png.cpp b/extra/pingus-level2png.cpp
+index 36d47980d..f7660912f 100644
+--- a/extra/pingus-level2png.cpp
++++ b/extra/pingus-level2png.cpp
+@@ -105,7 +105,7 @@ int main(int argc, char** argv)
+       writer.write_vector2i("offset", offset);
+       writer.end_section();
+       out << std::endl;
+-      log_info("writing: " << outfile);
++      log_info("writing: %1%", outfile);
+       System::write_file(outfile, out.str());
+     }
+     else
+diff --git a/src/editor/editor_level.cpp b/src/editor/editor_level.cpp
+index ab8cc3842..b4d455e30 100644
+--- a/src/editor/editor_level.cpp
++++ b/src/editor/editor_level.cpp
+@@ -95,7 +95,7 @@ private:
+ std::unique_ptr<EditorLevel>
+ EditorLevel::from_level_file(const Pathname& pathname)
+ {
+-  log_info(pathname.str());
++  log_info("%1%", pathname.str());
+ 
+   // Load the level from the file - we don't care what it's res_name is.
+   PingusLevel plf(pathname);
+@@ -139,7 +139,7 @@ EditorLevel::from_level_file(const Pathname& pathname)
+ std::unique_ptr<EditorLevel>
+ EditorLevel::from_prefab_file(const Pathname& pathname)
+ {
+-  log_info(pathname.str());
++  log_info("%1%", pathname.str());
+ 
+   // Load the level from the file - we don't care what it's res_name is.
+   PrefabFile prefab = PrefabFile::from_path(pathname);
+@@ -441,7 +441,7 @@ EditorLevel::raise_object(LevelObjPtr obj)
+   Objects::iterator i = std::find(impl->objects.begin(), impl->objects.end(), obj);
+   if (i == impl->objects.end())
+   {
+-    log_error("couldn't find object: " << obj);
++    log_error("couldn't find object: %1%", obj);
+   }
+   else
+   {
+@@ -467,7 +467,7 @@ EditorLevel::lower_object(LevelObjPtr obj)
+   Objects::reverse_iterator i = std::find(impl->objects.rbegin(), impl->objects.rend(), obj);
+   if (i == impl->objects.rend())
+   {
+-    log_error("couldn't find object: " << obj);
++    log_error("couldn't find object: %1%", obj);
+   }
+   else
+   {
+diff --git a/src/editor/editor_screen.cpp b/src/editor/editor_screen.cpp
+index 47d72e4c8..d7097e15b 100644
+--- a/src/editor/editor_screen.cpp
++++ b/src/editor/editor_screen.cpp
+@@ -153,13 +153,13 @@ EditorScreen::save(const Pathname& file)
+   if (System::get_file_extension(filename) == "prefab")
+   {
+     level_pathname = file;
+-    log_info("Save to: " << file.str());
++    log_info("Save to: %1%", file.str());
+     plf->save_prefab(filename);
+   }
+   else
+   {
+     level_pathname = file;
+-    log_info("Save to: " << file.str());
++    log_info("Save to: %1%", file.str());
+     plf->save_level(filename);
+   }
+ }
+@@ -198,7 +198,7 @@ EditorScreen::load(const Pathname& file)
+   catch(const std::exception& err)
+   {
+     // FIXME: show a MessageBox
+-    log_error(err.what());
++    log_error("%1%", err.what());
+   }
+ }
+ 
+@@ -431,7 +431,7 @@ EditorScreen::objects_rotate_right()
+ void 
+ EditorScreen::toggle_grid_snap()
+ {
+-  log_info("Function at '" << __FILE__ << ":" << __LINE__ << "' is unimplemented"); 
++  log_info("not implemented"); 
+ }
+  
+ void
+diff --git a/src/editor/file_dialog.cpp b/src/editor/file_dialog.cpp
+index d6d8484b4..dc52017cc 100644
+--- a/src/editor/file_dialog.cpp
++++ b/src/editor/file_dialog.cpp
+@@ -151,7 +151,7 @@ FileDialog::on_open()
+     {
+       Pathname file(Pathname::join(pathname_inputbox->get_text(), filename_inputbox->get_text()),
+                     Pathname::SYSTEM_PATH);
+-      log_info("Open: " << file);
++      log_info("Open: %1%", file);
+       editor->load(file);
+       hide();
+     }
+@@ -159,7 +159,7 @@ FileDialog::on_open()
+     {
+       Pathname file(Pathname::join(pathname_inputbox->get_text(), filename_inputbox->get_text()),
+                     Pathname::SYSTEM_PATH);
+-      log_info("Save: " << file);
++      log_info("Save: %1%", file);
+       editor->save(file);
+       hide();
+     }
+diff --git a/src/editor/file_list.cpp b/src/editor/file_list.cpp
+index 0c469c98c..ea274f8f9 100644
+--- a/src/editor/file_list.cpp
++++ b/src/editor/file_list.cpp
+@@ -83,7 +83,7 @@ FileList::set_directory(const std::string& pathname, const std::string& pattern)
+   }
+   catch(const std::exception& err)
+   {
+-    log_error(err.what());
++    log_error("%1%", err.what());
+     directory.clear();
+   }
+ 
+diff --git a/src/editor/group_level_obj.cpp b/src/editor/group_level_obj.cpp
+index ca89d0a00..8cd09b4a3 100644
+--- a/src/editor/group_level_obj.cpp
++++ b/src/editor/group_level_obj.cpp
+@@ -48,7 +48,7 @@ GroupLevelObj::from_prefab(const std::string& name)
+   }
+   catch(const std::exception& err)
+   {
+-    log_error(err.what());
++    log_error("%1%", err.what());
+     return std::shared_ptr<GroupLevelObj>();
+   }
+ }
+diff --git a/src/editor/level_properties.cpp b/src/editor/level_properties.cpp
+index 3b0ee277e..374a2da0e 100644
+--- a/src/editor/level_properties.cpp
++++ b/src/editor/level_properties.cpp
+@@ -167,7 +167,7 @@ LevelProperties::on_number_to_save_change(const std::string& str)
+   }
+   else
+   {
+-    log_error("LevelProperties::on_number_to_save_change: '" << str << "' not an integer");
++    log_error("LevelProperties::on_number_to_save_change: '%1%' not an integer", str);
+   }
+   
+ }
+@@ -182,7 +182,7 @@ LevelProperties::on_number_of_pingus_change(const std::string& str)
+   }
+   else
+   {
+-    log_error("LevelProperties::on_number_of_pingus_change: '" << str << "' not an integer");
++    log_error("LevelProperties::on_number_of_pingus_change: '%1%' not an integer", str);
+   }
+ }
+ 
+diff --git a/src/editor/object_properties.cpp b/src/editor/object_properties.cpp
+index 8481bd7d9..e3f48faec 100644
+--- a/src/editor/object_properties.cpp
++++ b/src/editor/object_properties.cpp
+@@ -365,7 +365,7 @@ ObjectProperties::set_object(LevelObjPtr obj)
+       else if (obj->get_direction() == "right")
+         entrance_direction->set_selected_item(2);
+       else
+-        log_error("unknown direction: " << obj->get_direction());
++        log_error("unknown direction: %1%", obj->get_direction());
+ 
+       place(entrance_direction_label, entrance_direction);
+     }
+diff --git a/src/editor/viewport.cpp b/src/editor/viewport.cpp
+index 9e9592c6c..202c2eb6c 100644
+--- a/src/editor/viewport.cpp
++++ b/src/editor/viewport.cpp
+@@ -478,9 +478,7 @@ Viewport::on_key_pressed(const Input::KeyboardEvent& ev)
+       break;
+       
+     default:
+-      log_debug("Viewport::on_key_pressed: " << ev.keysym.sym 
+-                << " U+" << (boost::format("%04x") % ev.keysym.unicode)
+-                << " " << UTF8::encode_utf8(ev.keysym.unicode));
++      log_debug("Viewport::on_key_pressed: %1%", ev.keysym.sym);
+       break;
+   }
+ }
+diff --git a/src/engine/display/blitter_impl.hpp b/src/engine/display/blitter_impl.hpp
+index 90f24dbae..c99f1839d 100644
+--- a/src/engine/display/blitter_impl.hpp
++++ b/src/engine/display/blitter_impl.hpp
+@@ -158,7 +158,7 @@ Surface modify(Surface source)
+   }
+   else
+   {
+-    log_error("unhandled BytesPerPixel: " << bpp);
++    log_error("unhandled BytesPerPixel: %1%", bpp);
+   }
+      
+   source.unlock();
+diff --git a/src/engine/display/delta/rect_merger.cpp b/src/engine/display/delta/rect_merger.cpp
+index d2eec3f25..e836e3562 100644
+--- a/src/engine/display/delta/rect_merger.cpp
++++ b/src/engine/display/delta/rect_merger.cpp
+@@ -190,13 +190,13 @@ void generate_rectangles(const std::vector<Row>& rows, std::vector<Rect>& rects_
+       assert(marks.front().type == Mark::START_MARK);
+       if (0)
+       {
+-        log_error("Size: " << i->marks.size());
++        log_error("Size: %1%", i->marks.size());
+         if (marks.front().type != Mark::START_MARK)
+         {
+           for(std::vector<Mark>::const_iterator mark_it = marks.begin(); mark_it != marks.end(); )
+-            log_error(((mark_it->type == Mark::START_MARK) ? "'(" : "')")
+-                      << mark_it->pos 
+-                      << "' ");
++            log_error("%1% %2%", 
++                      (mark_it->type == Mark::START_MARK) ? "'(" : "')",
++                      mark_it->pos);
+           assert(!"False");
+         }
+       }
+diff --git a/src/engine/display/display.cpp b/src/engine/display/display.cpp
+index 31ba040c7..7cf97919b 100644
+--- a/src/engine/display/display.cpp
++++ b/src/engine/display/display.cpp
+@@ -90,7 +90,7 @@ Display::create_window(FramebufferType framebuffer_type, const Size& size, bool
+ {
+   assert(!s_framebuffer.get());
+ 
+-  log_info(framebuffer_type_to_string(framebuffer_type) << " " << size << " " << (fullscreen?"fullscreen":"window"));
++  log_info("%1% %2% %3%", framebuffer_type_to_string(framebuffer_type), size, (fullscreen?"fullscreen":"window"));
+ 
+   switch (framebuffer_type)
+   {
+@@ -173,8 +173,6 @@ Display::find_closest_fullscreen_video_mode(const Size& size)
+     {
+       int this_distance = abs(size.width - modes[i]->w) + abs(size.height - modes[i]->h);
+           
+-      // log_info("Mode: " << size << " -> " << modes[i]->w << "x" << modes[i]->h << " " << this_distance);
+-
+       if (distance == -1 || distance > this_distance)
+       {
+         distance = this_distance;
+diff --git a/src/engine/display/drawing_context.cpp b/src/engine/display/drawing_context.cpp
+index 2743d23a4..d8d2169d1 100644
+--- a/src/engine/display/drawing_context.cpp
++++ b/src/engine/display/drawing_context.cpp
+@@ -210,12 +210,12 @@ DrawingContext::render(Framebuffer& fb, const Rect& parent_rect)
+   {
+     log_info("<<<<<<<<<<<<<<");
+     for(DrawingRequests::iterator i = drawingrequests.begin(); i != drawingrequests.end(); ++i)
+-      log_info((*i)->get_z_pos());
++      log_info("%1%", (*i)->get_z_pos());
+     log_info(">>>>>>>>>>>>>>");
+   }
+   for(DrawingRequests::iterator i = drawingrequests.begin(); i != drawingrequests.end(); ++i)
+   {
+-    //log_info(this << ": " << (*i)->get_z_pos());
++    //log_info("%1%", this << ": " << (*i)->get_z_pos());
+     (*i)->render(fb, this_rect); // FIXME: Should we clip size against parent rect?
+   }
+ 
+diff --git a/src/engine/display/font.cpp b/src/engine/display/font.cpp
+index d3da1c46b..4d2cb4db2 100644
+--- a/src/engine/display/font.cpp
++++ b/src/engine/display/font.cpp
+@@ -52,7 +52,7 @@ public:
+       Surface surface(desc.images[j].pathname);
+       if (!surface)
+       {
+-        log_info("IMG: " << desc.images[j].pathname.str());
++        log_info("IMG: %1%", desc.images[j].pathname.str());
+         assert(false);
+       }
+ 
+@@ -71,12 +71,12 @@ public:
+           }
+           else
+           {
+-            log_warn("unicode collision on " << i->unicode);
++            log_warn("unicode collision on %1%", i->unicode);
+           }            
+         }
+         else
+         {
+-          log_warn("unicode out of range: " << i->unicode);
++          log_warn("unicode out of range: %1%", i->unicode);
+         }
+       }
+     }
+diff --git a/src/engine/display/null_framebuffer.cpp b/src/engine/display/null_framebuffer.cpp
+index bdcaf7eec..6d6c6a4ab 100644
+--- a/src/engine/display/null_framebuffer.cpp
++++ b/src/engine/display/null_framebuffer.cpp
+@@ -45,7 +45,7 @@ NullFramebuffer::~NullFramebuffer()
+ FramebufferSurface
+ NullFramebuffer::create_surface(const Surface& surface)
+ {
+-  log_info("creating surface: " << surface.get_size());
++  log_info("creating surface: %1%", surface.get_size());
+   return FramebufferSurface(new NullFramebufferSurfaceImpl(surface.get_size()));
+ }
+ 
+@@ -56,8 +56,9 @@ NullFramebuffer::set_video_mode(const Size& size, bool fullscreen, bool resizabl
+   m_fullscreen = fullscreen;
+   m_resizable  = resizable;
+ 
+-  log_info("size: " << m_size.width << "x" << m_size.height <<
+-           " fullscreen: " << m_fullscreen << " resizable: " << m_resizable);
++  log_info("size: %1%x%2% fullscreen: %3% resizable: %4%",
++           m_size.width, m_size.height,
++           m_fullscreen, m_resizable);
+ }
+ 
+ bool
+diff --git a/src/engine/display/screenshot.cpp b/src/engine/display/screenshot.cpp
+index eb0961d2a..ca3aca6d3 100644
+--- a/src/engine/display/screenshot.cpp
++++ b/src/engine/display/screenshot.cpp
+@@ -34,9 +34,9 @@ std::string
+ Screenshot::make_screenshot()
+ {
+   std::string filename = get_filename();
+-  log_info(_("Screenshot: Saving screenshot to: ") << filename);
++  log_info("Screenshot: Saving screenshot to: %1%", filename);
+   save(SDL_GetVideoSurface(), filename);
+-  log_info(_("Screenshot: Screenshot is done."));
++  log_info("Screenshot: Screenshot is done.");
+   
+   return filename;
+ }
+@@ -102,7 +102,7 @@ Screenshot::save(SDL_Surface* surface, const std::string& filename)
+         break;
+       }
+       default:
+-        log_info("BitsPerPixel: " << int(surface->format->BitsPerPixel));
++        log_info("BitsPerPixel: %1%", int(surface->format->BitsPerPixel));
+         assert(!"Unknown color format");
+         break;
+     }
+@@ -121,7 +121,7 @@ Screenshot::save_ppm(const std::string& filename, uint8_t* buffer, int width, in
+   if (!out)
+   {
+     perror(filename.c_str());
+-    log_info(_("Screenshot: Couldn't write file: ") << filename);
++    log_info("Screenshot: Couldn't write file: %1%", filename);
+     return;
+   }
+ 
+@@ -149,7 +149,7 @@ Screenshot::save_png(const std::string& filename, uint8_t* buffer, int width, in
+   if (fp == NULL)
+   {
+     perror(filename.c_str());
+-    log_info(_("Screenshot: Couldn't write file: ") << filename);
++    log_info("Screenshot: Couldn't write file: %1%", filename);
+     return;
+   }
+ 
+diff --git a/src/engine/display/sdl_framebuffer.cpp b/src/engine/display/sdl_framebuffer.cpp
+index 4a4d4f26a..c2ca724cb 100644
+--- a/src/engine/display/sdl_framebuffer.cpp
++++ b/src/engine/display/sdl_framebuffer.cpp
+@@ -433,7 +433,7 @@ SDLFramebuffer::set_video_mode(const Size& size, bool fullscreen, bool resizable
+ 
+   if (screen == NULL) 
+   {
+-    log_error("Unable to set video mode: " << SDL_GetError());
++    log_error("Unable to set video mode: %1%", SDL_GetError());
+     exit(1);
+   }
+ }
+diff --git a/src/engine/display/sprite_description.cpp b/src/engine/display/sprite_description.cpp
+index 890ae9057..9e47c185a 100644
+--- a/src/engine/display/sprite_description.cpp
++++ b/src/engine/display/sprite_description.cpp
+@@ -31,7 +31,7 @@ SpriteDescription::from_file(const Pathname& path)
+     
+   if (!reader.read_path("image",  desc->filename))
+   {
+-    log_error(reader.get_name() << " 'image' missing");
++    log_error("'image' missing for %1%", reader.get_name());
+   }    
+ 
+   desc->filename = Pathname(desc->filename.get_raw_path(), Pathname::DATA_PATH); // FIXME: Hack
+diff --git a/src/engine/display/sprite_impl.cpp b/src/engine/display/sprite_impl.cpp
+index 5b1e3d30a..71de6892b 100644
+--- a/src/engine/display/sprite_impl.cpp
++++ b/src/engine/display/sprite_impl.cpp
+@@ -36,7 +36,7 @@ FramebufferSurface load_framebuffer_surface(const Pathname& filename, ResourceMo
+   catch(const std::exception& err)
+   {
+     // return a dummy surface for cases where the image file can't be found
+-    log_error(err.what());
++    log_error("%1%", err.what());
+     Surface surface(Pathname("images/core/misc/404.png", Pathname::DATA_PATH));
+     return Display::get_framebuffer()->create_surface(surface);
+   }
+diff --git a/src/engine/display/surface.cpp b/src/engine/display/surface.cpp
+index 44855f68d..01754e623 100644
+--- a/src/engine/display/surface.cpp
++++ b/src/engine/display/surface.cpp
+@@ -372,7 +372,7 @@ Surface::mod(ResourceModifier::Enum modifier)
+       return Blitter::rotate_270_flip(*this);
+ 
+     default:
+-      log_error("Surface: unhandled modifier: " << modifier);
++      log_error("Surface: unhandled modifier: %1%", modifier);
+       return *this;
+   }
+ }
+@@ -478,7 +478,7 @@ Surface::fill(const Color& color)
+     }
+     else
+     {
+-      log_error("unsupported BytesPerPixel format: " << impl->surface->format->BytesPerPixel);
++      log_error("unsupported BytesPerPixel format: %1%", impl->surface->format->BytesPerPixel);
+     }
+   }
+ }
+diff --git a/src/engine/gui/gui_manager.cpp b/src/engine/gui/gui_manager.cpp
+index 259db7ed9..776851edb 100644
+--- a/src/engine/gui/gui_manager.cpp
++++ b/src/engine/gui/gui_manager.cpp
+@@ -76,7 +76,7 @@ GUIManager::update(const Input::Event& event)
+ 
+     case Input::AXIS_EVENT_TYPE:
+       // AxisEvents can be ignored in the GUI, they are handled elsewhere
+-      log_debug("GUIManager: AxisEvent: " << event.axis.dir);
++      log_debug("GUIManager: AxisEvent: %1%", event.axis.dir);
+       break;
+         
+     case Input::KEYBOARD_EVENT_TYPE:
+@@ -95,7 +95,7 @@ GUIManager::update(const Input::Event& event)
+       break;
+ 
+     default:
+-      log_warn("unhandled event type " << event.type);
++      log_warn("unhandled event type %1%", event.type);
+       break;
+   }
+ }
+diff --git a/src/engine/input/controller.cpp b/src/engine/input/controller.cpp
+index 6f0417361..97f4765e5 100644
+--- a/src/engine/input/controller.cpp
++++ b/src/engine/input/controller.cpp
+@@ -230,28 +230,24 @@ Controller::add_button(int id, ControllerButton* button)
+ void
+ Controller::add_axis_event(int id, float pos)
+ {
+-  // log_info("Controller::axis_event: id=" << id << " " << pos);
+   events.push_back(makeAxisEvent(static_cast<EventName>(id), pos));
+ }
+ 
+ void
+ Controller::add_button_event(int id, ButtonState state)
+ {
+-  // log_info("Controller::button_event: id=" << id << " " << state);
+   events.push_back(makeButtonEvent(static_cast<EventName>(id), state));
+ }
+ 
+ void
+ Controller::add_pointer_event(int id, float x, float y)
+ {
+-  // log_info("Controller::pointer_event: id=" << id << " " << x << ", " << y);
+   events.push_back(makePointerEvent(static_cast<EventName>(id), x, y));
+ }
+ 
+ void
+ Controller::add_scroller_event(int id, float xrel, float yrel)
+ {
+-  // log_info("Controller::scroller_event: id=" << id << " " << xrel << ", " << yrel);
+   events.push_back(makeScrollerEvent(static_cast<EventName>(id), xrel, yrel));
+ }
+ 
+diff --git a/src/engine/input/evdev/evdev_device.cpp b/src/engine/input/evdev/evdev_device.cpp
+index fccf44008..edec0ae2b 100644
+--- a/src/engine/input/evdev/evdev_device.cpp
++++ b/src/engine/input/evdev/evdev_device.cpp
+@@ -64,7 +64,7 @@ EvdevDevice::EvdevDevice(const std::string& filename) :
+     char c_name[256] = "unknown";
+     ioctl(fd, EVIOCGNAME(sizeof(c_name)), c_name);
+     name = c_name;
+-    log_info("Name: " << name);
++    log_info("Name: %1%", name);
+   }
+ 
+   { // Read in how many buttons the device has
+@@ -220,12 +220,12 @@ EvdevDevice::update(float delta)
+   struct input_event ev[128];
+   // FIXME: turn this into a while loop so all events get processed
+   ssize_t rd = read(fd, ev, sizeof(struct input_event) * 128);
+-  //log_debug(rd / sizeof(struct input_event));
++  //log_debug("%1%", rd / sizeof(struct input_event));
+   if (rd >= static_cast<ssize_t>(sizeof(struct input_event)))
+   {
+     for (int i = 0; i < rd / static_cast<int>(sizeof(struct input_event)); ++i)
+     {
+-      //log_debug(ev[i].type << " " << ev[i].code << " " << ev[i].value);
++      //log_debug("%1%", ev[i].type << " " << ev[i].code << " " << ev[i].value);
+ 
+       switch (ev[i].type)
+       {
+@@ -302,7 +302,7 @@ EvdevDevice::create_scroller(Control* parent, int x, int y)
+   else
+   {
+     delete scroller;
+-    log_error("EvdevDevice: " << device << " doesn't have x or y: x=" << x << " y=" << y);
++    log_error("EvdevDevice: %1% doesn't have x or y: x=%2% y=%3%", device, x, y);
+     return 0;
+   }
+ }
+@@ -317,7 +317,7 @@ EvdevDevice::create_button(Control* parent, int id)
+       keys[i].bindings.push_back(button);
+       return button;
+     }
+-  log_error("EvdevDevice: " << device << " doesn't have button " << id);
++  log_error("EvdevDevice: %1% doesn't have button %2%", device, id);
+   return 0;
+ }
+ 
+diff --git a/src/engine/input/evdev/evdev_driver.cpp b/src/engine/input/evdev/evdev_driver.cpp
+index 27e0b3d35..3fad583cb 100644
+--- a/src/engine/input/evdev/evdev_driver.cpp
++++ b/src/engine/input/evdev/evdev_driver.cpp
+@@ -62,7 +62,7 @@ EvdevDriver::get_device(const std::string& device_filename)
+     devices.push_back(device);
+     return device;
+   } catch (std::exception& err) {
+-    log_error("EvdevDriver: " << err.what());
++    log_error("EvdevDriver: %1%", err.what());
+     return 0;
+   }
+ }
+diff --git a/src/engine/input/manager.cpp b/src/engine/input/manager.cpp
+index 07f13e9a0..4fc41ff4e 100644
+--- a/src/engine/input/manager.cpp
++++ b/src/engine/input/manager.cpp
+@@ -111,7 +111,7 @@ Manager::create_controller(const Pathname& filename)
+           if (pointer)
+             ctrl_pointer->add_pointer(pointer);
+           else
+-            log_error("Manager: pointer: Couldn't create pointer " << j->get_name());
++            log_error("Manager: pointer: Couldn't create pointer %1%", j->get_name());
+         }
+ 
+       }
+@@ -126,7 +126,7 @@ Manager::create_controller(const Pathname& filename)
+           if (scroller)
+             ctrl_scroller->add_scroller(scroller);
+           else
+-            log_error("Manager: scroller: Couldn't create scroller " << j->get_name());
++            log_error("Manager: scroller: Couldn't create scroller %1%", j->get_name());
+         }
+ 
+       }
+@@ -141,7 +141,7 @@ Manager::create_controller(const Pathname& filename)
+           if (button)
+             ctrl_button->add_button(button);
+           else
+-            log_error("Manager: button: Couldn't create button " << j->get_name());
++            log_error("Manager: button: Couldn't create button %1%", j->get_name());
+         }
+       }
+       else if (StringUtil::has_suffix(i->get_name(), "axis"))
+@@ -155,7 +155,7 @@ Manager::create_controller(const Pathname& filename)
+           if (axis)
+             ctrl_axis->add_axis(axis);
+           else
+-            log_error("Manager: axis: Couldn't create axis " << j->get_name());
++            log_error("Manager: axis: Couldn't create axis %1%", j->get_name());
+         }
+       }
+       else if (StringUtil::has_suffix(i->get_name(), "keyboard"))
+@@ -169,7 +169,7 @@ Manager::create_controller(const Pathname& filename)
+           if (keyboard)
+             ctrl_keyboard->add_keyboard(keyboard);
+           else
+-            log_error("Manager: keyboard: Couldn't create keyboard " << j->get_name());
++            log_error("Manager: keyboard: Couldn't create keyboard %1%", j->get_name());
+         }              
+       }
+       else
+@@ -225,12 +225,12 @@ Manager::load_driver(const std::string& name)
+   }
+   else
+   {
+-    log_info("loading driver '" << name << "'");
++    log_info("loading driver '%1%'", name);
+ 
+     driver = DriverFactory::create(name, this);
+     if (!driver)
+     {
+-      log_error("unknown driver: " << name);
++      log_error("unknown driver: %1%", name);
+       return 0;
+     }
+     else
+@@ -253,7 +253,7 @@ Manager::create_button(const FileReader& reader, Control* parent)
+   }
+   else
+   {
+-    log_error("couldn't find driver: '" << driver << "'");
++    log_error("couldn't find driver: '%1%'", driver);
+     return 0;
+   }
+ }
+@@ -270,7 +270,7 @@ Manager::create_axis(const FileReader& reader, Control* parent)
+   }
+   else
+   {
+-    log_error("couldn't find driver: '" << driver << "'");
++    log_error("couldn't find driver: '%1%'", driver);
+     return 0;
+   }
+ }
+@@ -287,7 +287,7 @@ Manager::create_pointer(const FileReader& reader, Control* parent)
+   }
+   else
+   {
+-    log_error("couldn't find driver: '" << driver << "'");
++    log_error("couldn't find driver: '%1%'", driver);
+     return 0;
+   }
+ }
+@@ -304,7 +304,7 @@ Manager::create_scroller(const FileReader& reader, Control* parent)
+   }
+   else
+   {
+-    log_error("couldn't find driver: '" << driver << "'");
++    log_error("couldn't find driver: '%1%'", driver);
+     return 0;
+   }
+ }
+@@ -321,7 +321,7 @@ Manager::create_keyboard(const FileReader& reader, Control* parent)
+   }
+   else
+   {
+-    log_error("couldn't find driver: '" << driver << "'");
++    log_error("couldn't find driver: '%1%'", driver);
+     return 0;
+   }  
+ }
+diff --git a/src/engine/input/sdl_driver.cpp b/src/engine/input/sdl_driver.cpp
+index 18b7826a8..0bcfa4346 100644
+--- a/src/engine/input/sdl_driver.cpp
++++ b/src/engine/input/sdl_driver.cpp
+@@ -39,7 +39,7 @@ SDLDriver::SDLDriver() :
+     string2key[key_name] = static_cast<SDLKey>(i);
+     
+     // FIXME: Make the keynames somewhere user visible so that users can use them
+-    log_debug("Key: '" << key_name << "'");
++    log_debug("Key: '%1%'", key_name);
+   }
+ }
+ 
+@@ -105,7 +105,7 @@ SDLDriver::create_button(const FileReader& reader, Control* parent)
+       }
+       else 
+       {
+-        log_error("couldn't find keysym for key '" << key << "'");
++        log_error("couldn't find keysym for key '%1%'", key);
+         return 0;
+       }
+     }
+@@ -199,7 +199,7 @@ SDLDriver::open_joystick(int device)
+     }
+     else
+     {
+-      log_error("couldn't open joystick number " << device);
++      log_error("couldn't open joystick number %1%", device);
+       return false;
+     }
+   }
+diff --git a/src/engine/screen/gui_screen.cpp b/src/engine/screen/gui_screen.cpp
+index c1ab56d8b..8681afeed 100644
+--- a/src/engine/screen/gui_screen.cpp
++++ b/src/engine/screen/gui_screen.cpp
+@@ -88,7 +88,7 @@ GUIScreen::update (const Input::Event& event)
+     break;
+ 
+     default:
+-      log_error("unhandled event type: " << event.type);
++      log_error("unhandled event type: %1%", event.type);
+       break;
+   }
+ }
+@@ -128,7 +128,7 @@ GUIScreen::process_button_event (const Input::ButtonEvent& event)
+         on_action_down_press();
+         break;
+       default:
+-        log_debug("unhandled event: " << event.name);
++        log_debug("unhandled event: %1%", event.name);
+         break;
+     }
+   }
+@@ -164,13 +164,13 @@ GUIScreen::process_button_event (const Input::ButtonEvent& event)
+         on_action_down_release();
+         break;
+       default:
+-        log_debug("unhandled event: " << event.name);
++        log_debug("unhandled event: %1%", event.name);
+         break;
+     }
+   }
+   else
+   {
+-    log_error("got unknown event.state: " << event.state);
++    log_error("got unknown event.state: %1%", event.state);
+   }
+ }
+ 
+diff --git a/src/engine/screen/screen_manager.cpp b/src/engine/screen/screen_manager.cpp
+index 7b9bf7081..c6c098c26 100644
+--- a/src/engine/screen/screen_manager.cpp
++++ b/src/engine/screen/screen_manager.cpp
+@@ -210,8 +210,7 @@ ScreenManager::display()
+     if (previous_frame_time > 1.0)
+     {
+       if (globals::developer_mode)
+-        log_warn("ScreenManager: previous frame took longer than 1 second (" << previous_frame_time
+-                 << " sec.), ignoring and doing frameskip");
++        log_warn("ScreenManager: previous frame took longer than 1 second (%1% sec.), ignoring and doing frameskip", previous_frame_time);
+     }
+     else
+     {  
+@@ -224,7 +223,6 @@ ScreenManager::display()
+       // achieve <desired_fps> frames per second
+       if (current_frame_time < 1.0f / globals::desired_fps) {
+         Uint32 sleep_time = static_cast<Uint32>(1000 *((1.0f / globals::desired_fps) - current_frame_time));
+-        // log_debug("Sleep: " << sleep_time);
+         SDL_Delay(sleep_time);
+       }
+     }
+diff --git a/src/engine/sound/sound.cpp b/src/engine/sound/sound.cpp
+index 90568e2a3..4056b6b14 100644
+--- a/src/engine/sound/sound.cpp
++++ b/src/engine/sound/sound.cpp
+@@ -38,7 +38,7 @@ PingusSound::init (PingusSoundImpl* s)
+       try {
+         PingusSound::init (new PingusSoundReal ());
+       } catch (const std::exception& err) {
+-        log_error("Sound Error: " << err.what());
++        log_error("Sound Error: %1%", err.what());
+         log_error("Sound will be disabled");
+         PingusSound::init (new PingusSoundDummy ());
+       }
+diff --git a/src/engine/sound/sound_dummy.cpp b/src/engine/sound/sound_dummy.cpp
+index c325715db..e95d4f5cd 100644
+--- a/src/engine/sound/sound_dummy.cpp
++++ b/src/engine/sound/sound_dummy.cpp
+@@ -24,13 +24,13 @@ namespace Sound {
+ void
+ PingusSoundDummy::real_play_sound(const std::string & filename, float /*volume*/, float /*panning*/)
+ {
+-  log_info("PingusSoundDummy::real_play_sound: " << filename);
++  log_info("PingusSoundDummy::real_play_sound: %1%", filename);
+ }
+ 
+ void
+ PingusSoundDummy::real_play_music(const std::string & filename, float /*volume*/, bool /*loop*/)
+ {
+-  log_info("PingusSoundDummy::real_play_music: " << filename);
++  log_info("PingusSoundDummy::real_play_music: %1%", filename);
+ }
+ 
+ void
+diff --git a/src/engine/sound/sound_real.cpp b/src/engine/sound/sound_real.cpp
+index 06ed64673..7a124364a 100644
+--- a/src/engine/sound/sound_real.cpp
++++ b/src/engine/sound/sound_real.cpp
+@@ -67,8 +67,7 @@ PingusSoundReal::real_play_sound(const std::string& name, float volume, float pa
+     chunk = SoundResMgr::load(name);
+     if (!chunk)
+     {
+-      log_error("Can't open sound '" << name << "' -- skipping\n"
+-                << "  Mix_Error: " << Mix_GetError());
++      log_error("Can't open sound '%1%' -- skipping\n  Mix_Error: %2%", name, Mix_GetError());
+       return;
+     }
+ 
+@@ -104,15 +103,14 @@ PingusSoundReal::real_play_music(const std::string& filename, float volume, bool
+       m_master_volume > 0 && 
+       m_music_volume > 0)
+   {
+-    log_info("PingusSoundReal: Playing music: " << filename);
++    log_info("PingusSoundReal: Playing music: %1%", filename);
+ 
+     real_stop_music();
+ 
+     music_sample = Mix_LoadMUS(filename.c_str());
+     if (!music_sample)
+     {
+-      log_error("Can't load music: " << filename << "' -- skipping\n"
+-                << "  Mix_Error: " << Mix_GetError());
++      log_error("Can't load music: %1%' -- skipping\n  Mix_Error: %2%", filename, Mix_GetError());
+       return;
+     }
+ 
+diff --git a/src/engine/sound/sound_res_mgr.cpp b/src/engine/sound/sound_res_mgr.cpp
+index 07d3de3aa..6cfdcbb28 100644
+--- a/src/engine/sound/sound_res_mgr.cpp
++++ b/src/engine/sound/sound_res_mgr.cpp
+@@ -31,16 +31,16 @@ SoundResMgr::load(const std::string& name)
+   {
+     std::string filename = g_path_manager.complete("sounds/" + name + ".wav");
+     Mix_Chunk* chunk = Mix_LoadWAV(filename.c_str());
+-    log_info("SoundResMgr: Loading sound from disk: " << name << " -> " << filename);
++    log_info("SoundResMgr: Loading sound from disk: %1% -> %2%", name, filename);
+     if (!chunk)
+-      log_info("Error: " << Mix_GetError());
++      log_info("Error: %1%", Mix_GetError());
+ 
+     sound_map[name] = chunk;
+     return chunk;
+   }
+   else
+   {
+-    log_info("SoundResMgr: Loading sound from cache: " << name);
++    log_info("SoundResMgr: Loading sound from cache: %1%", name);
+     return i->second;
+   }
+ 
+diff --git a/src/engine/system/sdl_system.cpp b/src/engine/system/sdl_system.cpp
+index 952f311cb..6e904630f 100644
+--- a/src/engine/system/sdl_system.cpp
++++ b/src/engine/system/sdl_system.cpp
+@@ -27,7 +27,7 @@ SDLSystem::SDLSystem()
+ {
+   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) != 0) 
+   {
+-    log_error("Unable to initialize SDL: " << SDL_GetError());
++    log_error("Unable to initialize SDL: %1%", SDL_GetError());
+     exit(1);
+   }
+   else
+diff --git a/src/pingus/collision_mask.cpp b/src/pingus/collision_mask.cpp
+index a6a676cdd..95cb5ada0 100644
+--- a/src/pingus/collision_mask.cpp
++++ b/src/pingus/collision_mask.cpp
+@@ -110,20 +110,20 @@ CollisionMask::init_colmap(const Surface& surf, const std::string& surface_res)
+   {
+     memset(buffer.get(), 0, width*height);
+ 
+-    log_error("unsupported image format:\n" <<
+-              boost::format("  File: %s\n"
+-                            "  BitsPerPixel: %d\n"
+-                            "  BytesPerPixel: %d\n"
+-                            "  rmask: 0x%08x\n"
+-                            "  gmask: 0x%08x\n"
+-                            "  bmask: 0x%08x\n"
+-                            "  amask: 0x%08x\n") %
+-              surface_res.c_str() %
+-              static_cast<int>(sdl_surface->format->BitsPerPixel) %
+-              static_cast<int>(sdl_surface->format->BytesPerPixel) %
+-              static_cast<unsigned int>(sdl_surface->format->Rmask) %
+-              static_cast<unsigned int>(sdl_surface->format->Gmask) %
+-              static_cast<unsigned int>(sdl_surface->format->Bmask) %
++    log_error("unsupported image format:\n" 
++              "  File: %s\n"
++              "  BitsPerPixel: %d\n"
++              "  BytesPerPixel: %d\n"
++              "  rmask: 0x%08x\n"
++              "  gmask: 0x%08x\n"
++              "  bmask: 0x%08x\n"
++              "  amask: 0x%08x\n",
++              surface_res.c_str(),
++              static_cast<int>(sdl_surface->format->BitsPerPixel),
++              static_cast<int>(sdl_surface->format->BytesPerPixel),
++              static_cast<unsigned int>(sdl_surface->format->Rmask),
++              static_cast<unsigned int>(sdl_surface->format->Gmask),
++              static_cast<unsigned int>(sdl_surface->format->Bmask),
+               static_cast<unsigned int>(sdl_surface->format->Amask));
+   }
+ 
+diff --git a/src/pingus/config_manager.cpp b/src/pingus/config_manager.cpp
+index c1d924aae..56c048459 100644
+--- a/src/pingus/config_manager.cpp
++++ b/src/pingus/config_manager.cpp
+@@ -58,7 +58,7 @@ ConfigManager::~ConfigManager()
+ void
+ ConfigManager::set_master_volume(int v)
+ {
+-  log_info("ConfigManager::set_master_volume: " << v);
++  log_info("ConfigManager::set_master_volume: %1%", v);
+   Sound::PingusSound::set_master_volume(static_cast<float>(v) / 100.0f);
+ 
+   m_opts.master_volume.set(get_master_volume());
+@@ -73,7 +73,7 @@ ConfigManager::get_master_volume() const
+ void
+ ConfigManager::set_sound_volume(int v)
+ {
+-  log_info("ConfigManager::set_sound_volume: " << v);
++  log_info("ConfigManager::set_sound_volume: %1%", v);
+   Sound::PingusSound::set_sound_volume(static_cast<float>(v) / 100.0f);
+ 
+   m_opts.sound_volume.set(get_sound_volume());
+@@ -88,7 +88,7 @@ ConfigManager::get_sound_volume() const
+ void
+ ConfigManager::set_music_volume(int v)
+ {
+-  log_info("ConfigManager::set_music_volume: " << v);
++  log_info("ConfigManager::set_music_volume: %1%", v);
+   Sound::PingusSound::set_music_volume(static_cast<float>(v) / 100.0f);
+ 
+   m_opts.music_volume.set(get_music_volume());
+@@ -103,7 +103,7 @@ ConfigManager::get_music_volume() const
+ void
+ ConfigManager::set_fullscreen_resolution(const Size& size)
+ {
+-  log_info(size.width << "x" << size.height);
++  log_info("%1%x%2%", size.width, size.height);
+ 
+   if (size != get_fullscreen_resolution())
+   {
+@@ -128,7 +128,7 @@ ConfigManager::get_fullscreen_resolution() const
+ void
+ ConfigManager::set_fullscreen(bool v)
+ {
+-  log_info("ConfigManager::set_fullscreen: " << v);
++  log_info("ConfigManager::set_fullscreen: %1%", v);
+ 
+   if (v != get_fullscreen())
+   {
+@@ -162,7 +162,7 @@ ConfigManager::get_renderer() const
+ void
+ ConfigManager::set_resizable(bool v)
+ {
+-  log_info("ConfigManager::set_resizable: " << v);
++  log_info("ConfigManager::set_resizable: %1%", v);
+ 
+   if (v != get_resizable())
+   {
+@@ -181,7 +181,7 @@ ConfigManager::get_resizable() const
+ void
+ ConfigManager::set_mouse_grab(bool v)
+ {
+-  log_info("ConfigManager::set_mouse_grab: " << v);
++  log_info("ConfigManager::set_mouse_grab: %1%", v);
+ 
+   if (v != get_mouse_grab())
+   {
+@@ -201,7 +201,7 @@ ConfigManager::get_mouse_grab() const
+ void
+ ConfigManager::set_print_fps(bool v)
+ {
+-  log_info("ConfigManager::set_print_fps: " << v);
++  log_info("ConfigManager::set_print_fps: %1%", v);
+ 
+   if (v != get_print_fps())
+   {
+@@ -221,7 +221,7 @@ ConfigManager::get_print_fps() const
+ void
+ ConfigManager::set_language(const tinygettext::Language& v)
+ {
+-  log_info(v.str());
++  log_info("%1%", v.str());
+ 
+   if (v != get_language())
+   {
+@@ -241,7 +241,7 @@ ConfigManager::get_language() const
+ void
+ ConfigManager::set_software_cursor(bool v)
+ {
+-  log_info("ConfigManager::set_software_cursor: " << v);
++  log_info("ConfigManager::set_software_cursor: %1%", v);
+ 
+   if (v != get_software_cursor())
+   {
+@@ -261,7 +261,7 @@ ConfigManager::get_software_cursor() const
+ void
+ ConfigManager::set_auto_scrolling(bool v)
+ {
+-  log_info("ConfigManager::set_auto_scrolling: " << v);
++  log_info("ConfigManager::set_auto_scrolling: %1%", v);
+ 
+   if (v != get_auto_scrolling())
+   {
+diff --git a/src/pingus/global_event.cpp b/src/pingus/global_event.cpp
+index c7186150d..2b5b30ce3 100644
+--- a/src/pingus/global_event.cpp
++++ b/src/pingus/global_event.cpp
+@@ -110,7 +110,7 @@ GlobalEvent::on_button_press(const SDL_KeyboardEvent& event)
+     case SDLK_m:
+       if (keystate[SDLK_LCTRL] || keystate[SDLK_RCTRL])
+       {
+-        log_info("Developer Mode: " << globals::developer_mode);
++        log_info("Developer Mode: %1%", globals::developer_mode);
+         globals::developer_mode = !globals::developer_mode;
+       }
+       break;
+diff --git a/src/pingus/ground_map.cpp b/src/pingus/ground_map.cpp
+index 0795e242f..bd7f22da2 100644
+--- a/src/pingus/ground_map.cpp
++++ b/src/pingus/ground_map.cpp
+@@ -205,8 +205,8 @@ GroundMap::put_alpha_surface(Surface provider, Surface sprovider,
+       sprovider.get_surface()->format->BitsPerPixel != 24 &&
+       sprovider.get_surface()->format->BitsPerPixel != 32)
+   {
+-    log_error("Image has wrong color depth: " 
+-              << static_cast<int>(sprovider.get_surface()->format->BitsPerPixel));
++    log_error("Image has wrong color depth: %1%", 
++              static_cast<int>(sprovider.get_surface()->format->BitsPerPixel));
+     return;
+   }
+ 
+diff --git a/src/pingus/groundtype.cpp b/src/pingus/groundtype.cpp
+index 9b0d00e98..84e466961 100644
+--- a/src/pingus/groundtype.cpp
++++ b/src/pingus/groundtype.cpp
+@@ -37,7 +37,7 @@ Groundtype::string_to_type(const std::string& arg_type)
+     return Groundtype::GP_REMOVE;
+   else
+   {
+-    log_error("Groundtype: Unhandled type: '" << arg_type << "'");
++    log_error("Groundtype: Unhandled type: '%1%'", arg_type);
+     return Groundtype::GP_GROUND;
+   }
+ }
+@@ -62,7 +62,7 @@ Groundtype::type_to_string(GPType arg_type)
+     case Groundtype::GP_REMOVE:
+       return "remove";
+     default:
+-      log_error("Groundtype: Unhandled type: " << arg_type);
++      log_error("Groundtype: Unhandled type: %1%", arg_type);
+       return "ground";
+   }
+ }
+diff --git a/src/pingus/levelset.cpp b/src/pingus/levelset.cpp
+index 3b236bf3c..c6540d197 100644
+--- a/src/pingus/levelset.cpp
++++ b/src/pingus/levelset.cpp
+@@ -109,7 +109,7 @@ Levelset::from_file(const Pathname& pathname)
+         {
+           if (!i->read_string("filename", tmp))
+           {
+-            log_error("Levelset: " << pathname.str() << " is missing filename tag");
++            log_error("Levelset: %1% is missing filename tag", pathname.str());
+           }
+           else
+           {
+@@ -191,7 +191,7 @@ Levelset::add_level(const std::string& resname, bool accessible)
+   }
+   catch(const std::exception& err)
+   {
+-    log_error("failed to load: " << resname << ": " << err.what());
++    log_error("failed to load: %1%: %2%", resname, err.what());
+   }
+ }
+ 
+diff --git a/src/pingus/options.cpp b/src/pingus/options.cpp
+index fd177d2cd..00a5d7cf5 100644
+--- a/src/pingus/options.cpp
++++ b/src/pingus/options.cpp
+@@ -44,7 +44,7 @@ std::string framebuffer_type_to_string(FramebufferType type)
+       return "opengl";
+ 
+     default:
+-      log_error("unknown FramebufferType: " << static_cast<int>(type));
++      log_error("unknown FramebufferType: %1%", static_cast<int>(type));
+       return "sdl";
+   }
+ }
+@@ -69,7 +69,7 @@ FramebufferType framebuffer_type_from_string(const std::string& str)
+   }
+   else
+   {
+-    log_error("unknown FramebufferType '" << str << "', default to 'sdl'");
++    log_error("unknown FramebufferType '%1%', default to 'sdl'", str);
+     return SDL_FRAMEBUFFER;
+   }
+ }
+diff --git a/src/pingus/path_manager.cpp b/src/pingus/path_manager.cpp
+index 02b16d8ff..15fe4e523 100644
+--- a/src/pingus/path_manager.cpp
++++ b/src/pingus/path_manager.cpp
+@@ -55,7 +55,7 @@ PathManager::complete(const std::string& relative_path)
+     std::string absolute_path = Pathname::join(*it, relative_path);
+     bool exist = System::exist(absolute_path);
+ 
+-    log_debug(absolute_path << ": " << (exist ? "exist" : "missing"));
++    log_debug("%1%: ", absolute_path, (exist ? "exist" : "missing"));
+ 
+     if (exist)
+     {
+diff --git a/src/pingus/pingu.cpp b/src/pingus/pingu.cpp
+index 44b8bfc3d..a23674bdb 100644
+--- a/src/pingus/pingu.cpp
++++ b/src/pingus/pingu.cpp
+@@ -160,7 +160,7 @@ Pingu::request_set_action(ActionName::Enum action_name)
+         }
+         else
+         {
+-          log_debug("change from action " << action->get_name () << " not allowed");
++          log_debug("change from action %1% not allowed", action->get_name());
+           ret_val = false;
+         }
+         break;
+diff --git a/src/pingus/pingu_action.cpp b/src/pingus/pingu_action.cpp
+index 8e222bdc0..8fbf3eab6 100644
+--- a/src/pingus/pingu_action.cpp
++++ b/src/pingus/pingu_action.cpp
+@@ -126,7 +126,7 @@ PinguAction::move_with_forces ()
+       // FIXME: quick&dirty way to kill falling pingus
+       if (velocity.y > Actions::Faller::deadly_velocity+1)
+       {
+-        // log_debug("Velocity: " << velocity);
++        // log_debug("Velocity: %1%", velocity);
+         pingu->set_action(Actions::Splashed);
+         return;
+       }
+diff --git a/src/pingus/pingus_level.cpp b/src/pingus/pingus_level.cpp
+index df6506d76..aad90136c 100644
+--- a/src/pingus/pingus_level.cpp
++++ b/src/pingus/pingus_level.cpp
+@@ -65,9 +65,9 @@ PingusLevel::load(const std::string& resname,
+   {
+     int version;
+     if (reader.read_int("version", version))
+-      log_info("Levelfile Version: " << version);
++      log_info("Levelfile Version: %1%", version);
+     else
+-      log_info("Unknown Levelfile Version: " << version);
++      log_info("Unknown Levelfile Version: %1%", version);
+ 
+     FileReader head;
+     if (!reader.read_section("head", head))
+@@ -87,7 +87,7 @@ PingusLevel::load(const std::string& resname,
+       head.read_colorf("ambient-light",    impl->ambient_light);
+       head.read_string("author",           impl->author);
+ 
+-      log_info("Size: " << impl->size.width << " " << impl->size.height);
++      log_info("Size: %1%x%2%", impl->size.width, impl->size.height);
+           
+       FileReader actions;
+       if (head.read_section("actions", actions))
+@@ -96,7 +96,7 @@ PingusLevel::load(const std::string& resname,
+         for(std::vector<std::string>::iterator i = lst.begin(); i != lst.end(); ++i)
+         {
+           int count = 0;
+-          log_info("Actions: " << i->c_str());
++          log_info("Actions: %1%", i->c_str());
+           if (actions.read_int(i->c_str(), count))
+             impl->actions[*i] = count;
+         }
+diff --git a/src/pingus/pingus_main.cpp b/src/pingus/pingus_main.cpp
+index 3658d9ddc..21b0bf63d 100644
+--- a/src/pingus/pingus_main.cpp
++++ b/src/pingus/pingus_main.cpp
+@@ -95,7 +95,7 @@ PingusMain::read_rc_file (void)
+ 
+     if (!System::exist(filename))
+     {
+-      log_info(filename << ": config file not found");
++      log_info("%1%: config file not found", filename);
+     }
+     else
+     {
+@@ -108,7 +108,7 @@ PingusMain::read_rc_file (void)
+       }
+       catch(const std::exception& err)
+       {
+-        log_error(err.what());
++        log_error("%1%", err.what());
+       }
+     }
+   }
+@@ -382,15 +382,15 @@ PingusMain::parse_args(int argc, char** argv)
+         break;
+ 
+       case 'D':
+-        g_logger.set_log_level(Logger::kDebug);
++        logmich::set_log_level(logmich::kDebug);
+         break;
+ 
+       case 'v':
+-        g_logger.set_log_level(Logger::kInfo);
++        logmich::set_log_level(logmich::kInfo);
+         break;
+ 
+       case 'Q':
+-        g_logger.set_log_level(Logger::kNone);
++        logmich::set_log_level(logmich::kNone);
+         break;
+ 
+       case 360:
+@@ -608,7 +608,7 @@ PingusMain::start_game ()
+ int
+ PingusMain::run(int argc, char** argv)
+ {
+-  g_logger.set_log_level(Logger::kWarning);
++  logmich::set_log_level(logmich::kWarning);
+ 
+   tinygettext::Log::set_log_info_callback(0);
+ 
+@@ -663,7 +663,7 @@ PingusMain::run(int argc, char** argv)
+       }
+       else
+       {
+-        log_error("couldn't create window, falling back to SDL: " << err.what());
++        log_error("couldn't create window, falling back to SDL: %1%", err.what());
+         system.create_window(SDL_FRAMEBUFFER, screen_size, fullscreen, resizable);
+         config_manager.set_renderer(SDL_FRAMEBUFFER);
+       }
+diff --git a/src/pingus/plf_res_mgr.cpp b/src/pingus/plf_res_mgr.cpp
+index afafee6b8..139c48f75 100644
+--- a/src/pingus/plf_res_mgr.cpp
++++ b/src/pingus/plf_res_mgr.cpp
+@@ -27,13 +27,13 @@ PingusLevel
+ PLFResMgr::load_plf_raw(const std::string& res_name,
+                         const Pathname& pathname)
+ {
+-  log_info("PLFResMgr: '" << res_name << "'  -> '" << pathname.str() << "'");
++  log_info("PLFResMgr: '%1%' -> '%2%'", res_name, pathname.str());
+ 
+   PLFMap::iterator i = plf_map.find(res_name);
+ 
+   if (i == plf_map.end())
+   { // Entry not cached, so load it and add it to cache
+-    log_info("loading level from DISK: '" << res_name << "' -> '" << pathname.str() << "'");
++    log_info("loading level from DISK: '%1%' -> '%2%'", res_name, pathname.str());
+ 
+     PingusLevel plf(res_name, pathname);
+ 
+@@ -53,8 +53,7 @@ PLFResMgr::load_plf_raw(const std::string& res_name,
+     uint64_t current_mtime = pathname.mtime();
+     if (current_mtime != i->second.mtime)
+     {
+-      log_info("PLFResMgr: level changed on DISK, reloading: '" << res_name
+-               << "' -> '" << pathname.str() << "'");
++      log_info("PLFResMgr: level changed on DISK, reloading: '%1%' -> '%2%'", res_name, pathname.str());
+ 
+       // Reload the file since it has changed on disk
+       PingusLevel plf(res_name, pathname);
+@@ -71,8 +70,7 @@ PLFResMgr::load_plf_raw(const std::string& res_name,
+     }
+     else
+     { // File in cache is up to date, everything is all ready, return it
+-      log_info("PLFResMgr: Loading level from CACHE: '" << res_name << "' -> '"
+-               << pathname.str() << "'");
++      log_info("PLFResMgr: Loading level from CACHE: '%1%' -> '%2%'", res_name, pathname.str());
+ 
+       return i->second.plf;
+     }
+diff --git a/src/pingus/resource.cpp b/src/pingus/resource.cpp
+index 43c27d227..3ac7897c5 100644
+--- a/src/pingus/resource.cpp
++++ b/src/pingus/resource.cpp
+@@ -79,7 +79,7 @@ Resource::load_surface(const ResDescriptor& desc_)
+   }
+   else
+   {
+-    log_error("failed to load surface: " << desc_.res_name);
++    log_error("failed to load surface: %1%", desc_.res_name);
+     return Surface(Pathname("images/core/misc/404.png", Pathname::DATA_PATH));
+   }
+ }
+@@ -104,7 +104,7 @@ Resource::load_thumb_sprite(const std::string& name)
+   Pathname thumb_path("thumbnails/" + name + ".png", Pathname::DATA_PATH);
+   if (thumb_path.exist())
+   {
+-    log_info("Loading thumb from: " << thumb_path.str());
++    log_info("Loading thumb from: %1%", thumb_path.str());
+     return Sprite(thumb_path);
+   }
+   else
+diff --git a/src/pingus/savegame_manager.cpp b/src/pingus/savegame_manager.cpp
+index 5b3fe30d9..b36cc38d7 100644
+--- a/src/pingus/savegame_manager.cpp
++++ b/src/pingus/savegame_manager.cpp
+@@ -16,6 +16,8 @@
+ 
+ #include "pingus/savegame_manager.hpp"
+ 
++#include <sstream>
++
+ #include "lisp/parser.hpp"
+ #include "util/log.hpp"
+ #include "util/sexpr_file_reader.hpp"
+@@ -40,14 +42,14 @@ SavegameManager::SavegameManager(const std::string& arg_filename) :
+ 
+   if (!System::exist(filename))
+   {
+-    log_info(filename << ": savegame file not found");
++    log_info("%1%: savegame file not found", filename);
+   }
+   else
+   {
+     FileReader reader = FileReader::parse(filename);
+     if (reader.get_name() != "pingus-savegame")
+     {
+-      log_error(filename << ": not a (pingus-savegame) file");
++      log_error("%1%: not a (pingus-savegame) file", filename);
+     }
+     else
+     {
+@@ -59,7 +61,7 @@ SavegameManager::SavegameManager(const std::string& arg_filename) :
+         SavegameTable::iterator j = find(savegame->get_filename());
+         if (j != savegames.end())
+         { // overwrite duplicates, shouldn't happen, but harmless
+-          log_info("name collision: " << savegame->get_filename());
++          log_info("name collision: %1%", savegame->get_filename());
+           delete *j;
+           *j = savegame;
+         }
+diff --git a/src/pingus/screens/credits.cpp b/src/pingus/screens/credits.cpp
+index 2be6c271a..96ef35597 100644
+--- a/src/pingus/screens/credits.cpp
++++ b/src/pingus/screens/credits.cpp
+@@ -17,6 +17,7 @@
+ #include "pingus/screens/credits.hpp"
+ 
+ #include <fstream>
++#include <sstream>
+ 
+ #include "engine/display/display.hpp"
+ #include "engine/gui/gui_manager.hpp"
+@@ -90,7 +91,7 @@ Credits::Credits(const Pathname& filename) :
+     std::ifstream in(filename.get_sys_path());
+     if (!in)
+     {
+-      log_error("couldn't open " << filename);
++      log_error("couldn't open %1%", filename);
+       
+       std::ostringstream out;
+       out << "couldn't open " << filename;
+@@ -121,7 +122,7 @@ Credits::Credits(const Pathname& filename) :
+         end_offset += 50;
+         break;
+       default:
+-        log_error("Credits: Syntax error: Unknown format: '" << (*i)[0] << "'");
++        log_error("Credits: Syntax error: Unknown format: '%1%'", (*i)[0]);
+         break;
+     }
+   }
+@@ -192,7 +193,7 @@ Credits::draw_background (DrawingContext& gc)
+         yof += 50;
+         break;
+       default:
+-        log_error("Credits: Syntax error: Unknown format: '" << (*i)[0] << "'");
++        log_error("Credits: Syntax error: Unknown format: '%1%'", (*i)[0]);
+         break;
+     }
+   }
+diff --git a/src/pingus/screens/demo_session.cpp b/src/pingus/screens/demo_session.cpp
+index d613756b8..de0a11346 100644
+--- a/src/pingus/screens/demo_session.cpp
++++ b/src/pingus/screens/demo_session.cpp
+@@ -95,9 +95,8 @@ DemoSession::DemoSession(const Pathname& pathname_) :
+ 
+   if (plf.get_checksum() != demo->get_checksum())
+   {
+-    log_warn("checksum missmatch between demo (" 
+-             << demo->get_checksum() << ") and level (" 
+-             << plf.get_checksum() << ")");
++    log_warn("checksum missmatch between demo (%1%) and level (%2%)",
++             demo->get_checksum(), plf.get_checksum());
+   }
+ 
+   server   = std::unique_ptr<Server>(new Server(plf, false));
+@@ -211,7 +210,7 @@ DemoSession::update_demo()
+   // Check for unexpected things (might happen if the demo file is broken)
+   if (!events.empty() && events.back().time_stamp < server->get_time())
+   {
+-    log_info("DemoPlayer Bug: We missed a timestamp: " << events.back().time_stamp);
++    log_info("DemoPlayer Bug: We missed a timestamp: %1%", events.back().time_stamp);
+   }
+ }
+ 
+@@ -235,7 +234,7 @@ void
+ DemoSession::on_fast_forward_press()
+ {
+   if (0)
+-    log_info("Fast Forward Pressed: " << events.size() << " " << server->get_time());
++    log_info("Fast Forward Pressed: %1% %2%", events.size(), server->get_time());
+ 
+   fast_forward = !fast_forward;
+ }
+diff --git a/src/pingus/screens/font_test_screen.cpp b/src/pingus/screens/font_test_screen.cpp
+index 354ad6cae..3de9412c6 100644
+--- a/src/pingus/screens/font_test_screen.cpp
++++ b/src/pingus/screens/font_test_screen.cpp
+@@ -31,7 +31,7 @@ FontTestScreen::FontTestScreen(const Pathname& fontfile) :
+   scroll(),
+   dark(true)
+ {
+-  log_info("### Loading font file: " << fontfile);
++  log_info("### Loading font file: %1%", fontfile);
+   font = Font(FontDescription(fontfile));
+   reference = Font(FontDescription(Pathname("images/fonts/reference-iso-8859-1.font", Pathname::DATA_PATH)));
+ }
+diff --git a/src/pingus/screens/game_session.cpp b/src/pingus/screens/game_session.cpp
+index 50eebcafa..138440577 100644
+--- a/src/pingus/screens/game_session.cpp
++++ b/src/pingus/screens/game_session.cpp
+@@ -247,7 +247,7 @@ GameSession::update(const Input::Event& event)
+ 
+     default:
+       // unhandled event
+-      log_info("GameSession::process_events (): unhandled event: " << event.type);
++      log_info("GameSession::process_events (): unhandled event: %1%", event.type);
+       break;
+   }
+ }
+@@ -343,7 +343,7 @@ GameSession::on_startup ()
+   is_finished = false;
+ 
+   if (globals::developer_mode)
+-    log_info("Starting Music: " << server->get_plf().get_music());
++    log_info("Starting Music: %1%", server->get_plf().get_music());
+ 
+   if (server->get_plf().get_music() == "none" || 
+       server->get_plf().get_music().empty())
+diff --git a/src/pingus/screens/level_menu.cpp b/src/pingus/screens/level_menu.cpp
+index c0eddfbbf..73ae59403 100644
+--- a/src/pingus/screens/level_menu.cpp
++++ b/src/pingus/screens/level_menu.cpp
+@@ -146,7 +146,7 @@ public:
+       }
+       catch(const std::exception& err)
+       {
+-        log_error(err.what());
++        log_error("%1%", err.what());
+       }
+     }
+ 
+diff --git a/src/pingus/screens/option_menu.cpp b/src/pingus/screens/option_menu.cpp
+index 9aae6af6a..2b01dcc01 100644
+--- a/src/pingus/screens/option_menu.cpp
++++ b/src/pingus/screens/option_menu.cpp
+@@ -348,7 +348,7 @@ OptionMenu::on_escape_press()
+ 
+   // save configuration
+   Pathname cfg_filename(System::get_userdir() + "config", Pathname::SYSTEM_PATH);
+-  log_info("saving configuration: " << cfg_filename);
++  log_info("saving configuration: %1%", cfg_filename);
+   config_manager.get_options().save(cfg_filename);
+ }
+ 
+@@ -448,7 +448,7 @@ OptionMenu::on_language_change(const std::string &str)
+   auto it = m_language_map.find(str);
+   if (it == m_language_map.end())
+   {
+-    log_error("unknown language: " << str);
++    log_error("unknown language: %1%", str);
+   }
+   else
+   {  
+@@ -463,7 +463,7 @@ OptionMenu::on_resolution_change(const std::string& str)
+   Size size_;
+   if (sscanf(str.c_str(), "%dx%d", &size_.width, &size_.height) != 2)
+   {
+-    log_error("failed to parse: " << str);
++    log_error("failed to parse: %1%", str);
+   }
+   else
+   {
+diff --git a/src/pingus/server.cpp b/src/pingus/server.cpp
+index 51f60e7c9..597586c70 100644
+--- a/src/pingus/server.cpp
++++ b/src/pingus/server.cpp
+@@ -53,13 +53,12 @@ static std::unique_ptr<std::ostream> get_demostream(const PingusLevel& plf)
+   
+   if (!(*out.get()))
+   {
+-    log_error("DemoRecorder: Error: Couldn't write DemoFile '" << filename
+-             << "', demo recording will be disabled");
++    log_error("DemoRecorder: Error: Couldn't write DemoFile '%1%', demo recording will be disabled", filename);
+     return std::unique_ptr<std::ostream>();
+   }
+   else
+   {
+-    log_info("DemoRecorder: Writing demo to: " << filename);
++    log_info("DemoRecorder: Writing demo to: %1%", filename);
+ 
+     // Write file header
+     SExprFileWriter writer(*out);
+diff --git a/src/pingus/server_event.cpp b/src/pingus/server_event.cpp
+index 26813ec35..c61009fd0 100644
+--- a/src/pingus/server_event.cpp
++++ b/src/pingus/server_event.cpp
+@@ -172,14 +172,14 @@ ServerEvent::send(Server* server)
+         if (pos.x != pingu->get_pos().x ||
+             pos.y != pingu->get_pos().y)
+         {
+-          log_error("DemoFile inconsistent with world, pingu " << pingu_id << " is at the wrong position");
++          log_error("DemoFile inconsistent with world, pingu %1% is at the wrong position", pingu_id);
+         }
+ 
+         server->send_pingu_action_event(pingu, pingu_action);
+       }
+       else
+       {
+-        log_error("DemoFile inconsistent with world, pingu " << pingu_id << " missing");
++        log_error("DemoFile inconsistent with world, pingu %1% missing", pingu_id);
+       }
+     }
+     break;
+diff --git a/src/pingus/stat_manager.cpp b/src/pingus/stat_manager.cpp
+index f569d0f75..ffd763bc5 100644
+--- a/src/pingus/stat_manager.cpp
++++ b/src/pingus/stat_manager.cpp
+@@ -83,7 +83,7 @@ StatManager::load(const std::string& filename)
+   }
+   if (!sexpr)
+   {
+-    log_error("couldn't find savegame file '" << filename << "', starting with an empty one.");
++    log_error("couldn't find savegame file '%1%', starting with an empty one.", filename);
+     return;
+   }
+ 
+diff --git a/src/pingus/worldmap/drawable_factory.cpp b/src/pingus/worldmap/drawable_factory.cpp
+index 3e20d2c9b..6c1fc4304 100644
+--- a/src/pingus/worldmap/drawable_factory.cpp
++++ b/src/pingus/worldmap/drawable_factory.cpp
+@@ -30,7 +30,7 @@ DrawableFactory::create(const FileReader& reader)
+   }
+   else
+   {
+-    log_error("can't create " << reader.get_name());
++    log_error("can't create %1%", reader.get_name());
+     return 0;
+   }
+ }
+diff --git a/src/pingus/worldmap/graph.hpp b/src/pingus/worldmap/graph.hpp
+index 7bde5d212..85d624f05 100644
+--- a/src/pingus/worldmap/graph.hpp
++++ b/src/pingus/worldmap/graph.hpp
+@@ -168,7 +168,7 @@ public:
+           && i->destination == destination)
+         return *i;
+     }
+-    log_error("couldn't resolve edge: source=" << source << " destination=" << destination);
++    log_error("couldn't resolve edge: source=%1% destination=%2%", source, destination);
+     assert(false);
+     return *(static_cast<Edge<EdgeType>*>(0));
+   }
+diff --git a/src/pingus/worldmap/path_graph.cpp b/src/pingus/worldmap/path_graph.cpp
+index 1c3967a83..95924143a 100644
+--- a/src/pingus/worldmap/path_graph.cpp
++++ b/src/pingus/worldmap/path_graph.cpp
+@@ -176,7 +176,7 @@ PathGraph::lookup_edge(const std::string& name)
+   std::map<std::string, EdgeId>::iterator i = edge_lookup.find(name);
+   if (i == edge_lookup.end())
+   {
+-    log_info("Couldn't find EdgeId for: " << name);
++    log_info("Couldn't find EdgeId for: %1%", name);
+     return NoEdge;
+   }
+   else
+@@ -191,7 +191,7 @@ PathGraph::lookup_node(const std::string& name)
+   std::map<std::string, NodeId>::iterator i = node_lookup.find(name);
+   if (i == node_lookup.end())
+   {
+-    log_info("Couldn't find NodeId for: " << name);
++    log_info("Couldn't find NodeId for: %1%", name);
+     return NoNode;
+   }
+   else
+@@ -211,7 +211,7 @@ PathGraph::lookup_node(EdgeId id)
+       return i->first;
+     }
+   }
+-  log_info("PathGraph: Couldn't find id: " << id);
++  log_info("PathGraph: Couldn't find id: %1%", id);
+   return "error_node";
+ }
+ 
+@@ -226,7 +226,7 @@ PathGraph::lookup_edge(NodeId id)
+       return i->first;
+     }
+   }
+-  log_info("PathGraph: Couldn't find id: " << id);
++  log_info("PathGraph: Couldn't find id: %1%", id);
+   return "error_node";
+ }
+ 
+diff --git a/src/pingus/worldmap/pathfinder.hpp b/src/pingus/worldmap/pathfinder.hpp
+index 3b2011afc..36c475858 100644
+--- a/src/pingus/worldmap/pathfinder.hpp
++++ b/src/pingus/worldmap/pathfinder.hpp
+@@ -93,8 +93,6 @@ public:
+       NodeId current = open_nodes.top ();
+       open_nodes.pop ();
+ 
+-      // log_info("Current Node: " << current << " " << stat_graph[current].cost);
+-
+       Node<T>& node = graph.resolve_node (current);
+       for (std::vector<EdgeId>::iterator e = node.next.begin ();
+            e != node.next.end ();
+@@ -132,7 +130,6 @@ public:
+     do
+     {
+       path.push_back(handle);
+-      // log_info("Handle: " << handle << " Parent: " << stat_graph[handle].parent);
+ 
+       if (handle == start)
+       {
+diff --git a/src/pingus/worldmap/pingus.cpp b/src/pingus/worldmap/pingus.cpp
+index e3d32763e..3c3cf0026 100644
+--- a/src/pingus/worldmap/pingus.cpp
++++ b/src/pingus/worldmap/pingus.cpp
+@@ -93,7 +93,6 @@ Pingus::update_walk (float delta)
+ {
+   float velocity = 70.0f;
+ 
+-  // log_info("Updating Walk: " << edge_path_position << "/" << edge_path_length);
+   // Update the edge_path_position
+   edge_path_position += velocity * delta;
+ 
+diff --git a/src/pingus/worldmap/story_dot.cpp b/src/pingus/worldmap/story_dot.cpp
+index 139341518..8c689036c 100644
+--- a/src/pingus/worldmap/story_dot.cpp
++++ b/src/pingus/worldmap/story_dot.cpp
+@@ -74,7 +74,7 @@ StoryDot::on_click()
+   }
+   catch(const std::exception& err)
+   {
+-    log_error(err.what());
++    log_error("%1%", err.what());
+   }
+ }
+ 
+diff --git a/src/pingus/worldmap/worldmap.cpp b/src/pingus/worldmap/worldmap.cpp
+index 77f50086e..39df23053 100644
+--- a/src/pingus/worldmap/worldmap.cpp
++++ b/src/pingus/worldmap/worldmap.cpp
+@@ -187,7 +187,7 @@ Worldmap::on_primary_button_press(int x, int y)
+   if (dot)
+   {
+     if (globals::developer_mode)
+-      log_info("Worldmap: Clicked on: " << dot->get_name());
++      log_info("Worldmap: Clicked on: %1%", dot->get_name());
+ 
+     if (path_graph->lookup_node(dot->get_name()) == pingus->get_node())
+     {
+diff --git a/src/pingus/worldobj_factory.cpp b/src/pingus/worldobj_factory.cpp
+index aea51fc9a..c501798c7 100644
+--- a/src/pingus/worldobj_factory.cpp
++++ b/src/pingus/worldobj_factory.cpp
+@@ -236,7 +236,7 @@ WorldObjFactory::create(const FileReader& reader)
+ 
+   if (it == factories.end())
+   {
+-    log_error("invalid id: '" << reader.get_name() << "'");
++    log_error("invalid id: '%1%'", reader.get_name());
+     return std::vector<WorldObj*>();
+   }
+   else
+diff --git a/src/pingus/worldobj_renderer.cpp b/src/pingus/worldobj_renderer.cpp
+index f6a6d6857..e17ed750a 100644
+--- a/src/pingus/worldobj_renderer.cpp
++++ b/src/pingus/worldobj_renderer.cpp
+@@ -203,7 +203,7 @@ WorldObjRenderer::process(const FileReader& reader)
+   }
+   else
+   {
+-    log_error("unknown object type: " << reader.get_name());
++    log_error("unknown object type: %1%", reader.get_name());
+   }
+ }
+ 
+@@ -216,7 +216,7 @@ WorldObjRenderer::process_object_with_surface(const FileReader& reader)
+   if (!(reader.read_vector("position", pos) &&
+         reader.read_desc("surface", desc)))
+   {
+-    log_error("object (" << reader.get_name() << ") does not have 'position' and 'surface'");
++    log_error("object (%1%) does not have 'position' and 'surface'", reader.get_name());
+   }
+   else
+   {
+diff --git a/src/pingus/worldobjs/entrance.cpp b/src/pingus/worldobjs/entrance.cpp
+index c84bf897d..98838d059 100644
+--- a/src/pingus/worldobjs/entrance.cpp
++++ b/src/pingus/worldobjs/entrance.cpp
+@@ -53,7 +53,7 @@ Entrance::Entrance(const FileReader& reader) :
+     direction = MISC;
+   else
+   {
+-    log_error("unknown direction: '" << direction_str << "'");
++    log_error("unknown direction: '%1%'", direction_str);
+     direction = MISC;
+   }
+ 
+@@ -117,7 +117,7 @@ Entrance::create_pingu ()
+         break;
+ 
+       default:
+-        log_error("warning direction is wrong: " << direction);
++        log_error("warning direction is wrong: %1%", direction);
+         d.right();
+         pingu->set_direction(d);
+         break;
+diff --git a/src/util/pathname.cpp b/src/util/pathname.cpp
+index 499413296..db0c0e0e2 100644
+--- a/src/util/pathname.cpp
++++ b/src/util/pathname.cpp
+@@ -170,7 +170,7 @@ Pathname::opendir(const std::string& pattern) const
+         }
+         catch(const std::exception& err) 
+         {
+-          log_info(err.what());
++          log_info("%1%", err.what());
+         }
+       }
+       return std::vector<Pathname>(result.begin(), result.end());
+@@ -188,7 +188,7 @@ Pathname::opendir(const std::string& pattern) const
+       }
+       catch(const std::exception& err)
+       {
+-        log_info(err.what());
++        log_info("%1%", err.what());
+       }
+       return result;
+     }
+diff --git a/src/util/raise_exception.hpp b/src/util/raise_exception.hpp
+index 3d0ac4cae..69087e213 100644
+--- a/src/util/raise_exception.hpp
++++ b/src/util/raise_exception.hpp
+@@ -23,15 +23,34 @@
+ 
+ #include "util/log.hpp"
+ 
++inline std::string raise_log_pretty_print(const std::string& str)
++{
++  // FIXME: very basic, might not work with complex return types
++  std::string::size_type function_start = 0;
++  for(std::string::size_type i = 0; i < str.size(); ++i)
++  {
++    if (str[i] == ' ')
++    {
++      function_start = i+1;
++    }
++    else if (str[i] == '(')
++    {
++      return str.substr(function_start, i - function_start) + "()";
++    }
++  }
++
++  return str.substr(function_start);
++}
++
+ #define raise_exception(type, expr) do {  \
+   std::ostringstream b42465a70169; \
+-  b42465a70169 << log_pretty_print(__PRETTY_FUNCTION__) << ": " << expr; \
++  b42465a70169 << raise_log_pretty_print(__PRETTY_FUNCTION__) << ": " << expr; \
+   throw type(b42465a70169.str()); \
+ } while(false)
+ 
+ #define raise_error(expr) do {  \
+   std::ostringstream b42465a70169; \
+-  b42465a70169 << log_pretty_print(__PRETTY_FUNCTION__) << ": " << expr; \
++  b42465a70169 << raise_log_pretty_print(__PRETTY_FUNCTION__) << ": " << expr; \
+   throw std::runtime_error(b42465a70169.str()); \
+ } while(false)
+ 
+diff --git a/src/util/system.cpp b/src/util/system.cpp
+index 705020e38..702f4385b 100644
+--- a/src/util/system.cpp
++++ b/src/util/system.cpp
+@@ -147,7 +147,7 @@ System::opendir(const std::string& pathname, const std::string& pattern)
+   if (hFind == INVALID_HANDLE_VALUE)
+   {
+     if (GetLastError() != ERROR_FILE_NOT_FOUND)
+-      log_error("System: Couldn't open: " << pathname);
++      log_error("System: Couldn't open: %1%", pathname);
+   }
+   else
+   {
+@@ -197,7 +197,7 @@ System::opendir_recursive(const std::string& pathname)
+   }
+   catch(const std::exception& err)
+   {
+-    log_warn(err.what());
++    log_warn("%1%", err.what());
+   }
+   return lst;
+ }
+@@ -246,7 +246,7 @@ void
+ System::create_dir(std::string directory)
+ {
+ #ifndef WIN32
+-  log_info("System::create_dir: " << directory);
++  log_info("System::create_dir: %1%", directory);
+   
+   if (!exist(directory))
+   {
+@@ -256,7 +256,7 @@ System::create_dir(std::string directory)
+     }
+     else
+     {
+-      log_info("Successfully created: " << directory);
++      log_info("Successfully created: %1%", directory);
+     }
+   }
+ #else
+@@ -280,7 +280,7 @@ System::create_dir(std::string directory)
+   }
+   else
+   {
+-    log_info("Successfully created: " << directory);
++    log_info("Successfully created: %1%", directory);
+   }
+ #endif
+ }
+@@ -515,7 +515,7 @@ System::checksum(std::string filename)
+ 
+   if (!in)
+   {
+-    log_error("System::checksum: Couldn't open file: " << filename);
++    log_error("System::checksum: Couldn't open file: %1%", filename);
+     return "";
+   }
+ 
+@@ -725,7 +725,7 @@ System::normalize_path(const std::string& path)
+ void
+ System::write_file(const std::string& filename, const std::string& content)
+ {
+-  log_debug("writing " << filename);
++  log_debug("writing %1%", filename);
+ 
+ #ifdef WIN32
+   // FIXME: not save
+diff --git a/src/util/utf8.cpp b/src/util/utf8.cpp
+index 76349f93f..be333d63c 100644
+--- a/src/util/utf8.cpp
++++ b/src/util/utf8.cpp
+@@ -97,7 +97,7 @@ UTF8::advance(std::string::const_iterator it, std::string::size_type n)
+     }
+     else
+     {
+-      log_error("UTF8: malformed UTF-8 sequence: " << static_cast<int>(c));
++      log_error("UTF8: malformed UTF-8 sequence: %1%", static_cast<int>(c));
+       it += 1;
+     }
+   }
+@@ -249,7 +249,7 @@ UTF8::iterator::next()
+   } 
+   catch (std::exception) 
+   {
+-    log_error("Malformed utf-8 sequence beginning with " << *(reinterpret_cast<const uint32_t*>(text->c_str() + pos)) << " found ");
++    log_error("Malformed utf-8 sequence beginning with %1% found ", *(reinterpret_cast<const uint32_t*>(text->c_str() + pos)));
+     chr = INVALID_UTF8_SEQUENCE;
+     ++pos;
+   }
+-- 
+2.51.2
+

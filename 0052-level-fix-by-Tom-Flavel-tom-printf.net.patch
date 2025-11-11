@@ -1,0 +1,88 @@
+From d52ba2e4492dd6808498f3a6d2236cddd690324f Mon Sep 17 00:00:00 2001
+From: Gabriel Rota <gabriel.rota@gmail.com>
+Date: Mon, 29 Jul 2013 18:26:19 +0200
+Subject: [PATCH 052/129] level fix by "Tom Flavel" <tom@printf.net>
+
+---
+ data/levels/desert/desert5-tflavel.pingus | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
+
+diff --git a/data/levels/desert/desert5-tflavel.pingus b/data/levels/desert/desert5-tflavel.pingus
+index 4b9d2d6f3..56b527cca 100644
+--- a/data/levels/desert/desert5-tflavel.pingus
++++ b/data/levels/desert/desert5-tflavel.pingus
+@@ -12,12 +12,12 @@
+     (actions 
+       (basher 1)
+       (blocker 1)
+-      (bomber 2)
++      (bomber 1)
+       (bridger 1)
+       (climber 1)
+-      (digger 1)
+       (floater 1)
+-      (jumper 1))
++      (jumper 1)
++      (miner 1))
+     (levelsize 1920 1200))
+   (objects 
+     (surface-background 
+@@ -88,7 +88,7 @@
+       (surface 
+         (image "groundpieces/ground/desert/blobdune")
+         (modifier "ROT0"))
+-      (position 573 467 0))
++      (position 572 467 0))
+     (groundpiece 
+       (type "solid")
+       (surface 
+@@ -100,7 +100,7 @@
+       (surface 
+         (image "groundpieces/ground/desert/sluggydu")
+         (modifier "ROT0"))
+-      (position 967 434 0))
++      (position 1059 436 0))
+     (groundpiece 
+       (type "ground")
+       (surface 
+@@ -112,13 +112,13 @@
+       (surface 
+         (image "groundpieces/ground/jungle/branch5")
+         (modifier "ROT0"))
+-      (position 683 195 0))
++      (position 676 186 0))
+     (groundpiece 
+       (type "solid")
+       (surface 
+         (image "groundpieces/solid/desert/bigbrickpiece")
+         (modifier "ROT0"))
+-      (position 357 336 0))
++      (position 343 336 0))
+     (groundpiece 
+       (type "solid")
+       (surface 
+@@ -136,7 +136,7 @@
+       (surface 
+         (image "groundpieces/ground/desert/blobdune")
+         (modifier "ROT0"))
+-      (position 1079 423 0))
++      (position 1116 424 0))
+     (groundpiece 
+       (type "solid")
+       (surface 
+@@ -396,6 +396,12 @@
+         (release-rate 35)
+         (direction "left")
+         (owner-id 0)))
++    (groundpiece
++      (type "remove")
++      (surface
++        (image "groundpieces/remove/misc/rect1")
++        (modifier "ROT0"))
++        (position 899 414 0))
+     (liquid 
+       (surface 
+         (image "liquids/slime")
+-- 
+2.51.2
+

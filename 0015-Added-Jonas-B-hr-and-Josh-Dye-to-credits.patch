@@ -1,0 +1,29 @@
+From 95d75bffb6f945917b37b1f66ac651fff5cef137 Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Thu, 29 Dec 2011 20:57:41 +0100
+Subject: [PATCH 015/129] =?UTF-8?q?Added=20Jonas=20B=C3=A4hr=20and=20Josh?=
+ =?UTF-8?q?=20Dye=20to=20credits?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ data/credits/pingus.credits | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/data/credits/pingus.credits b/data/credits/pingus.credits
+index 47925a86b..243e81d54 100644
+--- a/data/credits/pingus.credits
++++ b/data/credits/pingus.credits
+@@ -23,6 +23,8 @@ _Jason Green
+ n
+ -Porting (MacOSX)
+ _Jason Green
++_Jonas Bähr
++_Josh Dye
+ _Sean Heber
+ n
+ -Gfx
+-- 
+2.51.2
+

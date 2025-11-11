@@ -1,0 +1,481 @@
+From 028ac0da9ba8b1980932771f2cb8c3f410818886 Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Sun, 27 Jul 2014 04:31:29 +0200
+Subject: [PATCH 073/129] Added logmich library
+
+---
+ external/logmich/.gitignore                 |   5 +
+ external/logmich/COPYING                    |  18 ++++
+ external/logmich/SConstruct                 |  23 +++++
+ external/logmich/include/logmich/log.hpp    |  88 +++++++++++++++++
+ external/logmich/include/logmich/logger.hpp |  95 ++++++++++++++++++
+ external/logmich/src/log.cpp                |  28 ++++++
+ external/logmich/src/logger.cpp             | 101 ++++++++++++++++++++
+ external/logmich/tests/main.cpp             |  48 ++++++++++
+ 8 files changed, 406 insertions(+)
+ create mode 100644 external/logmich/.gitignore
+ create mode 100644 external/logmich/COPYING
+ create mode 100644 external/logmich/SConstruct
+ create mode 100644 external/logmich/include/logmich/log.hpp
+ create mode 100644 external/logmich/include/logmich/logger.hpp
+ create mode 100644 external/logmich/src/log.cpp
+ create mode 100644 external/logmich/src/logger.cpp
+ create mode 100644 external/logmich/tests/main.cpp
+
+diff --git a/external/logmich/.gitignore b/external/logmich/.gitignore
+new file mode 100644
+index 000000000..a00dde129
+--- /dev/null
++++ b/external/logmich/.gitignore
+@@ -0,0 +1,5 @@
++*~
++*.o
++/main
++/.sconsign.dblite
++/liblogmich.a
+diff --git a/external/logmich/COPYING b/external/logmich/COPYING
+new file mode 100644
+index 000000000..bba8c3a2c
+--- /dev/null
++++ b/external/logmich/COPYING
+@@ -0,0 +1,18 @@
++LogMich - A Trivial Logging Library
++Copyright (C) 2014 Ingo Ruhnke <grumbel@gmail.com>
++
++This software is provided 'as-is', without any express or implied
++warranty. In no event will the authors be held liable for any damages
++arising from the use of this software.
++
++Permission is granted to anyone to use this software for any purpose,
++including commercial applications, and to alter it and redistribute it
++freely, subject to the following restrictions:
++
++1. The origin of this software must not be misrepresented; you must not
++   claim that you wrote the original software. If you use this software
++   in a product, an acknowledgment in the product documentation would be
++   appreciated but is not required.
++2. Altered source versions must be plainly marked as such, and must not be
++   misrepresented as being the original software.
++3. This notice may not be removed or altered from any source distribution.
+diff --git a/external/logmich/SConstruct b/external/logmich/SConstruct
+new file mode 100644
+index 000000000..179c3d5d8
+--- /dev/null
++++ b/external/logmich/SConstruct
+@@ -0,0 +1,23 @@
++env = Environment(CXXFLAGS = [ "-O0", "-g3",
++                               "-std=c++1y",
++                               # "-ansi",
++                               "-pedantic",
++                               "-Wall",
++                               "-Wextra",
++                               "-Wno-c++0x-compat",
++                               "-Wnon-virtual-dtor",
++                               "-Weffc++",
++                               "-Wconversion",
++                               "-Werror",
++                               "-Wshadow",
++                               "-Wcast-qual",
++                               "-Winit-self", # only works with >= -O1
++                               "-Wno-unused-parameter"])
++
++env.Append(CPPPATH = "include/")
++liblogmich = env.StaticLibrary("logmich", Glob("src/*.cpp"))
++
++env.Append(LIBS = [liblogmich])
++env.Program("main", Glob("tests/main.cpp"))
++
++# EOF #
+diff --git a/external/logmich/include/logmich/log.hpp b/external/logmich/include/logmich/log.hpp
+new file mode 100644
+index 000000000..d59ae0f61
+--- /dev/null
++++ b/external/logmich/include/logmich/log.hpp
+@@ -0,0 +1,88 @@
++// LogMich - A Trivial Logging Library
++// Copyright (C) 2014 Ingo Ruhnke <grumbel@gmail.com>
++//
++// This software is provided 'as-is', without any express or implied
++// warranty. In no event will the authors be held liable for any damages
++// arising from the use of this software.
++//
++// Permission is granted to anyone to use this software for any purpose,
++// including commercial applications, and to alter it and redistribute it
++// freely, subject to the following restrictions:
++//
++// 1. The origin of this software must not be misrepresented; you must not
++//    claim that you wrote the original software. If you use this software
++//    in a product, an acknowledgment in the product documentation would be
++//    appreciated but is not required.
++// 2. Altered source versions must be plainly marked as such, and must not be
++//    misrepresented as being the original software.
++// 3. This notice may not be removed or altered from any source distribution.
++
++#ifndef HEADER_LOGMICH_LOGMICH_HPP
++#define HEADER_LOGMICH_LOGMICH_HPP
++
++#include <string>
++
++#include "logger.hpp"
++
++namespace logmich {
++
++extern Logger g_logger;
++
++inline void incr_log_level(LogLevel level)
++{
++  g_logger.incr_log_level(level);
++}
++
++inline void set_log_level(LogLevel level)
++{
++  g_logger.set_log_level(level);
++}
++
++inline LogLevel get_log_level()
++{
++  return g_logger.get_log_level();
++}
++
++} // namespace logmich
++
++#define log_info(...) do {                                              \
++    if (logmich::g_logger.get_log_level() >= logmich::kInfo)                      \
++    {                                                                   \
++      logmich::g_logger.append_format(logmich::kInfo, __FILE__, __LINE__, __VA_ARGS__); \
++    }                                                                   \
++  } while(false)
++
++#define log_debug(...) do {                                             \
++    if (logmich::g_logger.get_log_level() >= logmich::kDebug)                     \
++    {                                                                   \
++      logmich::g_logger.append_format(logmich::kDebug, __FILE__, __LINE__, __VA_ARGS__); \
++    }                                                                   \
++  } while(false)
++
++#define log_warn(...) do {                                              \
++    if (logmich::g_logger.get_log_level() >= logmich::kWarning)                      \
++    {                                                                   \
++      logmich::g_logger.append_format(logmich::kWarning, __FILE__, __LINE__, __VA_ARGS__); \
++    }                                                                   \
++  } while(false)
++
++#define log_error(...) do {                                             \
++    if (logmich::g_logger.get_log_level() >= logmich::kError)                     \
++    {                                                                   \
++      logmich::g_logger.append_format(logmich::kError, __FILE__, __LINE__, __VA_ARGS__); \
++    }                                                                   \
++  } while(false)
++
++/** Write an debug message, while ignoring the log level. Use for
++    temporary messages in development that should not be part of final
++    release. */
++#define log_tmp(...) do {                                               \
++    if (logmich::g_logger.get_log_level() >= logmich::kTemp)                      \
++    {                                                                   \
++      logmich::g_logger.append_format(logmich::kTemp, __FILE__, __LINE__, __VA_ARGS__); \
++    }                                                                   \
++  } while(false)
++
++#endif
++
++/* EOF */
+diff --git a/external/logmich/include/logmich/logger.hpp b/external/logmich/include/logmich/logger.hpp
+new file mode 100644
+index 000000000..82efc4781
+--- /dev/null
++++ b/external/logmich/include/logmich/logger.hpp
+@@ -0,0 +1,95 @@
++// Copyright (C) 2014 Ingo Ruhnke <grumbel@gmail.com>
++//
++// This software is provided 'as-is', without any express or implied
++// warranty. In no event will the authors be held liable for any damages
++// arising from the use of this software.
++//
++// Permission is granted to anyone to use this software for any purpose,
++// including commercial applications, and to alter it and redistribute it
++// freely, subject to the following restrictions:
++//
++// 1. The origin of this software must not be misrepresented; you must not
++//    claim that you wrote the original software. If you use this software
++//    in a product, an acknowledgment in the product documentation would be
++//    appreciated but is not required.
++// 2. Altered source versions must be plainly marked as such, and must not be
++//    misrepresented as being the original software.
++// 3. This notice may not be removed or altered from any source distribution.
++
++#ifndef HEADER_LOGMICH_LOGGER_HPP
++#define HEADER_LOGMICH_LOGGER_HPP
++
++#include <boost/format.hpp>
++
++namespace logmich {
++namespace detail {
++
++inline void unpack_fmt(boost::format& fmt)
++{
++}
++
++template<typename Head, typename ...Rest>
++inline void unpack_fmt(boost::format& fmt, const Head& head, Rest&&... rest)
++{
++  unpack_fmt(fmt % head, std::forward<Rest>(rest)...);
++}
++
++/** Takes __PRETTY_FUNCTION__ and tries to shorten it to the form:
++    Classname::function() */
++std::string log_pretty_print(const std::string& str);
++
++} // namespace detail
++
++enum LogLevel
++{
++  /** things that shouldn't happen (i.e. a catched exceptions) */
++  kError,
++
++  /** messages that indicate an recoverable error (i.e. a catched
++      exceptions) */
++  kWarning,
++
++  /** informal status messages that don't indicate a fault in the
++      program */
++  kInfo,
++
++  /** extra verbose debugging messages */
++  kDebug,
++
++  /** temporary extra verbose debugging messages */
++  kTemp
++};
++
++class Logger
++{
++private:
++  LogLevel m_log_level;
++
++public:
++  Logger();
++  void incr_log_level(LogLevel level);
++  void set_log_level(LogLevel level);
++  LogLevel get_log_level() const;
++
++  void append(std::ostream& out, LogLevel level, const std::string& file, int line, const std::string& str);
++  void append(LogLevel level, const std::string& file, int line, const std::string& str);
++
++  void append_format(LogLevel level, const std::string& file, int line, const std::string& msg)
++  {
++    append(level, file, line, msg);
++  }
++
++  template<typename ...Args>
++  void append_format(LogLevel level, const std::string& file, int line, const std::string& fmt, Args&&... args)
++  {
++    boost::format format(fmt);
++    detail::unpack_fmt(format, args...);
++    append(level, file, line, format.str());
++  }
++};
++
++} // namespace logmich
++
++#endif
++
++/* EOF */
+diff --git a/external/logmich/src/log.cpp b/external/logmich/src/log.cpp
+new file mode 100644
+index 000000000..6492edf21
+--- /dev/null
++++ b/external/logmich/src/log.cpp
+@@ -0,0 +1,28 @@
++// LogMich - A Trivial Logging Library
++// Copyright (C) 2014 Ingo Ruhnke <grumbel@gmail.com>
++//
++// This software is provided 'as-is', without any express or implied
++// warranty. In no event will the authors be held liable for any damages
++// arising from the use of this software.
++//
++// Permission is granted to anyone to use this software for any purpose,
++// including commercial applications, and to alter it and redistribute it
++// freely, subject to the following restrictions:
++//
++// 1. The origin of this software must not be misrepresented; you must not
++//    claim that you wrote the original software. If you use this software
++//    in a product, an acknowledgment in the product documentation would be
++//    appreciated but is not required.
++// 2. Altered source versions must be plainly marked as such, and must not be
++//    misrepresented as being the original software.
++// 3. This notice may not be removed or altered from any source distribution.
++
++#include "logmich/log.hpp"
++
++namespace logmich {
++
++Logger g_logger;
++
++} // namespace logmich
++
++/* EOF */
+diff --git a/external/logmich/src/logger.cpp b/external/logmich/src/logger.cpp
+new file mode 100644
+index 000000000..226068ce5
+--- /dev/null
++++ b/external/logmich/src/logger.cpp
+@@ -0,0 +1,101 @@
++// LogMich - A Trivial Logging Library
++// Copyright (C) 2014 Ingo Ruhnke <grumbel@gmail.com>
++//
++// This software is provided 'as-is', without any express or implied
++// warranty. In no event will the authors be held liable for any damages
++// arising from the use of this software.
++//
++// Permission is granted to anyone to use this software for any purpose,
++// including commercial applications, and to alter it and redistribute it
++// freely, subject to the following restrictions:
++//
++// 1. The origin of this software must not be misrepresented; you must not
++//    claim that you wrote the original software. If you use this software
++//    in a product, an acknowledgment in the product documentation would be
++//    appreciated but is not required.
++// 2. Altered source versions must be plainly marked as such, and must not be
++//    misrepresented as being the original software.
++// 3. This notice may not be removed or altered from any source distribution.
++
++#include "logmich/log.hpp"
++
++#include <iostream>
++
++namespace logmich {
++namespace detail {
++
++std::string log_pretty_print(const std::string& str)
++{
++  // FIXME: very basic, might not work with complex return types
++  std::string::size_type function_start = 0;
++  for(std::string::size_type i = 0; i < str.size(); ++i)
++  {
++    if (str[i] == ' ')
++    {
++      function_start = i+1;
++    }
++    else if (str[i] == '(')
++    {
++      return str.substr(function_start, i - function_start) + "()";
++    }
++  }
++
++  return str.substr(function_start);
++}
++
++} // namespace detail
++
++Logger::Logger() :
++  m_log_level(kWarning)
++{}
++
++void
++Logger::incr_log_level(LogLevel level)
++{
++  if (get_log_level() < level)
++  {
++    set_log_level(level);
++  }
++}
++
++void
++Logger::set_log_level(LogLevel level)
++{
++  m_log_level = level;
++}
++
++LogLevel
++Logger::get_log_level() const
++{
++  return m_log_level;
++}
++
++void
++Logger::append(LogLevel level,
++               const std::string& file, int line,
++               const std::string& msg)
++{
++  append(std::cerr, level, file, line, msg);
++}
++
++void
++Logger::append(std::ostream& out,
++               LogLevel level,
++               const std::string& file, int line,
++               const std::string& msg)
++{
++  switch(level)
++  {
++    case kError:   out << "[ERROR "; break;
++    case kWarning: out << "[WARN "; break;
++    case kInfo:    out << "[INFO "; break;
++    case kDebug:   out << "[DEBUG "; break;
++    case kTemp:    out << "[TEMP "; break;
++  }
++
++  out << file << ":" << line << "] " << msg << std::endl;
++}
++
++} // namespace logmich
++
++/* EOF */
+diff --git a/external/logmich/tests/main.cpp b/external/logmich/tests/main.cpp
+new file mode 100644
+index 000000000..03c3f630d
+--- /dev/null
++++ b/external/logmich/tests/main.cpp
+@@ -0,0 +1,48 @@
++// LogMich - A Trivial Logging Library
++// Copyright (C) 2014 Ingo Ruhnke <grumbel@gmail.com>
++//
++// This software is provided 'as-is', without any express or implied
++// warranty. In no event will the authors be held liable for any damages
++// arising from the use of this software.
++//
++// Permission is granted to anyone to use this software for any purpose,
++// including commercial applications, and to alter it and redistribute it
++// freely, subject to the following restrictions:
++//
++// 1. The origin of this software must not be misrepresented; you must not
++//    claim that you wrote the original software. If you use this software
++//    in a product, an acknowledgment in the product documentation would be
++//    appreciated but is not required.
++// 2. Altered source versions must be plainly marked as such, and must not be
++//    misrepresented as being the original software.
++// 3. This notice may not be removed or altered from any source distribution.
++
++#include <logmich/log.hpp>
++
++int main()
++{
++  logmich::set_log_level(logmich::kInfo);
++  log_error("error level log message");
++  log_warn("warring level log message");
++  log_info("info level log message");
++  log_debug("debug level log message [invisible]");
++  log_tmp("tmp level log message [invisible]");
++
++  logmich::set_log_level(logmich::kTemp);
++  log_error("error level log message with format: %d", 5);
++  log_warn("warring level log message with format: %d", 10);
++  log_info("info level log message with format: %s", "Hello World");
++  log_debug("debug level log message with format: %d %d %d %d", 1, 2, 3, 4);
++  log_tmp("tmp level log message %d", 42);
++
++
++  logmich::set_log_level(logmich::kInfo);
++  log_debug("this should not be visible [invisible]");
++  logmich::set_log_level(logmich::kTemp);
++  log_debug("this should be visible");
++  log_tmp("this should be visible");
++
++  return 0;
++}
++
++/* EOF */
+-- 
+2.51.2
+

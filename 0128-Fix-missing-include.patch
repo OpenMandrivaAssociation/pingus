@@ -1,0 +1,37 @@
+From 75bdadb4601bed4a070aaa9a50e120b92fc99962 Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Sun, 26 May 2024 17:05:22 +0200
+Subject: [PATCH 128/129] Fix missing include
+
+---
+ src/engine/display/font_description.hpp | 1 +
+ src/util/pathname.hpp                   | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/src/engine/display/font_description.hpp b/src/engine/display/font_description.hpp
+index 93d51f509..08f1ce408 100644
+--- a/src/engine/display/font_description.hpp
++++ b/src/engine/display/font_description.hpp
+@@ -17,6 +17,7 @@
+ #ifndef HEADER_PINGUS_ENGINE_DISPLAY_FONT_DESCRIPTION_HPP
+ #define HEADER_PINGUS_ENGINE_DISPLAY_FONT_DESCRIPTION_HPP
+ 
++#include <cstdint>
+ #include <vector>
+ 
+ #include "math/rect.hpp"
+diff --git a/src/util/pathname.hpp b/src/util/pathname.hpp
+index fca9a301c..de8125faf 100644
+--- a/src/util/pathname.hpp
++++ b/src/util/pathname.hpp
+@@ -17,6 +17,7 @@
+ #ifndef HEADER_PINGUS_UTIL_PATHNAME_HPP
+ #define HEADER_PINGUS_UTIL_PATHNAME_HPP
+ 
++#include <cstdint>
+ #include <string>
+ #include <vector>
+ 
+-- 
+2.51.2
+

@@ -1,0 +1,52 @@
+From 646799ee35eb36e4f6d3e0489c4fef1b728fb208 Mon Sep 17 00:00:00 2001
+From: Bugdebugger <bugdebugger@users.noreply.github.com>
+Date: Sun, 5 Apr 2015 17:17:25 +0200
+Subject: [PATCH 087/129] Fix build when xinput is enabled
+
+Old logging call changed to new logmich format
+Removed old debug file reference
+Added X11 because it was missing
+
+Fixes Pingus/pingus#145
+---
+ SConscript                                | 2 +-
+ src/engine/input/xinput/xinput_driver.cpp | 3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/SConscript b/SConscript
+index d6c5b3e07..37558526d 100644
+--- a/SConscript
++++ b/SConscript
+@@ -182,7 +182,7 @@ class Project:
+         else:
+             self.reports += "  * XInput support: yes\n"
+             self.conf.env.Append(CPPDEFINES = [('HAVE_XINPUT', 1)])
+-            self.conf.env.Append(LIBS = ['Xi'])
++            self.conf.env.Append(LIBS = ['X11', 'Xi'])
+             self.conf.env.Append(optional_sources = ['src/engine/input/xinput/xinput_driver.cpp',
+                                                      'src/engine/input/xinput/xinput_device.cpp'])
+ 
+diff --git a/src/engine/input/xinput/xinput_driver.cpp b/src/engine/input/xinput/xinput_driver.cpp
+index c5fef2359..245c188a3 100644
+--- a/src/engine/input/xinput/xinput_driver.cpp
++++ b/src/engine/input/xinput/xinput_driver.cpp
+@@ -17,7 +17,6 @@
+ #include "engine/input/xinput/xinput_driver.hpp"
+ 
+ #include "engine/input/xinput/xinput_device.hpp"
+-#include "pingus/debug.hpp"
+ #include "pingus/globals.hpp"
+ 
+ namespace Input {
+@@ -67,7 +66,7 @@ XInputDriver::setup_xinput()
+     XDeviceInfo* info = XListInputDevices(sys.info.x11.display, &num_devices);
+     for(int i = 0; i < num_devices; ++i)
+     {
+-      pout(PINGUS_DEBUG_INPUT) << "XInputDriver: Device name='" << info[i].name << "'" << std::endl;
++      log_debug("XInputDriver: Device name='%1'", info[i].name);
+       // FIXME: Xinput isn't necesarrily a mouse, could be anything
+       //if (info[i].use == IsXExtensionDevice)
+       // {
+-- 
+2.51.2
+

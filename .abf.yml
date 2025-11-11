@@ -1,2 +1,4 @@
 sources:
-  "pingus-0.7.6.tar.bz2": b5f5a25d71beb197c9466fb8928018a377f56487
+  v0.7.6.tar.gz: c888c277995bed84052b62d0eacbd77d0346a276
+  logmich-0.1.x.tar.gz: 3e7d228bf18f90b6f61ca5eaad026fcb2249d988
+  tinygettext.tar.gz: 5b9563d6656d73b0229e025cc37951bc35a36df6

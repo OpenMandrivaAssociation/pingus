@@ -1,0 +1,25 @@
+From f4ec4ead8f7a56a942f39edb779c40519f621283 Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Mon, 4 Nov 2019 00:36:03 +0100
+Subject: [PATCH 118/129] Fix scons platform check to work in Python3
+
+---
+ SConscript | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/SConscript b/SConscript
+index b6de3e514..0b97f975f 100644
+--- a/SConscript
++++ b/SConscript
+@@ -84,7 +84,7 @@ class Project:
+ 
+         self.opts.Add(BoolVariable('with_opengl',        'Build with OpenGL support', True))
+         self.opts.Add(BoolVariable('with_xinput',        'Build with Xinput support', False))
+-        self.opts.Add(BoolVariable('with_linuxevdev',    'Build with Linux evdev support',  sys.platform == "linux2"))
++        self.opts.Add(BoolVariable('with_linuxevdev',    'Build with Linux evdev support',  sys.platform.startswith("linux")))
+         self.opts.Add(BoolVariable('with_wiimote',       'Build with Wiimote support', False))
+         self.opts.Add(BoolVariable('ignore_errors',      'Ignore any fatal configuration errors', False))
+         self.opts.Add('optional_sources', 'Additional source files', [])
+-- 
+2.51.2
+

@@ -1,0 +1,28 @@
+From 40adefba6334c539add3b168beb64185f6443afc Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Thu, 29 Dec 2011 23:49:33 +0100
+Subject: [PATCH 018/129] Only use RGBA blitter when alpha channel is present
+
+---
+ src/engine/display/surface.cpp | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/src/engine/display/surface.cpp b/src/engine/display/surface.cpp
+index d75e2925a..0cb502e81 100644
+--- a/src/engine/display/surface.cpp
++++ b/src/engine/display/surface.cpp
+@@ -123,8 +123,9 @@ Surface::blit(Surface src, int x_pos, int y_pos)
+     log_error("trying to blit with an empty surface");
+   }
+   else if (get_surface()->format->BytesPerPixel == 4 &&
+-           src.get_surface()->format->BytesPerPixel == 4)
+-  { 
++           src.get_surface()->format->BytesPerPixel == 4 &&
++           src.get_surface()->format->Amask)
++  {
+     // RGBA to RGBA blit
+     int start_x = std::max(0, -x_pos);
+     int start_y = std::max(0, -y_pos);
+-- 
+2.51.2
+

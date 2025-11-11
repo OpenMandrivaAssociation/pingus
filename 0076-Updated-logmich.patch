@@ -1,0 +1,39 @@
+From 017cbdc0fd808b54d6034e410597c5d44bcc794c Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Sun, 27 Jul 2014 05:58:17 +0200
+Subject: [PATCH 076/129] Updated logmich
+
+---
+ external/logmich/include/logmich/logger.hpp | 3 +++
+ external/logmich/src/logger.cpp             | 1 +
+ 2 files changed, 4 insertions(+)
+
+diff --git a/external/logmich/include/logmich/logger.hpp b/external/logmich/include/logmich/logger.hpp
+index 82efc4781..b77873376 100644
+--- a/external/logmich/include/logmich/logger.hpp
++++ b/external/logmich/include/logmich/logger.hpp
+@@ -42,6 +42,9 @@ std::string log_pretty_print(const std::string& str);
+ 
+ enum LogLevel
+ {
++  /** Used in set_log_level() to disable all output */
++  kNone,
++
+   /** things that shouldn't happen (i.e. a catched exceptions) */
+   kError,
+ 
+diff --git a/external/logmich/src/logger.cpp b/external/logmich/src/logger.cpp
+index 226068ce5..e3f8851ec 100644
+--- a/external/logmich/src/logger.cpp
++++ b/external/logmich/src/logger.cpp
+@@ -86,6 +86,7 @@ Logger::append(std::ostream& out,
+ {
+   switch(level)
+   {
++    case kNone:    out << "[NONE "; break;
+     case kError:   out << "[ERROR "; break;
+     case kWarning: out << "[WARN "; break;
+     case kInfo:    out << "[INFO "; break;
+-- 
+2.51.2
+

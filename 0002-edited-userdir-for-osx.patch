@@ -1,0 +1,35 @@
+From 23136811755bfbade8256df15be2dffa0ae77e58 Mon Sep 17 00:00:00 2001
+From: Josh Dye <josh.jpenguin@gmail.com>
+Date: Tue, 27 Dec 2011 14:37:45 -0800
+Subject: [PATCH 002/129] edited userdir for osx
+
+---
+ src/util/system.cpp | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/src/util/system.cpp b/src/util/system.cpp
+index 8b80140b8..26597c365 100644
+--- a/src/util/system.cpp
++++ b/src/util/system.cpp
+@@ -299,6 +299,18 @@ System::find_userdir()
+ 
+   return tmpstr;
+ 
++#elif __APPLE__
++	char* homedir = getenv("HOME");
++	
++	if (homedir)
++	{
++		return std::string(homedir) + "/Library/Application Support/pingus/";
++	}
++	else
++	{
++		raise_exception(std::runtime_error, "Environment variable $HOME not set, fix that and start again.");
++	}
++	
+ #else /* !WIN32 */
+   char* homedir = getenv("HOME");
+ 
+-- 
+2.51.2
+

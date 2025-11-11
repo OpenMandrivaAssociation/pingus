@@ -1,0 +1,26 @@
+From 08449d408967e6c401e70199af8c83ff61b8981d Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Wed, 28 Dec 2011 00:26:57 +0100
+Subject: [PATCH 003/129] Added bytesPerPixel to image-info
+
+---
+ extra/image-info.cpp | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/extra/image-info.cpp b/extra/image-info.cpp
+index 6d974336b..d943d3fab 100644
+--- a/extra/image-info.cpp
++++ b/extra/image-info.cpp
+@@ -23,7 +23,8 @@ int main(int argc, char** argv)
+       if (surface->flags & SDL_SRCCOLORKEY)
+         std::cout << " colorkey";
+ 
+-      std::cout << " bpp" << static_cast<int>(surface->format->BitsPerPixel);
++      std::cout << " bitsPerPixel:" << static_cast<int>(surface->format->BitsPerPixel);
++      std::cout << " bytesPerPixel:" << static_cast<int>(surface->format->BytesPerPixel);
+ 
+       std::cout << std::endl;
+     }
+-- 
+2.51.2
+

@@ -1,0 +1,56 @@
+From 33f0ae2ba7229fbcda00a242c1c1c26a77ec6f69 Mon Sep 17 00:00:00 2001
+From: Bugdebugger <bugdebugger@users.noreply.github.com>
+Date: Sat, 11 Apr 2015 20:59:00 +0200
+Subject: [PATCH 094/129] Fix crashes with no actions available in a level
+
+When no actions at all were available (all actions deactivated,
+not just no action with amount > 0) moving the mouse pointer
+over a pingu or selecting the next/previous action via keyboard
+resulted in a game crash.
+---
+ src/pingus/components/button_panel.cpp | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
+
+diff --git a/src/pingus/components/button_panel.cpp b/src/pingus/components/button_panel.cpp
+index 9f2e2ead2..26255e67c 100644
+--- a/src/pingus/components/button_panel.cpp
++++ b/src/pingus/components/button_panel.cpp
+@@ -109,7 +109,12 @@ ButtonPanel::update (float delta)
+ ActionName::Enum
+ ButtonPanel::get_action_name()
+ {
+-  return buttons[current_button].name;
++  if (!buttons.empty())
++  {
++    return buttons[current_button].name;
++  }
++  // No actions available
++  return ActionName::WALKER;
+ }
+ 
+ void
+@@ -128,13 +133,19 @@ ButtonPanel::set_button(int n)
+ void
+ ButtonPanel::next_action()
+ {
+-  current_button = (current_button + 1 + int(buttons.size())) % int(buttons.size());
++  if (!buttons.empty())
++  {
++    current_button = (current_button + 1 + int(buttons.size())) % int(buttons.size());
++  }
+ }
+ 
+ void
+ ButtonPanel::previous_action()
+ {
+-  current_button = (current_button - 1 + int(buttons.size())) % int(buttons.size());
++  if (!buttons.empty())
++  {
++    current_button = (current_button - 1 + int(buttons.size())) % int(buttons.size());
++  }
+ }
+ 
+ void
+-- 
+2.51.2
+

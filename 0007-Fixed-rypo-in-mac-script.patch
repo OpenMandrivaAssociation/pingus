@@ -1,0 +1,22 @@
+From d0b490c9d3e65517b0910fbed9547a628910141d Mon Sep 17 00:00:00 2001
+From: Josh Dye <josh.jpenguin@gmail.com>
+Date: Wed, 28 Dec 2011 10:21:18 -0800
+Subject: [PATCH 007/129] Fixed rypo in mac script
+
+---
+ bundle_mac.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/bundle_mac.sh b/bundle_mac.sh
+index c6f047e8a..ecbc899ac 100755
+--- a/bundle_mac.sh
++++ b/bundle_mac.sh
+@@ -14,4 +14,4 @@ echo "* Copying data files"
+ cp -r ./data/* ./Pingus.app/Contents/Resources/
+ 
+ echo "* Bunling dependencies"
+-dylibbundler -od -b -x ./Pingus.app/Contents/MacOS/lincity-ng -d ./Pingus.app/Contents/libs/
++dylibbundler -od -b -x ./Pingus.app/Contents/MacOS/pingus -d ./Pingus.app/Contents/libs/
+-- 
+2.51.2
+

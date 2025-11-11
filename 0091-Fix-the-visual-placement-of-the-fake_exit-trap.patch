@@ -1,0 +1,46 @@
+From 4e18343da563bc9bcabca05dffe7248d25c8288a Mon Sep 17 00:00:00 2001
+From: Bugdebugger <bugdebugger@users.noreply.github.com>
+Date: Thu, 9 Apr 2015 16:57:17 +0200
+Subject: [PATCH 091/129] Fix the visual placement of the fake_exit trap
+
+The fake_exit object was rendered on a different position then the one
+shown in the editor while placing it. Only the visually position was
+wrong, the actual "kill area" was at the correct position.
+
+This commit fixes the visual placement, when playing a level, to match
+the one shown in the editor. The "kill area" remains untouched.
+
+Most of the currently included levels using the fake_exit trap remain
+unaffected and/or are now fixed visually.
+
+Fixes Pinugs/pingus#120
+---
+ src/pingus/worldobjs/fake_exit.cpp | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/src/pingus/worldobjs/fake_exit.cpp b/src/pingus/worldobjs/fake_exit.cpp
+index bbcca34e2..54aec2b13 100644
+--- a/src/pingus/worldobjs/fake_exit.cpp
++++ b/src/pingus/worldobjs/fake_exit.cpp
+@@ -31,7 +31,6 @@ FakeExit::FakeExit(const FileReader& reader) :
+   smashing(false)
+ {
+   reader.read_vector("position", pos);
+-  pos -= Vector3f(static_cast<float>(surface.get_width ())/2, static_cast<float>(surface.get_height()));
+ }
+ 
+ float
+@@ -63,8 +62,8 @@ FakeExit::catch_pingu (Pingu* pingu)
+   if (surface.is_finished())
+     smashing = false;
+ 
+-  if (   pingu->get_pos().x > pos.x + 31 && pingu->get_pos().x < pos.x + 31 + 15
+-         && pingu->get_pos().y > pos.y + 56 && pingu->get_pos().y < pos.y + 56 + 56)
++  if (   pingu->get_pos().x > pos.x - 7  && pingu->get_pos().x < pos.x + 8
++         && pingu->get_pos().y > pos.y - 56 && pingu->get_pos().y < pos.y)
+   {
+     if (pingu->get_action() != ActionName::SPLASHED)
+     {
+-- 
+2.51.2
+

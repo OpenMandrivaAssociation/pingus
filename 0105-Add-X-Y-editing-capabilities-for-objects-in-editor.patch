@@ -1,0 +1,208 @@
+From 156771a51b4ad917ebb96e96bf49c7ac4f865d1a Mon Sep 17 00:00:00 2001
+From: Bugdebugger <bugdebugger@users.noreply.github.com>
+Date: Wed, 8 Apr 2015 20:17:19 +0200
+Subject: [PATCH 105/129] Add X/Y editing capabilities for objects in editor
+
+Fixes Pingus/pingus#97
+---
+ src/editor/generic_level_obj.cpp | 24 ++++++++++++++++++++
+ src/editor/generic_level_obj.hpp |  6 +++++
+ src/editor/group_level_obj.hpp   |  6 +++++
+ src/editor/level_obj.hpp         |  6 +++++
+ src/editor/object_properties.cpp | 38 +++++++++++++++++++++++++++++++-
+ src/editor/object_properties.hpp |  8 +++++++
+ 6 files changed, 87 insertions(+), 1 deletion(-)
+
+diff --git a/src/editor/generic_level_obj.cpp b/src/editor/generic_level_obj.cpp
+index ac53e50a3..3caff332d 100644
+--- a/src/editor/generic_level_obj.cpp
++++ b/src/editor/generic_level_obj.cpp
+@@ -470,6 +470,30 @@ GenericLevelObj::set_pos(Vector3f p)
+   pos = p;
+ }
+ 
++void
++GenericLevelObj::set_pos_x(float x)
++{
++  pos.x = x;
++}
++
++float
++GenericLevelObj::get_pos_x() const
++{
++  return pos.x;
++}
++
++void
++GenericLevelObj::set_pos_y(float y)
++{
++  pos.y = y;
++}
++
++float
++GenericLevelObj::get_pos_y() const
++{
++  return pos.y;
++}
++
+ void
+ GenericLevelObj::set_pos_z(float z)
+ {
+diff --git a/src/editor/generic_level_obj.hpp b/src/editor/generic_level_obj.hpp
+index d639cf762..09c998bc9 100644
+--- a/src/editor/generic_level_obj.hpp
++++ b/src/editor/generic_level_obj.hpp
+@@ -187,6 +187,12 @@ public:
+   /** Set the object's position */
+   void set_pos(const Vector3f p);
+ 
++  void set_pos_x(float x);
++  float get_pos_x() const;
++
++  void set_pos_y(float y);
++  float get_pos_y() const;
++
+   void set_pos_z(float z);
+   float get_pos_z() const;
+ 
+diff --git a/src/editor/group_level_obj.hpp b/src/editor/group_level_obj.hpp
+index ae4cefebd..5a130b9dd 100644
+--- a/src/editor/group_level_obj.hpp
++++ b/src/editor/group_level_obj.hpp
+@@ -134,6 +134,12 @@ public:
+   /** Set the object's position */
+   void set_pos(const Vector3f p);
+ 
++  void set_pos_x(float x) { }
++  float get_pos_x() const { return 0.0f; }
++
++  void set_pos_y(float y) { }
++  float get_pos_y() const { return 0.0f; }
++
+   void set_pos_z(float z) { }
+   float get_pos_z() const { return 0.0f; }
+ 
+diff --git a/src/editor/level_obj.hpp b/src/editor/level_obj.hpp
+index 5a3444f55..4ec077b4c 100644
+--- a/src/editor/level_obj.hpp
++++ b/src/editor/level_obj.hpp
+@@ -139,6 +139,12 @@ public:
+   /** Set the object's position */
+   virtual void set_pos(const Vector3f p) = 0;
+ 
++  virtual void set_pos_x(float x) = 0;
++  virtual float get_pos_x() const = 0;
++
++  virtual void set_pos_y(float y) = 0;
++  virtual float get_pos_y() const = 0;
++
+   virtual void set_pos_z(float z) = 0;
+   virtual float get_pos_z() const = 0;
+ 
+diff --git a/src/editor/object_properties.cpp b/src/editor/object_properties.cpp
+index 27c07351d..b49caf50f 100644
+--- a/src/editor/object_properties.cpp
++++ b/src/editor/object_properties.cpp
+@@ -57,6 +57,10 @@ ObjectProperties::ObjectProperties(EditorScreen* editor_, const Rect& rect_) :
+   scroll_y_inputbox(),
+   owner_label(),
+   owner_inputbox(),
++  pos_x_label(),
++  pos_x_inputbox(),
++  pos_y_label(),
++  pos_y_inputbox(),
+   pos_z_label(),
+   pos_z_inputbox(),
+   color_label(),
+@@ -159,6 +163,14 @@ ObjectProperties::ObjectProperties(EditorScreen* editor_, const Rect& rect_) :
+   owner_inputbox = create<Inputbox>(box_rect);
+   owner_inputbox->on_change.connect(std::bind(&ObjectProperties::on_owner_change, this, std::placeholders::_1));
+ 
++  pos_x_label = create<Label>(label_rect, _("X-Pos:"));
++  pos_x_inputbox = create<Inputbox>(box_rect);
++  pos_x_inputbox->on_change.connect(std::bind(&ObjectProperties::on_pos_x_change, this, std::placeholders::_1));
++
++  pos_y_label = create<Label>(label_rect, _("Y-Pos:"));
++  pos_y_inputbox = create<Inputbox>(box_rect);
++  pos_y_inputbox->on_change.connect(std::bind(&ObjectProperties::on_pos_y_change, this, std::placeholders::_1));
++
+   pos_z_label = create<Label>(label_rect, _("Z-Pos:"));
+   pos_z_inputbox = create<Inputbox>(box_rect);
+   pos_z_inputbox->on_change.connect(std::bind(&ObjectProperties::on_pos_z_change, this, std::placeholders::_1));
+@@ -307,6 +319,12 @@ ObjectProperties::hide_all()
+   owner_label->hide();
+   owner_inputbox->hide();
+ 
++  pos_x_label->hide();
++  pos_x_inputbox->hide();
++
++  pos_y_label->hide();
++  pos_y_inputbox->hide();
++
+   pos_z_label->hide();
+   pos_z_inputbox->hide();
+ 
+@@ -474,8 +492,12 @@ ObjectProperties::set_object(LevelObjPtr obj)
+       place(height_label, height_inputbox);
+     }
+ 
+-    if (1) // everybody has z-pos
++    if (1) // everybody has x-pos, y-pos and z-pos
+     {
++      pos_x_inputbox->set_text(StringUtil::to_string(obj->get_pos_x()));
++      place(pos_x_label, pos_x_inputbox);
++      pos_y_inputbox->set_text(StringUtil::to_string(obj->get_pos_y()));
++      place(pos_y_label, pos_y_inputbox);
+       pos_z_inputbox->set_text(StringUtil::to_string(obj->get_pos_z()));
+       place(pos_z_label, pos_z_inputbox);
+     }
+@@ -584,6 +606,20 @@ ObjectProperties::on_owner_change(const std::string& str)
+     (*i)->set_owner(StringUtil::to<int>(str));
+ }
+ 
++void
++ObjectProperties::on_pos_x_change(const std::string& str)
++{
++  for(auto i = objects.begin(); i != objects.end(); ++i)
++    (*i)->set_pos_x(StringUtil::to<float>(str));
++}
++
++void
++ObjectProperties::on_pos_y_change(const std::string& str)
++{
++  for(auto i = objects.begin(); i != objects.end(); ++i)
++    (*i)->set_pos_y(StringUtil::to<float>(str));
++}
++
+ void
+ ObjectProperties::on_pos_z_change(const std::string& str)
+ {
+diff --git a/src/editor/object_properties.hpp b/src/editor/object_properties.hpp
+index 639dd901d..9f2d0eff8 100644
+--- a/src/editor/object_properties.hpp
++++ b/src/editor/object_properties.hpp
+@@ -72,6 +72,12 @@ private:
+   Label*    owner_label;
+   Inputbox* owner_inputbox;
+ 
++  Label*    pos_x_label;
++  Inputbox* pos_x_inputbox;
++
++  Label*    pos_y_label;
++  Inputbox* pos_y_inputbox;
++
+   Label*    pos_z_label;
+   Inputbox* pos_z_inputbox;
+ 
+@@ -137,6 +143,8 @@ public:
+   void on_scroll_x_change(const std::string& str);
+   void on_scroll_y_change(const std::string& str);
+   void on_release_rate_change(const std::string& str);
++  void on_pos_x_change(const std::string& str);
++  void on_pos_y_change(const std::string& str);
+   void on_pos_z_change(const std::string& str);
+ 
+   void on_color_r_change(const std::string& str);
+-- 
+2.51.2
+

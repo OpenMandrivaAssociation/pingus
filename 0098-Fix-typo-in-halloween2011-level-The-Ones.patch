@@ -1,0 +1,26 @@
+From cc468c2548471feea6be7b4738ba6828931edcd3 Mon Sep 17 00:00:00 2001
+From: Bugdebugger <bugdebugger@users.noreply.github.com>
+Date: Thu, 9 Apr 2015 17:21:17 +0200
+Subject: [PATCH 098/129] Fix typo in halloween2011 level "The Ones"
+
+Fixes Pingus/pingus#129
+---
+ data/levels/halloween2011/halloween19-rz.pingus | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/data/levels/halloween2011/halloween19-rz.pingus b/data/levels/halloween2011/halloween19-rz.pingus
+index a6581bd95..85e493f78 100644
+--- a/data/levels/halloween2011/halloween19-rz.pingus
++++ b/data/levels/halloween2011/halloween19-rz.pingus
+@@ -3,7 +3,7 @@
+   (head 
+     (license "GPLv3+")
+     (levelname "The Ones")
+-    (description "This is the last stage the pingus have to pass during this Halloween. Two oddly familiar column are in the way. What do they mean? The two groups of pingus have to work together to make it down the columns to the exit far below.")
++    (description "This is the last stage the pingus have to pass during this Halloween. Two oddly familiar columns are in the way. What do they mean? The two groups of pingus have to work together to make it down the columns to the exit far below.")
+     (author "Rune Zedeler <rz@daimi.au.dk>")
+     (number-of-pingus 20)
+     (number-to-save 11)
+-- 
+2.51.2
+

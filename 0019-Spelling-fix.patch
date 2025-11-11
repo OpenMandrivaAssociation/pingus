@@ -1,0 +1,25 @@
+From 1acb72ad56f706bfd3fdc7d17dd7850c50dd9075 Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Fri, 30 Dec 2011 03:20:26 +0100
+Subject: [PATCH 019/129] Spelling fix
+
+---
+ data/levels/xmas2011/xmas06-grumbel.pingus | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/data/levels/xmas2011/xmas06-grumbel.pingus b/data/levels/xmas2011/xmas06-grumbel.pingus
+index 2c27029c9..a75c61506 100644
+--- a/data/levels/xmas2011/xmas06-grumbel.pingus
++++ b/data/levels/xmas2011/xmas06-grumbel.pingus
+@@ -3,7 +3,7 @@
+   (head 
+     (license "GPLv3+")
+     (levelname "The Big Jump")
+-    (description "Going in and out of the abyss with all Pingus isn't an option here, but a small group preparing the path or the others should get you across.")
++    (description "Going in and out of the abyss with all Pingus isn't an option here, but a small group preparing the path for the others should get you across.")
+     (author "Ingo Ruhnke <grumbel@gmail.com>")
+     (number-of-pingus 50)
+     (number-to-save 40)
+-- 
+2.51.2
+

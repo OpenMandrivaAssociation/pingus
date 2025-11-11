@@ -1,0 +1,75 @@
+From ca00440e6b6515a27c8888b486206eab47366fcc Mon Sep 17 00:00:00 2001
+From: Gabriel Rota <gabriel.rota@gmail.com>
+Date: Tue, 5 Jun 2012 17:23:22 +0200
+Subject: [PATCH 032/129] update fonts/README, fix advance 16 to 22 in
+ fonts/chalk-40px.font
+
+---
+ data/images/fonts/README          | 31 ++-----------------------------
+ data/images/fonts/chalk-40px.font |  2 +-
+ 2 files changed, 3 insertions(+), 30 deletions(-)
+
+diff --git a/data/images/fonts/README b/data/images/fonts/README
+index 476da1d15..08a024977 100644
+--- a/data/images/fonts/README
++++ b/data/images/fonts/README
+@@ -85,41 +85,14 @@ List of needed additional ru characters not provided by the base font, generated
+  % ./substractchars.py characters.txt out > characters-ru.txt
+ 
+ 
+-verdana11.font
+-==============
+-
+-Simple screen font for use in the editor.
+-
+- % ./fontgen  generate /usr/share/fonts/truetype/arphic/ukai.ttc 11 0 256 5000 "$(cat characters-ru.txt)"
+- % mv /tmp/out.pgm verdana11-ru.pgm
+- % mv /tmp/out.font verdana11-ru.font
+-
+-chalk-16px.font
+-===============
+-
+- % ./fontgen  generate /usr/share/fonts/truetype/arphic/ukai.ttc 16 0 512 5000 "$(cat characters-ru.txt)"
+-
+-
+-chalk-20px.font
+-===============
+-
+- % ./fontgen  generate /usr/share/fonts/truetype/arphic/ukai.ttc 20 0 512 5000 "$(cat characters-ru.txt)"
+-
+-
+ chalk-40px.font
+ ===============
+ 
+  % ./fontgen  generate /usr/share/fonts/truetype/arphic/ukai.ttc 40 0 1024 5000 "$(cat characters-ru.txt)"
+  % mv /tmp/out.pgm chalk-ru-40px.pgm
+- % convert -transparent white chalk-ru-40px.pgm chalk-ru-40px.png
++ % make chalk-ru-40px.png with GIMP add alpha, select white, del, revert selection, del, fill white, blur, save as png
+  % mv /tmp/out.font chalk-ru-40px.font
++ add image filename and glyphs section to chalk-ru-40px.font; set (advance 40) to (advance 22)
+ 
+ 
+-pingus-small-20px.font
+-======================
+-
+-A green font with a 1px black border around it.
+-
+- % ./fontgen  generate /usr/share/fonts/truetype/arphic/ukai.ttc 20 1 512 5000 "$(cat characters-ru.txt)"
+-
+ # EOF #
+diff --git a/data/images/fonts/chalk-40px.font b/data/images/fonts/chalk-40px.font
+index dbb143d38..03d9d7eaa 100644
+--- a/data/images/fonts/chalk-40px.font
++++ b/data/images/fonts/chalk-40px.font
+@@ -1310,7 +1310,7 @@
+     (glyph (unicode 1091) (offset 10 -20) (advance 22) (rect 540 0 560 23)) ;; у
+     (glyph (unicode 1088) (offset 10 -20) (advance 22) (rect 560 0 580 23)) ;; р
+     (glyph (unicode 1081) (offset 10 -24) (advance 22) (rect 580 0 598 22)) ;; й
+-    (glyph (unicode 1076) (offset 11 -20) (advance 16) (rect 598 0 614 20)) ;; д
++    (glyph (unicode 1076) (offset 11 -20) (advance 22) (rect 598 0 614 20)) ;; д
+     (glyph (unicode 1094) (offset 10 -20) (advance 22) (rect 614 0 632 20)) ;; ц
+     (glyph (unicode 1097) (offset 9 -20) (advance 22) (rect 632 0 653 20)) ;; щ
+     (glyph (unicode 1099) (offset 8 -20) (advance 22) (rect 653 0 674 18)) ;; ы
+-- 
+2.51.2
+

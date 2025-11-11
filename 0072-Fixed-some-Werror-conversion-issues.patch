@@ -1,0 +1,368 @@
+From e418b8ce075d9625a6e1c96975847577ad97a106 Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Sat, 26 Jul 2014 20:49:29 +0200
+Subject: [PATCH 072/129] Fixed some -Werror=conversion issues
+
+---
+ src/editor/combobox.cpp                 |  4 ++--
+ src/editor/file_list.cpp                |  6 +++---
+ src/editor/object_selector_list.cpp     | 10 ++++++----
+ src/editor/object_selector_set.cpp      |  2 +-
+ src/engine/display/font.cpp             |  2 +-
+ src/engine/display/sdl_framebuffer.cpp  |  4 ++--
+ src/engine/input/controller.cpp         |  4 ++--
+ src/engine/input/evdev/evdev_device.cpp |  6 +++---
+ src/pingus/components/button_panel.cpp  | 20 ++++++++++----------
+ src/pingus/components/choice_box.cpp    |  2 +-
+ src/pingus/levelset.cpp                 |  2 +-
+ src/pingus/screens/option_menu.cpp      |  6 +++---
+ src/util/memory_pool.hpp                |  2 +-
+ src/util/system.cpp                     |  4 ++--
+ 14 files changed, 38 insertions(+), 36 deletions(-)
+
+diff --git a/src/editor/combobox.cpp b/src/editor/combobox.cpp
+index 6df8f1379..f644acc19 100644
+--- a/src/editor/combobox.cpp
++++ b/src/editor/combobox.cpp
+@@ -60,7 +60,7 @@ Combobox::is_at(int x, int y)
+ {
+   if (drop_down)
+     return Rect(Vector2i(rect.left, rect.top + get_box_offset()),
+-                Size(rect.get_width(), rect.get_height() * (item_list.size()))).contains(Vector2i(x,y));
++                Size(rect.get_width(), rect.get_height() * static_cast<int>(item_list.size()))).contains(Vector2i(x,y));
+   else
+     return RectComponent::is_at(x,y);
+ }
+@@ -88,7 +88,7 @@ Combobox::on_primary_button_press(int x, int y)
+     list_rect = Rect(Vector2i(rect.left, 
+                               rect.top + get_box_offset()),
+                      Size(rect.get_width(),
+-                          rect.get_height() * item_list.size()));
++                          rect.get_height() * static_cast<int>(item_list.size())));
+ 
+     on_pointer_move(x,y);
+   }
+diff --git a/src/editor/file_list.cpp b/src/editor/file_list.cpp
+index 9ba820361..0c469c98c 100644
+--- a/src/editor/file_list.cpp
++++ b/src/editor/file_list.cpp
+@@ -45,7 +45,7 @@ FileList::update_layout()
+   hspace = rect.get_width()/2;
+   vspace = 20;
+ 
+-  num_pages = directory.size() / items_per_page();
++  num_pages = static_cast<int>(directory.size()) / items_per_page();
+   if ((directory.size() % items_per_page()) != 0 || num_pages == 0)
+     num_pages += 1;
+   
+@@ -90,7 +90,7 @@ FileList::set_directory(const std::string& pathname, const std::string& pattern)
+   directory.push_back(System::DirectoryEntry("..", System::DE_DIRECTORY));
+   std::sort(directory.begin(), directory.end(), DirectorySorter());
+ 
+-  num_pages = directory.size() / items_per_page();
++  num_pages = static_cast<int>(directory.size()) / items_per_page();
+   if ((directory.size() % items_per_page()) != 0 || num_pages == 0)
+     num_pages += 1;
+ 
+@@ -104,7 +104,7 @@ FileList::draw(DrawingContext& gc)
+ 
+   int end = (page+1) * items_per_page();
+   if (end > int(directory.size()))
+-    end = directory.size();
++    end = static_cast<int>(directory.size());
+ 
+   int x = rect.left;
+   int y = rect.top;
+diff --git a/src/editor/object_selector_list.cpp b/src/editor/object_selector_list.cpp
+index b6314a791..e9104abc2 100644
+--- a/src/editor/object_selector_list.cpp
++++ b/src/editor/object_selector_list.cpp
+@@ -59,8 +59,8 @@ ObjectSelectorList::draw(DrawingContext& parent_gc)
+ 
+     for(Objects::const_iterator i = set->get_objects().begin(); i != set->get_objects().end(); ++i)
+     {
+-      int x = (i - set->get_objects().begin()) % 5;
+-      int y = (i - set->get_objects().begin()) / 5;
++      int x = static_cast<int>(i - set->get_objects().begin()) % 5;
++      int y = static_cast<int>(i - set->get_objects().begin()) / 5;
+ 
+       gc.draw((*i)->thumbnail, Vector2i(x * 48, y * 48));
+ 
+@@ -180,7 +180,8 @@ ObjectSelectorList::on_pointer_move (int x, int y)
+   mouse_pos = Vector2i(x - rect.left, y - rect.top);
+ 
+   int width = 5;
+-  int height = (set->get_objects().size() / width) + ((set->get_objects().size() % width > 0) ? 1 : 0);
++  int height = (static_cast<int>(set->get_objects().size()) / width) +
++    ((static_cast<int>(set->get_objects().size()) % width > 0) ? 1 : 0);
+ 
+   if (mode != OBJECT_DRAG)
+   {
+@@ -220,7 +221,8 @@ ObjectSelectorList::scroll(float y)
+ 
+     // FIXME: move this to a separate function
+     int width = 5;
+-    int height = (set->get_objects().size() / width) + ((set->get_objects().size() % width > 0) ? 1 : 0);
++    int height = (static_cast<int>(set->get_objects().size()) / width) +
++      ((static_cast<int>(set->get_objects().size()) % width > 0) ? 1 : 0);
+     offset = Math::clamp(Math::min(static_cast<float>(rect.get_height()) - (static_cast<float>(height) * 48.0f),
+                                    0.0f), offset, 0.0f);
+   }
+diff --git a/src/editor/object_selector_set.cpp b/src/editor/object_selector_set.cpp
+index d34ef5d5c..11f395f1d 100644
+--- a/src/editor/object_selector_set.cpp
++++ b/src/editor/object_selector_set.cpp
+@@ -47,7 +47,7 @@ ObjectSelectorSet::get_width() const
+ int
+ ObjectSelectorSet::get_height() const
+ {
+-  return (objects.size() / get_width()) + ((objects.size() % get_width() > 0) ? 1 : 0);
++  return (static_cast<int>(objects.size()) / get_width()) + ((static_cast<int>(objects.size()) % get_width() > 0) ? 1 : 0);
+ }
+ 
+ } // namespace Editor
+diff --git a/src/engine/display/font.cpp b/src/engine/display/font.cpp
+index b147082e0..d3da1c46b 100644
+--- a/src/engine/display/font.cpp
++++ b/src/engine/display/font.cpp
+@@ -67,7 +67,7 @@ public:
+           if (glyphs[i->unicode] == 0)
+           {
+             glyphs[i->unicode] = new GlyphDescription(*i);
+-            glyphs[i->unicode]->image = framebuffer_surfaces.size()-1;
++            glyphs[i->unicode]->image = static_cast<int>(framebuffer_surfaces.size()) - 1;
+           }
+           else
+           {
+diff --git a/src/engine/display/sdl_framebuffer.cpp b/src/engine/display/sdl_framebuffer.cpp
+index fe3f86e38..4a4d4f26a 100644
+--- a/src/engine/display/sdl_framebuffer.cpp
++++ b/src/engine/display/sdl_framebuffer.cpp
+@@ -70,7 +70,7 @@ inline void draw_pixel32(SDL_Surface* screen, int x, int y, const Color& c)
+ 
+     dp1 = ((((dp1 - color) * alpha) >> 8) + color) & 0x00FF00FF;
+     dp2 = ((((dp2 - sp2) * alpha) >> 8) + sp2) & 0x00FF00FF;
+-    *p = (dp1 | (dp2 << 8));
++    *p = static_cast<Uint32>(dp1 | (dp2 << 8));
+   } else {
+     (static_cast<Uint32*>(screen->pixels))[x + y * screen->w] = color;
+   }
+@@ -406,7 +406,7 @@ SDLFramebuffer::update_rects(const std::vector<Rect>& rects)
+     sdl_rects.push_back(sdl_rect);
+   }
+ 
+-  SDL_UpdateRects(screen, sdl_rects.size(), const_cast<SDL_Rect*>(&*sdl_rects.begin()));
++  SDL_UpdateRects(screen, static_cast<int>(sdl_rects.size()), const_cast<SDL_Rect*>(&*sdl_rects.begin()));
+ }
+ 
+ Size
+diff --git a/src/engine/input/controller.cpp b/src/engine/input/controller.cpp
+index 9e6bb0a24..6f0417361 100644
+--- a/src/engine/input/controller.cpp
++++ b/src/engine/input/controller.cpp
+@@ -180,7 +180,7 @@ Controller::refresh()
+   {
+     if (*i) 
+     {
+-      add_axis_event(i - axes.begin(), (*i)->get_pos());
++      add_axis_event(static_cast<int>(i - axes.begin()), (*i)->get_pos());
+     }
+   }
+ 
+@@ -188,7 +188,7 @@ Controller::refresh()
+   {
+     if (*i) 
+     {
+-      add_pointer_event(i - pointers.begin(), (*i)->get_pos().x, (*i)->get_pos().y);
++      add_pointer_event(static_cast<int>(i - pointers.begin()), (*i)->get_pos().x, (*i)->get_pos().y);
+     }    
+   }
+   
+diff --git a/src/engine/input/evdev/evdev_device.cpp b/src/engine/input/evdev/evdev_device.cpp
+index b416ed3d9..fccf44008 100644
+--- a/src/engine/input/evdev/evdev_device.cpp
++++ b/src/engine/input/evdev/evdev_device.cpp
+@@ -192,7 +192,7 @@ EvdevDevice::get_relative_index_by_code(int code)
+ {
+   for(std::vector<Relative>::size_type i = 0; i != relatives.size(); ++i)
+     if (relatives[i].code == code)
+-      return i;
++      return static_cast<int>(i);
+   return -1;
+ }
+ 
+@@ -201,7 +201,7 @@ EvdevDevice::get_key_index_by_code(int code)
+ {
+   for(std::vector<Key>::size_type i = 0; i != keys.size(); ++i)
+     if (keys[i].code == code)
+-      return i;
++      return static_cast<int>(i);
+   return -1;
+ }
+ 
+@@ -210,7 +210,7 @@ EvdevDevice::get_absolute_index_by_code(int code)
+ {
+   for(std::vector<Absolute>::size_type i = 0; i != absolutes.size(); ++i)
+     if (absolutes[i].code == code)
+-      return i;
++      return static_cast<int>(i);
+   return -1;
+ }
+ 
+diff --git a/src/pingus/components/button_panel.cpp b/src/pingus/components/button_panel.cpp
+index 4ebe90e40..62addd524 100644
+--- a/src/pingus/components/button_panel.cpp
++++ b/src/pingus/components/button_panel.cpp
+@@ -38,8 +38,8 @@ ButtonPanel::ButtonPanel(Server* s, const Vector2i& pos) :
+ 
+   std::vector<ActionName::Enum> actions = aholder->get_available_actions();
+ 
+-  set_rect(Rect(Vector2i(pos.x, pos.y - (actions.size() * 38)/2),
+-                Size(60, actions.size() * 38)));
++  set_rect(Rect(Vector2i(pos.x, pos.y - (static_cast<int>(actions.size()) * 38)/2),
++                Size(60, static_cast<int>(actions.size()) * 38)));
+ 
+   // Sort the action so that they always have the same order in the panel
+   std::sort(actions.begin(), actions.end());
+@@ -67,11 +67,11 @@ ButtonPanel::draw(DrawingContext& gc)
+   for(std::vector<ActionButton>::size_type i = 0; i < buttons.size(); ++i)
+   {
+     if (current_button == i)
+-      gc.draw(highlight, Vector2i(rect.left, rect.top + 38*i));
++      gc.draw(highlight, Vector2i(rect.left, rect.top + 38*static_cast<int>(i)));
+     else
+-      gc.draw(background, Vector2i(rect.left, rect.top + 38*i));
++      gc.draw(background, Vector2i(rect.left, rect.top + 38*static_cast<int>(i)));
+ 
+-    gc.draw(buttons[i].sprite, Vector2i(rect.left + 20, rect.top + 38*i + 16));
++    gc.draw(buttons[i].sprite, Vector2i(rect.left + 20, rect.top + 38*static_cast<int>(i) + 16));
+ 
+     if (globals::developer_mode)
+     {
+@@ -80,17 +80,17 @@ ButtonPanel::draw(DrawingContext& gc)
+       out << aholder->get_available(buttons[i].name) 
+           << " / "
+           << aholder->get_used(buttons[i].name);
+-      gc.print_left(Fonts::pingus_small, Vector2i(rect.left + 46, rect.top + 5 + 38*i), out.str());
++      gc.print_left(Fonts::pingus_small, Vector2i(rect.left + 46, rect.top + 5 + 38*static_cast<int>(i)), out.str());
+     }
+     else
+     {
+       std::string str = StringUtil::to_string(aholder->get_available(buttons[i].name));
+-      gc.print_center(Fonts::pingus_small, Vector2i(rect.left + 46, rect.top + 5 + 38*i), str);
++      gc.print_center(Fonts::pingus_small, Vector2i(rect.left + 46, rect.top + 5 + 38*static_cast<int>(i)), str);
+     }
+ 
+     if (show_tip && tip_button == i)
+     {
+-      gc.print_left(Fonts::pingus_small, Vector2i(rect.left + 65, rect.top + 5 + 38*i), 
++      gc.print_left(Fonts::pingus_small, Vector2i(rect.left + 65, rect.top + 5 + 38*static_cast<int>(i)), 
+                     ActionName::to_screenname(buttons[i].name));
+     }
+   }
+@@ -171,8 +171,8 @@ ButtonPanel::on_pointer_move(int x, int y)
+ void
+ ButtonPanel::set_pos(const Vector2i& pos)
+ {
+-  set_rect(Rect(Vector2i(pos.x, pos.y - (buttons.size() * 38)/2),
+-                Size(60, buttons.size() * 38)));
++  set_rect(Rect(Vector2i(pos.x, pos.y - (static_cast<int>(buttons.size()) * 38)/2),
++                Size(60, static_cast<int>(buttons.size()) * 38)));
+ }
+ 
+ /* EOF */
+diff --git a/src/pingus/components/choice_box.cpp b/src/pingus/components/choice_box.cpp
+index a6097237f..3622fc4db 100644
+--- a/src/pingus/components/choice_box.cpp
++++ b/src/pingus/components/choice_box.cpp
+@@ -69,7 +69,7 @@ ChoiceBox::on_primary_button_press(int x, int y)
+     {
+       current_choice -= 1;
+       if (current_choice < 0)
+-        current_choice = choices.size()-1;
++        current_choice = static_cast<int>(choices.size()) - 1;
+       //current_choice = 0;
+     }
+       
+diff --git a/src/pingus/levelset.cpp b/src/pingus/levelset.cpp
+index 21e713fe8..3b236bf3c 100644
+--- a/src/pingus/levelset.cpp
++++ b/src/pingus/levelset.cpp
+@@ -219,7 +219,7 @@ Levelset::get_level(int num) const
+ int
+ Levelset::get_level_count() const
+ {
+-  return m_levels.size();
++  return static_cast<int>(m_levels.size());
+ }
+ 
+ int
+diff --git a/src/pingus/screens/option_menu.cpp b/src/pingus/screens/option_menu.cpp
+index f66bb6609..9aae6af6a 100644
+--- a/src/pingus/screens/option_menu.cpp
++++ b/src/pingus/screens/option_menu.cpp
+@@ -110,7 +110,7 @@ OptionMenu::OptionMenu() :
+     std::vector<Size> resolutions = Display::get_fullscreen_video_modes();
+     Size fullscreen = config_manager.get_fullscreen_resolution();
+ 
+-    int choice = resolutions.size()-1;
++    int choice = static_cast<int>(resolutions.size()) - 1;
+     for (auto it = resolutions.begin(); it != resolutions.end(); ++it)
+     {
+       // add resolution to the box
+@@ -120,7 +120,7 @@ OptionMenu::OptionMenu() :
+ 
+       if (fullscreen == *it)
+       {
+-        choice = it - resolutions.begin();
++        choice = static_cast<int>(it - resolutions.begin());
+       }
+     }
+ 
+@@ -164,7 +164,7 @@ OptionMenu::OptionMenu() :
+ 
+       if (m_language == *i)
+       {
+-        language_box->set_current_choice(i - langs.begin());
++        language_box->set_current_choice(static_cast<int>(i - langs.begin()));
+       }
+     }
+   }
+diff --git a/src/util/memory_pool.hpp b/src/util/memory_pool.hpp
+index 2b9c193e5..a4e0c6507 100644
+--- a/src/util/memory_pool.hpp
++++ b/src/util/memory_pool.hpp
+@@ -35,7 +35,7 @@ private:
+   Chunks chunks;
+   
+   size_t chunk_size;
+-  int    next_free;
++  size_t next_free;
+   
+   char* allocate(size_t size) 
+   {
+diff --git a/src/util/system.cpp b/src/util/system.cpp
+index 99a6f6d2c..705020e38 100644
+--- a/src/util/system.cpp
++++ b/src/util/system.cpp
+@@ -65,7 +65,7 @@ System::DirectoryEntry::DirectoryEntry(const std::string& n, FileType t)
+ std::string
+ System::cut_file_extension(const std::string& filename)
+ {
+-  for(int i = filename.size()-1; i >= 0; --i)
++  for(int i = static_cast<int>(filename.size()) - 1; i >= 0; --i)
+   {
+     if (filename[i] == '.')
+     {
+@@ -83,7 +83,7 @@ System::cut_file_extension(const std::string& filename)
+ std::string
+ System::get_file_extension(const std::string& filename)
+ {
+-  for(int i = filename.size()-1; i >= 0; --i)
++  for(int i = static_cast<int>(filename.size()) - 1; i >= 0; --i)
+   {
+     if (filename[i] == '.')
+     {
+-- 
+2.51.2
+

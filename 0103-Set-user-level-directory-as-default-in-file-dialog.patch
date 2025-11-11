@@ -1,0 +1,51 @@
+From 646001142bf88f04d6f4426da7232f129572636f Mon Sep 17 00:00:00 2001
+From: Bugdebugger <bugdebugger@users.noreply.github.com>
+Date: Sat, 11 Apr 2015 01:14:18 +0200
+Subject: [PATCH 103/129] Set user level directory as default in file-dialog
+
+The old behaviour defaulted to the directory pingus was started in.
+
+Using the user level directory makes more sense as the user will have
+the rights to save there on non source installs.
+
+Fixes Pingus/pingus#110
+---
+ src/editor/editor_screen.cpp | 2 --
+ src/editor/file_dialog.cpp   | 2 ++
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/editor/editor_screen.cpp b/src/editor/editor_screen.cpp
+index ef9fead12..41017a56c 100644
+--- a/src/editor/editor_screen.cpp
++++ b/src/editor/editor_screen.cpp
+@@ -84,14 +84,12 @@ EditorScreen::EditorScreen() :
+                                                                 Size(size.width  - 100,
+                                                                      size.height - 100)),
+                                                      FileDialog::LOAD);
+-  file_load_dialog->set_directory(".");
+   file_load_dialog->hide();
+ 
+   file_save_dialog = gui_manager->create<FileDialog>(this, Rect(Vector2i(50, 50),
+                                                                 Size(Display::get_width() - 100,
+                                                                      Display::get_height() - 100)),
+                                                      FileDialog::SAVE);
+-  file_save_dialog->set_directory(".");
+   file_save_dialog->hide();
+ 
+   {
+diff --git a/src/editor/file_dialog.cpp b/src/editor/file_dialog.cpp
+index 26fcbede1..515882f2f 100644
+--- a/src/editor/file_dialog.cpp
++++ b/src/editor/file_dialog.cpp
+@@ -82,6 +82,8 @@ FileDialog::FileDialog(EditorScreen* editor_, const Rect& rect_, Mode mode_) :
+ 
+   filename_inputbox->on_enter.connect(std::bind(&FileDialog::on_filename_enter, this));
+   pathname_inputbox->on_enter.connect(std::bind(&FileDialog::on_pathname_change, this));
++
++  on_userdir();
+ }
+ 
+ FileDialog::~FileDialog()
+-- 
+2.51.2
+

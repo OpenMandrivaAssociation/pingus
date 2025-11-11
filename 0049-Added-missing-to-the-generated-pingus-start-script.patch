@@ -1,0 +1,27 @@
+From 00eec3d09e6a8f9c757e398b957bc716d966008e Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Thu, 25 Jul 2013 21:17:56 +0200
+Subject: [PATCH 049/129] Added missing "$@" to the generated pingus start
+ script
+
+---
+ Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index 0aa660289..a4e1e9ce9 100644
+--- a/Makefile
++++ b/Makefile
+@@ -39,7 +39,8 @@ install-exec: build/pingus
+ 	install -d "$(DESTDIR)$(BINDIR)"
+ 
+ 	install -D build/pingus "$(DESTDIR)$(BINDIR)/pingus.bin"
+-	echo -e "#!/bin/sh\nexec \"$(BINDIR)/pingus.bin\" --datadir \"$(DATADIR)\"" > "$(DESTDIR)$(BINDIR)/pingus"
++	echo "#!/bin/sh" > "$(DESTDIR)$(BINDIR)/pingus"
++	echo "exec \"$(BINDIR)/pingus.bin\" --datadir \"$(DATADIR)\" \"\$$@\"" >> "$(DESTDIR)$(BINDIR)/pingus"
+ 	chmod 755 "$(DESTDIR)$(BINDIR)/pingus"
+ 
+ install-data:
+-- 
+2.51.2
+

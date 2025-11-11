@@ -1,0 +1,25 @@
+From 0e07f56f8c34e21fc4d2b3981a248a35997e20ef Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Tue, 3 Jan 2012 01:06:34 +0100
+Subject: [PATCH 024/129] Lock xmas levels by default
+
+---
+ data/levelsets/xmas2011.levelset | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/data/levelsets/xmas2011.levelset b/data/levelsets/xmas2011.levelset
+index f398cc247..44067e5c0 100644
+--- a/data/levelsets/xmas2011.levelset
++++ b/data/levelsets/xmas2011.levelset
+@@ -5,7 +5,7 @@
+  (image  "levelsets/xmas2011")
+  (developer-only #f)
+  (priority 5)
+- (locked #f)
++ (locked #t)
+  (levels 
+   (level (filename "xmas2011/xmas09-grumbel"))
+   (level (filename "xmas2011/xmas06-grumbel"))
+-- 
+2.51.2
+

@@ -1,0 +1,25 @@
+From 211378747b6213077fe5de895f32bd8196bb98fa Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Fri, 10 May 2013 04:38:07 +0200
+Subject: [PATCH 046/129] Improved error message
+
+---
+ src/engine/display/surface.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/engine/display/surface.cpp b/src/engine/display/surface.cpp
+index 8f91884b5..44855f68d 100644
+--- a/src/engine/display/surface.cpp
++++ b/src/engine/display/surface.cpp
+@@ -69,7 +69,7 @@ Surface::Surface(const Pathname& pathname) :
+   SDL_Surface* surface = IMG_Load(pathname.get_sys_path().c_str());
+   if (!surface)
+   {
+-    raise_exception(std::runtime_error, "couldn't load: " << pathname.get_sys_path() << ": " << IMG_GetError());
++    raise_exception(std::runtime_error, "couldn't load " << pathname.get_sys_path() << "\n  IMG_GetError: " << IMG_GetError());
+   }
+   else
+   {
+-- 
+2.51.2
+

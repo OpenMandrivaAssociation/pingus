@@ -1,0 +1,24 @@
+From dea5f4d8b3e247230388257a2cb4345de0357b16 Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Fri, 10 May 2013 04:22:20 +0200
+Subject: [PATCH 042/129] added /old to .gitignore
+
+---
+ .gitignore | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/.gitignore b/.gitignore
+index 3a8e11011..cdc9496e7 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -7,6 +7,7 @@
+ /build-win32
+ /build-win32.old
+ /config.log
++/old
+ *~
+ *.o
+ /pingus-evil
+-- 
+2.51.2
+

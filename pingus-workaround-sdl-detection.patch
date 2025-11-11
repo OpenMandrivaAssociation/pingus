@@ -1,0 +1,15 @@
+diff -up pingus-0.7.6/SConscript.omv~ pingus-0.7.6/SConscript
+--- pingus-0.7.6/SConscript.omv~	2025-11-11 01:45:09.700835226 +0100
++++ pingus-0.7.6/SConscript	2025-11-11 01:54:23.482848231 +0100
+@@ -184,7 +184,9 @@ class Project:
+         if self.conf.CheckMyProgram('pkg-config'):
+             for sdllib in ['sdl', 'SDL_image', 'SDL_mixer']:
+                 if not self.conf.env.ParseConfig("pkg-config  --cflags --libs %s | sed 's/-I/-isystem/g'" % sdllib):
+-                    self.fatal_error += "  * SDL library '%s' not found\n" % sdllib
++                    #self.fatal_error += "  * SDL library '%s' not found\n" % sdllib
++                    # Not sure why this doesn't work, but certainly sure THAT it doesn't work. scons sucks.
++                    self.conf.env.Append(LIBS = [ sdllib ])
+         else:
+             if sys.platform == 'darwin':
+                 # self.conf.env.StaticLibrary("sdlmain", ["src/macosx/SDLmain.m"], [ 'SDL' ])
+diff -up pingus-0.7.6/SConstruct.omv~ pingus-0.7.6/SConstruct

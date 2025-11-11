@@ -1,0 +1,24 @@
+From dd74a5251be48801c4bf959db8a4ad07d68ab2db Mon Sep 17 00:00:00 2001
+From: Bugdebugger <bugdebugger@users.noreply.github.com>
+Date: Sat, 11 Apr 2015 21:07:01 +0200
+Subject: [PATCH 096/129] Fix not all snow particles used in animation
+
+---
+ src/pingus/particles/snow_particle_holder.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/pingus/particles/snow_particle_holder.cpp b/src/pingus/particles/snow_particle_holder.cpp
+index 6396ab2da..40565ccdb 100644
+--- a/src/pingus/particles/snow_particle_holder.cpp
++++ b/src/pingus/particles/snow_particle_holder.cpp
+@@ -45,6 +45,7 @@ SnowParticleHolder::SnowParticle::SnowParticle (int x, int y, bool colliding_) :
+     case 5:
+     case 6:
+       type = SnowParticleHolder::Snow4;
++      break;
+     default:
+       type = SnowParticleHolder::Snow5;
+       break;
+-- 
+2.51.2
+

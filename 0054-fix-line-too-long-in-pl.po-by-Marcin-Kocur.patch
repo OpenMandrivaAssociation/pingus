@@ -1,0 +1,34 @@
+From a2d9b169bb51f424a818559caa3d8a081bbb6c1b Mon Sep 17 00:00:00 2001
+From: Gabriel Rota <gabriel.rota@gmail.com>
+Date: Tue, 30 Jul 2013 13:23:28 +0200
+Subject: [PATCH 054/129] fix line too long in pl.po by Marcin Kocur
+
+---
+ data/po/pl.po | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/data/po/pl.po b/data/po/pl.po
+index 570e42485..c9f2b416a 100644
+--- a/data/po/pl.po
++++ b/data/po/pl.po
+@@ -9,7 +9,7 @@ msgstr ""
+ "Project-Id-Version: pingus\n"
+ "Report-Msgid-Bugs-To: \n"
+ "POT-Creation-Date: 2013-07-13 14:47+0200\n"
+-"PO-Revision-Date: 2013-07-28 16:04+0200\n"
++"PO-Revision-Date: 2013-07-30 13:07+0200\n"
+ "Last-Translator: Marcin Kocur <marcin2006@gmail.com>\n"
+ "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
+ "Language: pl\n"
+@@ -2610,7 +2610,7 @@ msgstr "Święta Bożego Narodzenia 2011"
+ 
+ #: data/levelsets/xmas2011.levelset:4
+ msgid "Merry Christmas and a Happy New Year"
+-msgstr "Wesołych Świąt Bożego Narodzenia i Szczęśliwego Nowego Roku"
++msgstr "Wesołych Świąt i szczęśliwego Nowego Roku"
+ 
+ #~ msgid "Abort"
+ #~ msgstr "Przerwij"
+-- 
+2.51.2
+

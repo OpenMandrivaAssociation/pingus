@@ -1,0 +1,39 @@
+From 96947cec0a7cddf8e7a7634abdf3c43326925a6a Mon Sep 17 00:00:00 2001
+From: Bugdebugger <bugdebugger@users.noreply.github.com>
+Date: Sat, 11 Apr 2015 20:07:37 +0200
+Subject: [PATCH 093/129] Fix levelset loading from the command line
+
+Fixes Pingus/pingus#105
+---
+ src/pingus/pingus_main.cpp | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/src/pingus/pingus_main.cpp b/src/pingus/pingus_main.cpp
+index 5347a6917..159dfa41a 100644
+--- a/src/pingus/pingus_main.cpp
++++ b/src/pingus/pingus_main.cpp
+@@ -26,6 +26,7 @@
+ #include "pingus/config_manager.hpp"
+ #include "pingus/screens/demo_session.hpp"
+ #include "pingus/screens/pingus_menu.hpp"
++#include "pingus/screens/level_menu.hpp"
+ #include "pingus/worldmap/worldmap_screen.hpp"
+ #include "util/log.hpp"
+ #include "util/string_util.hpp"
+@@ -588,6 +589,13 @@ PingusMain::start_game ()
+       screen_manager.push_screen(std::make_shared<StoryScreen>(FileReader::parse(Pathname(cmd_options.rest.get(),
+                                                                                           Pathname::SYSTEM_PATH))));
+     }
++    else if (StringUtil::has_suffix(cmd_options.rest.get(), ".levelset"))
++    {
++      std::shared_ptr<LevelMenu> lvlm = std::make_shared<LevelMenu>();
++      std::unique_ptr<Levelset> levelset = Levelset::from_file(Pathname(cmd_options.rest.get(), Pathname::SYSTEM_PATH));
++      lvlm->set_levelset(levelset.release());
++      screen_manager.push_screen(lvlm);
++    }
+     else
+     { // Level file
+       screen_manager.push_screen
+-- 
+2.51.2
+

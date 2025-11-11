@@ -1,0 +1,25 @@
+From 06caa59e555e7d9df7e3741255c37d5a8a95d58c Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Mon, 23 Mar 2015 18:44:08 +0100
+Subject: [PATCH 083/129] Fixes #141
+
+---
+ SConscript | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/SConscript b/SConscript
+index 2cd3b53ee..7d160fb28 100644
+--- a/SConscript
++++ b/SConscript
+@@ -97,7 +97,7 @@ class Project:
+         self.opts.Add('CPPDEFINES', 'defined constants', [])
+         self.opts.Add('LIBS',       'Additional libraries', [])
+         self.opts.Add('CCFLAGS',    'C Compiler flags', [])
+-        self.opts.Add('CXXFLAGS',   'C++ Compiler flags', ["-O2", "-s"])
++        self.opts.Add('CXXFLAGS',   'C++ Compiler flags', ["-O2", "-s"], converter=SCons.Util.CLVar)
+         self.opts.Add('LINKFLAGS',  'Linker Compiler flags', [])
+ 
+         self.opts.Add(BoolVariable('with_opengl',        'Build with OpenGL support', True))
+-- 
+2.51.2
+

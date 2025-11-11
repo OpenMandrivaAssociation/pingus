@@ -1,0 +1,28 @@
+From b164908afc637fb899241643735931898e4a6072 Mon Sep 17 00:00:00 2001
+From: Bugdebugger <bugdebugger@users.noreply.github.com>
+Date: Tue, 31 Mar 2015 01:57:14 +0200
+Subject: [PATCH 095/129] Fix the stretch-x state display in the editor
+
+The level editor was displaying the activation state of stretch-y for
+stretch-x. This was only noticeable on a loaded level where the
+surface-background object had different stretch-x and stretch-y values.
+---
+ src/editor/object_properties.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/editor/object_properties.cpp b/src/editor/object_properties.cpp
+index 50575ac0f..27c07351d 100644
+--- a/src/editor/object_properties.cpp
++++ b/src/editor/object_properties.cpp
+@@ -425,7 +425,7 @@ ObjectProperties::set_object(LevelObjPtr obj)
+ 
+     if (attr & HAS_STRETCH)
+     {
+-      stretch_x_checkbox->set_checked(obj->get_stretch_y());
++      stretch_x_checkbox->set_checked(obj->get_stretch_x());
+       stretch_y_checkbox->set_checked(obj->get_stretch_y());
+ 
+       place(stretch_label);
+-- 
+2.51.2
+

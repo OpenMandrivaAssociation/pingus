@@ -1,0 +1,61 @@
+From d47118d7c875cc82b4ed5a0ddd27f793b4016847 Mon Sep 17 00:00:00 2001
+From: Bugdebugger <bugdebugger@users.noreply.github.com>
+Date: Sat, 11 Apr 2015 19:43:44 +0200
+Subject: [PATCH 104/129] Add spawn at mouse position for developer-mode
+
+"l" spawns a pingus walking to the left
+"r" spawns a pingus walking to the right
+
+Fixes Pingus/pingus#107
+---
+ src/pingus/components/playfield.cpp | 21 +++++++++++++++++++++
+ src/pingus/components/playfield.hpp |  1 +
+ 2 files changed, 22 insertions(+)
+
+diff --git a/src/pingus/components/playfield.cpp b/src/pingus/components/playfield.cpp
+index 82309f1ab..173d57c57 100644
+--- a/src/pingus/components/playfield.cpp
++++ b/src/pingus/components/playfield.cpp
+@@ -163,6 +163,27 @@ Playfield::update(float delta)
+   }
+ }
+ 
++void
++Playfield::on_key_pressed(const Input::KeyboardEvent& ev)
++{
++  if (globals::developer_mode)
++  {
++    bool spawn = ev.keysym.sym == SDLK_l || ev.keysym.sym == SDLK_r;
++    if (spawn)
++    {
++      Vector2i n = state.screen2world(mouse_pos);
++      Vector3f p = Vector3f(n.x,n.y,0);
++      Pingu* pingu = server->get_world()->get_pingus()->create_pingu(p, 0);
++      if (pingu)
++      {
++        Direction d;
++        ev.keysym.sym == SDLK_l ? d.left() : d.right();
++        pingu->set_direction(d);
++      }
++    }
++  }
++}
++
+ void
+ Playfield::on_primary_button_press(int x, int y)
+ {
+diff --git a/src/pingus/components/playfield.hpp b/src/pingus/components/playfield.hpp
+index 09ce8ad9b..3840fe2c9 100644
+--- a/src/pingus/components/playfield.hpp
++++ b/src/pingus/components/playfield.hpp
+@@ -73,6 +73,7 @@ public:
+   void on_secondary_button_press (int x, int y);
+   void on_secondary_button_release (int x, int y);
+   void on_pointer_move (int x, int y);
++  void on_key_pressed(const Input::KeyboardEvent& ev);
+ 
+   void enable_scroll_mode();
+   void do_scrolling();
+-- 
+2.51.2
+

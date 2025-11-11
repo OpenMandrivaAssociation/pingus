@@ -1,0 +1,488 @@
+From 5f2ad6d0c273edc3fecefe2c4cc00421808981d2 Mon Sep 17 00:00:00 2001
+From: Bugdebugger <bugdebugger@users.noreply.github.com>
+Date: Thu, 9 Apr 2015 17:23:31 +0200
+Subject: [PATCH 099/129] Fix typo in xmas2011 level "Spiraling Away"
+
+Fixes Pingus/pingus#125
+---
+ data/levels/xmas2011/xmas10-grumbel.pingus | 2 +-
+ data/po/ast.po                             | 2 +-
+ data/po/bg.po                              | 2 +-
+ data/po/ca.po                              | 2 +-
+ data/po/cs.po                              | 2 +-
+ data/po/da.po                              | 2 +-
+ data/po/de.po                              | 2 +-
+ data/po/eo.po                              | 2 +-
+ data/po/es.po                              | 2 +-
+ data/po/fi.po                              | 2 +-
+ data/po/fr.po                              | 2 +-
+ data/po/gd.po                              | 2 +-
+ data/po/gl.po                              | 2 +-
+ data/po/hu.po                              | 2 +-
+ data/po/it.po                              | 2 +-
+ data/po/ja.po                              | 2 +-
+ data/po/lt.po                              | 2 +-
+ data/po/nb.po                              | 2 +-
+ data/po/nl.po                              | 2 +-
+ data/po/nn.po                              | 2 +-
+ data/po/oc.po                              | 2 +-
+ data/po/pingus.pot                         | 2 +-
+ data/po/pl.po                              | 2 +-
+ data/po/pt.po                              | 2 +-
+ data/po/pt_BR.po                           | 2 +-
+ data/po/ru.po                              | 2 +-
+ data/po/sq.po                              | 2 +-
+ data/po/sr.po                              | 2 +-
+ data/po/sv.po                              | 2 +-
+ data/po/th.po                              | 2 +-
+ data/po/tr.po                              | 2 +-
+ data/po/uk.po                              | 2 +-
+ data/po/zh_CN.po                           | 2 +-
+ data/po/zh_TW.po                           | 2 +-
+ 34 files changed, 34 insertions(+), 34 deletions(-)
+
+diff --git a/data/levels/xmas2011/xmas10-grumbel.pingus b/data/levels/xmas2011/xmas10-grumbel.pingus
+index 872ab49f9..a88a1c52d 100644
+--- a/data/levels/xmas2011/xmas10-grumbel.pingus
++++ b/data/levels/xmas2011/xmas10-grumbel.pingus
+@@ -3,7 +3,7 @@
+   (head 
+     (license "GPLv3+")
+     (levelname "Spiraling Away")
+-    (description "The exit is straight below, but the path is blocked by solid steal with no way through. But the Pingus have a versatile toolset at hand, can you use it to find a way around and make it to the exit?")
++    (description "The exit is straight below, but the path is blocked by solid steel with no way through. But the Pingus have a versatile toolset at hand, can you use it to find a way around and make it to the exit?")
+     (author "Ingo Ruhnke <grumbel@gmail.com>")
+     (number-of-pingus 50)
+     (number-to-save 40)
+diff --git a/data/po/ast.po b/data/po/ast.po
+index bc6725bea..f861daaf9 100644
+--- a/data/po/ast.po
++++ b/data/po/ast.po
+@@ -2027,7 +2027,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/bg.po b/data/po/bg.po
+index 2c720822d..30ca9cb5a 100644
+--- a/data/po/bg.po
++++ b/data/po/bg.po
+@@ -2044,7 +2044,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/ca.po b/data/po/ca.po
+index 326cf3034..d3b82f8ad 100644
+--- a/data/po/ca.po
++++ b/data/po/ca.po
+@@ -2409,7 +2409,7 @@ msgstr "Fugint en espiral"
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/cs.po b/data/po/cs.po
+index 5d6a01196..c242bf227 100644
+--- a/data/po/cs.po
++++ b/data/po/cs.po
+@@ -2264,7 +2264,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/da.po b/data/po/da.po
+index 1c24fce44..76d74be39 100644
+--- a/data/po/da.po
++++ b/data/po/da.po
+@@ -2140,7 +2140,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/de.po b/data/po/de.po
+index 4e9cc84df..6438e8d3c 100644
+--- a/data/po/de.po
++++ b/data/po/de.po
+@@ -2456,7 +2456,7 @@ msgstr "Ausschrauben"
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/eo.po b/data/po/eo.po
+index 82db84f7e..f9aaa8eec 100644
+--- a/data/po/eo.po
++++ b/data/po/eo.po
+@@ -2081,7 +2081,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/es.po b/data/po/es.po
+index b29e7d650..30ae61a1b 100644
+--- a/data/po/es.po
++++ b/data/po/es.po
+@@ -2416,7 +2416,7 @@ msgstr "Huyendo en espiral"
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/fi.po b/data/po/fi.po
+index 2313c1bfb..de886a2ac 100644
+--- a/data/po/fi.po
++++ b/data/po/fi.po
+@@ -2157,7 +2157,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/fr.po b/data/po/fr.po
+index 88ffef549..7e13bb97a 100644
+--- a/data/po/fr.po
++++ b/data/po/fr.po
+@@ -2442,7 +2442,7 @@ msgstr "Partir en Spirale"
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/gd.po b/data/po/gd.po
+index c10c910a2..4baace6ca 100644
+--- a/data/po/gd.po
++++ b/data/po/gd.po
+@@ -2443,7 +2443,7 @@ msgstr "Snìomh a-mach"
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/gl.po b/data/po/gl.po
+index 52319f90f..93c9ea842 100644
+--- a/data/po/gl.po
++++ b/data/po/gl.po
+@@ -2026,7 +2026,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/hu.po b/data/po/hu.po
+index 05aee1a93..6028e502b 100644
+--- a/data/po/hu.po
++++ b/data/po/hu.po
+@@ -2151,7 +2151,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/it.po b/data/po/it.po
+index f04df7979..c80030a75 100644
+--- a/data/po/it.po
++++ b/data/po/it.po
+@@ -2419,7 +2419,7 @@ msgstr "Allontanarsi dalla spirale"
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/ja.po b/data/po/ja.po
+index 441fab379..ad2eb5ffd 100644
+--- a/data/po/ja.po
++++ b/data/po/ja.po
+@@ -2036,7 +2036,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/lt.po b/data/po/lt.po
+index 224c4759d..06bd8db79 100644
+--- a/data/po/lt.po
++++ b/data/po/lt.po
+@@ -2043,7 +2043,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/nb.po b/data/po/nb.po
+index 02c109cb8..67ff8d159 100644
+--- a/data/po/nb.po
++++ b/data/po/nb.po
+@@ -2109,7 +2109,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/nl.po b/data/po/nl.po
+index 7e34ee5c4..c5f048137 100644
+--- a/data/po/nl.po
++++ b/data/po/nl.po
+@@ -2208,7 +2208,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/nn.po b/data/po/nn.po
+index b9ac29041..5b2f290c1 100644
+--- a/data/po/nn.po
++++ b/data/po/nn.po
+@@ -2383,7 +2383,7 @@ msgstr "Bukter seg bort"
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/oc.po b/data/po/oc.po
+index b060d2883..49908d873 100644
+--- a/data/po/oc.po
++++ b/data/po/oc.po
+@@ -2032,7 +2032,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/pingus.pot b/data/po/pingus.pot
+index 7bbf39c09..4b72122a1 100644
+--- a/data/po/pingus.pot
++++ b/data/po/pingus.pot
+@@ -2026,7 +2026,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/pl.po b/data/po/pl.po
+index c9f2b416a..3f711cc4d 100644
+--- a/data/po/pl.po
++++ b/data/po/pl.po
+@@ -2353,7 +2353,7 @@ msgstr "Klucząc do wyjścia"
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/pt.po b/data/po/pt.po
+index 2e8a41059..435d5e3bb 100644
+--- a/data/po/pt.po
++++ b/data/po/pt.po
+@@ -2151,7 +2151,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/pt_BR.po b/data/po/pt_BR.po
+index e095cbceb..1ff2407c0 100644
+--- a/data/po/pt_BR.po
++++ b/data/po/pt_BR.po
+@@ -2412,7 +2412,7 @@ msgstr "A espiral para fora"
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/ru.po b/data/po/ru.po
+index 59113407e..bf632e514 100644
+--- a/data/po/ru.po
++++ b/data/po/ru.po
+@@ -2131,7 +2131,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/sq.po b/data/po/sq.po
+index 1d938081f..42e91d889 100644
+--- a/data/po/sq.po
++++ b/data/po/sq.po
+@@ -2032,7 +2032,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/sr.po b/data/po/sr.po
+index 540ca6e58..4ed21aab3 100644
+--- a/data/po/sr.po
++++ b/data/po/sr.po
+@@ -2391,7 +2391,7 @@ msgstr "Заобилажење препреке"
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/sv.po b/data/po/sv.po
+index dfcc0db87..068ba4efa 100644
+--- a/data/po/sv.po
++++ b/data/po/sv.po
+@@ -2191,7 +2191,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/th.po b/data/po/th.po
+index e91a85d9c..7ec751caa 100644
+--- a/data/po/th.po
++++ b/data/po/th.po
+@@ -2031,7 +2031,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/tr.po b/data/po/tr.po
+index 9843bf548..bac36c465 100644
+--- a/data/po/tr.po
++++ b/data/po/tr.po
+@@ -2374,7 +2374,7 @@ msgstr "Sarmal Çıkış"
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/uk.po b/data/po/uk.po
+index cfb61f097..27fa3db5f 100644
+--- a/data/po/uk.po
++++ b/data/po/uk.po
+@@ -2057,7 +2057,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/zh_CN.po b/data/po/zh_CN.po
+index 073cfcf49..553d73471 100644
+--- a/data/po/zh_CN.po
++++ b/data/po/zh_CN.po
+@@ -2105,7 +2105,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+diff --git a/data/po/zh_TW.po b/data/po/zh_TW.po
+index 56ef1020a..0329bc62c 100644
+--- a/data/po/zh_TW.po
++++ b/data/po/zh_TW.po
+@@ -2208,7 +2208,7 @@ msgstr ""
+ 
+ #: data/levels/xmas2011/xmas10-grumbel.pingus:6
+ msgid ""
+-"The exit is straight below, but the path is blocked by solid steal with no "
++"The exit is straight below, but the path is blocked by solid steel with no "
+ "way through. But the Pingus have a versatile toolset at hand, can you use it "
+ "to find a way around and make it to the exit?"
+ msgstr ""
+-- 
+2.51.2
+

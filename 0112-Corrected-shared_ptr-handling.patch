@@ -1,0 +1,27 @@
+From 24b88a4ea47e4586913b0b229ef00271840d5cef Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Fri, 26 Jun 2015 19:37:32 +0200
+Subject: [PATCH 112/129] Corrected shared_ptr<> handling
+
+---
+ src/lisp/getters.hpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/lisp/getters.hpp b/src/lisp/getters.hpp
+index d9567a3e7..01beb9cb9 100644
+--- a/src/lisp/getters.hpp
++++ b/src/lisp/getters.hpp
+@@ -30,8 +30,8 @@ static inline bool property_get(const Lisp* lisp, T& val)
+   if(lisp->get_list_size() != 2)
+     return false;
+ 
+-  const Lisp* el = lisp->get_list_elem(1);
+-  return get(el, val);
++  std::shared_ptr<Lisp> el = lisp->get_list_elem(1);
++  return get(el.get(), val);
+ }
+ 
+ static inline bool property_get(const Lisp* lisp, const Lisp*& val)
+-- 
+2.51.2
+

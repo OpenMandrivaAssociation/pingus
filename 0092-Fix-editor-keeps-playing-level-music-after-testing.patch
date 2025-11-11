@@ -1,0 +1,53 @@
+From 23544b888ce75bd6563fc4f42d0ebb54e4c89e4e Mon Sep 17 00:00:00 2001
+From: Bugdebugger <bugdebugger@users.noreply.github.com>
+Date: Sat, 11 Apr 2015 01:00:28 +0200
+Subject: [PATCH 092/129] Fix editor keeps playing level music after testing
+
+Fixes Pingus/pingus#111
+---
+ src/editor/editor_screen.cpp | 7 +++++++
+ src/editor/editor_screen.hpp | 3 +++
+ 2 files changed, 10 insertions(+)
+
+diff --git a/src/editor/editor_screen.cpp b/src/editor/editor_screen.cpp
+index c6c490f5c..ef9fead12 100644
+--- a/src/editor/editor_screen.cpp
++++ b/src/editor/editor_screen.cpp
+@@ -27,6 +27,7 @@
+ #include "editor/viewport.hpp"
+ #include "engine/display/display.hpp"
+ #include "engine/gui/gui_manager.hpp"
++#include "engine/sound/sound.hpp"
+ #include "engine/screen/screen_manager.hpp"
+ #include "editor/message_box.hpp"
+ #include "pingus/fonts.hpp"
+@@ -118,6 +119,12 @@ EditorScreen::~EditorScreen()
+ {
+ }
+ 
++void
++EditorScreen::on_startup ()
++{
++  Sound::PingusSound::stop_music();
++}
++
+ // Close the current screen
+ void
+ EditorScreen::close_screen()
+diff --git a/src/editor/editor_screen.hpp b/src/editor/editor_screen.hpp
+index 17ec64d15..3875e6a84 100644
+--- a/src/editor/editor_screen.hpp
++++ b/src/editor/editor_screen.hpp
+@@ -70,6 +70,9 @@ public:
+   /** Destructor */
+   ~EditorScreen();
+ 
++  /** Runs when the editor becomes the active screen */
++  void on_startup();
++
+   /** Closes the current screen */
+   void close_screen();
+ 
+-- 
+2.51.2
+

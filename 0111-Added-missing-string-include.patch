@@ -1,0 +1,24 @@
+From 7cc00423aeaf1eb29ae7a337581b2262e5fe2e2b Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Fri, 26 Jun 2015 19:31:37 +0200
+Subject: [PATCH 111/129] Added missing <string> include
+
+---
+ src/util/file_reader.hpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/util/file_reader.hpp b/src/util/file_reader.hpp
+index 862724683..85e5542a5 100644
+--- a/src/util/file_reader.hpp
++++ b/src/util/file_reader.hpp
+@@ -19,6 +19,7 @@
+ 
+ #include <memory>
+ #include <vector>
++#include <string>
+ 
+ class Size;
+ class Color;
+-- 
+2.51.2
+

@@ -1,0 +1,25 @@
+From 5af25985ea47c5e9a14f03e5cccdc69bdccb1d8e Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Sat, 26 Jul 2014 20:31:09 +0200
+Subject: [PATCH 070/129] Fixed compiler warning in tinygettext
+
+---
+ external/tinygettext/tinygettext/po_parser.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/external/tinygettext/tinygettext/po_parser.cpp b/external/tinygettext/tinygettext/po_parser.cpp
+index 585bf7c4f..2d0d95808 100644
+--- a/external/tinygettext/tinygettext/po_parser.cpp
++++ b/external/tinygettext/tinygettext/po_parser.cpp
+@@ -207,7 +207,7 @@ next:
+         if (pedantic)
+           warning("leading whitespace before string");
+ 
+-      get_string_line(out, i);
++      get_string_line(out, static_cast<unsigned int>(i));
+       goto next;
+     }
+     else if (isspace(current_line[i]))
+-- 
+2.51.2
+

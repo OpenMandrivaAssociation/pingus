@@ -1,0 +1,25 @@
+From c9cc35ee4520f73e670e281f0a517d016068678b Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Fri, 10 May 2013 04:22:51 +0200
+Subject: [PATCH 044/129] Fixed &&/== mixup in Rect class
+
+---
+ src/math/rect.hpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/math/rect.hpp b/src/math/rect.hpp
+index 9ce25fc47..3b761517b 100644
+--- a/src/math/rect.hpp
++++ b/src/math/rect.hpp
+@@ -331,7 +331,7 @@ public:
+ 
+   //: Rect == Rect operator.
+   bool operator==(const Rectf &r) const
+-  { return (left == r.left && top == r.top && right == r.right && bottom && r.bottom); }
++  { return (left == r.left && top == r.top && right == r.right && bottom == r.bottom); }
+ 
+   //: Rect != Rect operator.
+   bool operator!=(const Rect &r) const
+-- 
+2.51.2
+

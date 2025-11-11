@@ -1,0 +1,12 @@
+diff -up pingus-0.7.6/SConscript.omv~ pingus-0.7.6/SConscript
+--- pingus-0.7.6/SConscript.omv~	2025-11-11 01:33:24.255930723 +0100
++++ pingus-0.7.6/SConscript	2025-11-11 01:33:33.501271082 +0100
+@@ -170,8 +170,6 @@ class Project:
+     def configure_boost(self):
+         if not self.conf.CheckHeader('boost/signals2.hpp', '<>', 'c++'):
+             self.fatal_error += "  * library 'boost_signals2' not found\n"
+-        if not self.conf.CheckLib('boost_system', '', '', 'c++'):
+-            self.fatal_error += "  * library 'boost_system' not found\n"
+         if not self.conf.CheckLibWithHeader('boost_filesystem', 'boost/filesystem.hpp', 'c++'):
+             self.fatal_error += "  * library 'boost_filesystem' not found\n"
+ 

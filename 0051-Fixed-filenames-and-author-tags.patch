@@ -1,0 +1,83 @@
+From 7071f72886787db54beb3150256747ae9c4f12b2 Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Thu, 25 Jul 2013 21:54:49 +0200
+Subject: [PATCH 051/129] Fixed filenames and author tags
+
+---
+ ...hristmas  4 Cameron Barratt => christmas4-cbarratt.pingus} | 0
+ ...Desert level 3 Cameron Barratt => desert3-cbarratt.pingus} | 2 +-
+ data/levels/incoming/{Free fall => free-fall-cbarratt.pingus} | 0
+ ... level 1 Cameron Barratt => furious-fire1-cbarratt.pingus} | 4 ++--
+ .../{Ice level 3 Cameron Barratt => ice3-cbarratt.pingus}     | 4 ++--
+ 5 files changed, 5 insertions(+), 5 deletions(-)
+ rename data/levels/incoming/{Christmas  4 Cameron Barratt => christmas4-cbarratt.pingus} (100%)
+ rename data/levels/incoming/{Desert level 3 Cameron Barratt => desert3-cbarratt.pingus} (99%)
+ rename data/levels/incoming/{Free fall => free-fall-cbarratt.pingus} (100%)
+ rename data/levels/incoming/{Furious fire level 1 Cameron Barratt => furious-fire1-cbarratt.pingus} (99%)
+ rename data/levels/incoming/{Ice level 3 Cameron Barratt => ice3-cbarratt.pingus} (99%)
+
+diff --git a/data/levels/incoming/Christmas  4 Cameron Barratt b/data/levels/incoming/christmas4-cbarratt.pingus
+similarity index 100%
+rename from data/levels/incoming/Christmas  4 Cameron Barratt
+rename to data/levels/incoming/christmas4-cbarratt.pingus
+diff --git a/data/levels/incoming/Desert level 3 Cameron Barratt b/data/levels/incoming/desert3-cbarratt.pingus
+similarity index 99%
+rename from data/levels/incoming/Desert level 3 Cameron Barratt
+rename to data/levels/incoming/desert3-cbarratt.pingus
+index 98aaee084..22f8b54d2 100644
+--- a/data/levels/incoming/Desert level 3 Cameron Barratt	
++++ b/data/levels/incoming/desert3-cbarratt.pingus
+@@ -4,7 +4,7 @@
+     (license "GPLv3+")
+     (levelname "Inside the pyramid")
+     (description "A level that involves lots of bridge bulding and takes a little bit of thinking.")
+-    (author "Cameron")
++    (author "Cameron Barratt")
+     (number-of-pingus 30)
+     (number-to-save 21)
+     (time -1)
+diff --git a/data/levels/incoming/Free fall b/data/levels/incoming/free-fall-cbarratt.pingus
+similarity index 100%
+rename from data/levels/incoming/Free fall
+rename to data/levels/incoming/free-fall-cbarratt.pingus
+diff --git a/data/levels/incoming/Furious fire level 1 Cameron Barratt b/data/levels/incoming/furious-fire1-cbarratt.pingus
+similarity index 99%
+rename from data/levels/incoming/Furious fire level 1 Cameron Barratt
+rename to data/levels/incoming/furious-fire1-cbarratt.pingus
+index 0e19f59a6..a361b9042 100644
+--- a/data/levels/incoming/Furious fire level 1 Cameron Barratt	
++++ b/data/levels/incoming/furious-fire1-cbarratt.pingus
+@@ -2,9 +2,9 @@
+   (version 3)
+   (head 
+     (license "GPLv3+")
+-    (levelname "")
++    (levelname "Furious Fire")
+     (description "")
+-    (author "")
++    (author "Cameron Barratt")
+     (number-of-pingus 50)
+     (number-to-save 25)
+     (time -1)
+diff --git a/data/levels/incoming/Ice level 3 Cameron Barratt b/data/levels/incoming/ice3-cbarratt.pingus
+similarity index 99%
+rename from data/levels/incoming/Ice level 3 Cameron Barratt
+rename to data/levels/incoming/ice3-cbarratt.pingus
+index 98286b70e..31516da8d 100644
+--- a/data/levels/incoming/Ice level 3 Cameron Barratt	
++++ b/data/levels/incoming/ice3-cbarratt.pingus
+@@ -2,9 +2,9 @@
+   (version 3)
+   (head 
+     (license "GPLv3+")
+-    (levelname "")
++    (levelname "Ice")
+     (description "")
+-    (author "")
++    (author "Cameron Barratt")
+     (number-of-pingus 50)
+     (number-to-save 20)
+     (time -1)
+-- 
+2.51.2
+

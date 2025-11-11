@@ -1,0 +1,28 @@
+From f33eb521d5c28d0a1f88d14147ae1987843247d8 Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Sun, 27 Jul 2014 04:31:45 +0200
+Subject: [PATCH 074/129] Added logmich to external/README
+
+---
+ external/README | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/external/README b/external/README
+index 90f29a23f..c6e481ef3 100644
+--- a/external/README
++++ b/external/README
+@@ -3,4 +3,11 @@ tinygettext/
+ 
+  svn export https://tinygettext.googlecode.com/svn/branches/tinygettext-c++11 tinygettext
+ 
++
++logmich/
++========
++
++ https://github.com/Grumbel/logmich
++
++
+ # EOF #
+-- 
+2.51.2
+

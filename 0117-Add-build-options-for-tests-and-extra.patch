@@ -1,0 +1,53 @@
+From 0c5611e6aa2bb46161f11b592f1966ca20e55c81 Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Mon, 4 Nov 2019 00:35:08 +0100
+Subject: [PATCH 117/129] Add build options for tests and extra
+
+---
+ SConscript | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/SConscript b/SConscript
+index f39345a37..b6de3e514 100644
+--- a/SConscript
++++ b/SConscript
+@@ -66,6 +66,8 @@ class Project:
+     def configure_begin(self):
+         self.opts = Variables("custom.py", ARGUMENTS)
+         self.opts.Add('BUILD', 'Set the build type', "default")
++        self.opts.Add('BUILD_TESTS', 'Build tests', False)
++        self.opts.Add('BUILD_EXTRA', 'Build tests', True)
+         self.opts.Add('CC', 'C Compiler', 'gcc')
+         self.opts.Add('CXX', 'C++ Compiler', 'g++')
+     #   self.opts.Add('debug', 'Build with debugging options', 0)
+@@ -248,17 +250,21 @@ class Project:
+         self.env.Default(self.env.Program('pingus', ['src/main.cpp', libpingus]))
+ 
+         # build test and utils
+-        for filename in Glob("test/*_test.cpp", strings=True):
+-            self.env.Alias('test', self.env.Program(filename[:-4], [filename, libpingus]))
+-        for filename in Glob("test/*_util.cpp", strings=True):
+-            self.env.Alias('test', self.env.Program(filename[:-4], [filename, libpingus]))
++        if self.env['BUILD_TESTS']:
++            for filename in Glob("test/*_test.cpp", strings=True):
++                self.env.Alias('test', self.env.Program(filename[:-4], [filename, libpingus]))
++            for filename in Glob("test/*_util.cpp", strings=True):
++                self.env.Alias('test', self.env.Program(filename[:-4], [filename, libpingus]))
+ 
+         # build extra stuff
+-        for filename in Glob("extra/*.cpp", strings=True):
+-            self.env.Alias('extra', self.env.Program(filename[:-4], [filename, libpingus]))
++        if self.env['BUILD_EXTRA']:
++            for filename in Glob("extra/*.cpp", strings=True):
++                self.env.Alias('extra', self.env.Program(filename[:-4], [filename, libpingus]))
++
+ 
+ project = Project()
+ project.configure()
+ project.build()
+ 
++
+ ## EOF ##
+-- 
+2.51.2
+

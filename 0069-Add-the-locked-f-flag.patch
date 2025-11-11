@@ -1,0 +1,28 @@
+From d96869e3b2f659deecf6c5d65cafdfdf101a4b65 Mon Sep 17 00:00:00 2001
+From: Gabriel Rota <gabriel.rota@gmail.com>
+Date: Wed, 8 Jan 2014 17:12:00 +0100
+Subject: [PATCH 069/129] Add the 'locked' (#f) flag Change the description as
+ suggested by Richard Qian <richwiki101@gmail.com>
+
+---
+ data/levelsets/space-adventure.levelset | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/data/levelsets/space-adventure.levelset b/data/levelsets/space-adventure.levelset
+index 889dbfa39..e85e4089f 100644
+--- a/data/levelsets/space-adventure.levelset
++++ b/data/levelsets/space-adventure.levelset
+@@ -1,8 +1,9 @@
+ ;; -*- scheme -*-
+ (pingus-levelset
+  (title "Space adventure")
+- (description "by Richard Qian")
++ (description "Going beyond planet Earth and familiar lands")
+  (image  "levelsets/space-adventure")
++ (locked #f)
+  (levels 
+   (level (filename "space-adventure/mountain-1-richard"))
+   (level (filename "space-adventure/mountain-2-richard"))
+-- 
+2.51.2
+

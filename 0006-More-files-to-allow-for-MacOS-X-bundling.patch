@@ -1,0 +1,164 @@
+From 7fea522b4749ed96393e3686bd5f18263f47548c Mon Sep 17 00:00:00 2001
+From: Josh Dye <josh.jpenguin@gmail.com>
+Date: Tue, 27 Dec 2011 18:41:51 -0800
+Subject: [PATCH 006/129] More files to allow for MacOS X bundling
+
+---
+ Info.plist                         |  17 +++++++++++++++++
+ bundle_mac.sh                      |  17 +++++++++++++++++
+ data/images/icons/pingus-icon.icns | Bin 0 -> 8328 bytes
+ 3 files changed, 34 insertions(+)
+ create mode 100644 Info.plist
+ create mode 100755 bundle_mac.sh
+ create mode 100644 data/images/icons/pingus-icon.icns
+
+diff --git a/Info.plist b/Info.plist
+new file mode 100644
+index 000000000..330a04c26
+--- /dev/null
++++ b/Info.plist
+@@ -0,0 +1,17 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>CFBundleDevelopmentRegion</key>  <string>English</string>
++	<key>CFBundleInfoDictionaryVersion</key> <string>6.0</string>
++	<key>CFBundlePackageType</key>  <string>APPL</string>
++	<key>CSResourcesFileMapped</key> <true/>
++	
++	<key>CFBundleName</key>                <string>Pingus</string>
++	<key>CFBundleIconFile</key>            <string>pingus.icns</string>
++	<key>CFBundleExecutable</key>          <string>pingus</string>
++	<key>CFBundleVersion</key>             <string>0.7.6</string>
++	<key>CFBundleShortVersionString</key>  <string>0.7.6</string>
++		
++</dict>
++</plist>
+\ No newline at end of file
+diff --git a/bundle_mac.sh b/bundle_mac.sh
+new file mode 100755
+index 000000000..c6f047e8a
+--- /dev/null
++++ b/bundle_mac.sh
+@@ -0,0 +1,17 @@
++echo "* Removing any existing installation"
++rm -rf ./Pingus.app
++
++echo "* Creating skeleton"
++mkdir -p ./Pingus.app/Contents/Resources
++mkdir ./Pingus.app/Contents/MacOS
++cp info.plist ./Pingus.app/Contents/info.plist
++cp ./data/images/icons/pingus-icon.icns ./Pingus.app/Contents/Resources/pingus.icns
++
++echo "* Copying executable"
++cp ./build/pingus ./Pingus.app/Contents/MacOS/pingus
++
++echo "* Copying data files"
++cp -r ./data/* ./Pingus.app/Contents/Resources/
++
++echo "* Bunling dependencies"
++dylibbundler -od -b -x ./Pingus.app/Contents/MacOS/lincity-ng -d ./Pingus.app/Contents/libs/
+diff --git a/data/images/icons/pingus-icon.icns b/data/images/icons/pingus-icon.icns
+new file mode 100644
+index 0000000000000000000000000000000000000000..54894b7051d09ecc71dc9a4a9720e3ca3a077295
+GIT binary patch
+literal 8328
+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
+
+literal 0
+HcmV?d00001
+
+-- 
+2.51.2
+

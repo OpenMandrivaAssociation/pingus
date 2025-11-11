@@ -1,0 +1,162 @@
+From 81abd0b34232b987f5985ec2f21692f52eaea6f7 Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Tue, 7 Aug 2012 23:45:03 +0200
+Subject: [PATCH 035/129] Throw an exception when Surface() creation fails
+ instead of the object getting invalid
+
+Fixes issue 132
+---
+ src/engine/display/font.cpp            |  7 ++++---
+ src/engine/display/sdl_framebuffer.cpp |  9 +--------
+ src/engine/display/sprite_impl.cpp     | 22 ++++++++++++----------
+ src/engine/display/surface.cpp         | 14 ++++++++++----
+ src/engine/display/surface.hpp         |  6 +++---
+ 5 files changed, 30 insertions(+), 28 deletions(-)
+
+diff --git a/src/engine/display/font.cpp b/src/engine/display/font.cpp
+index b23a9472f..07a057e5e 100644
+--- a/src/engine/display/font.cpp
++++ b/src/engine/display/font.cpp
+@@ -49,14 +49,15 @@ public:
+     // Copyh Unicode -> Glyph mapping 
+     for(std::vector<GlyphImageDescription>::size_type j = 0; j < desc.images.size(); ++j)
+     {
+-      framebuffer_surfaces.push_back(Display::get_framebuffer()->create_surface(Surface(desc.images[j].pathname)));
+-
+-      if (!framebuffer_surfaces.back())
++      Surface surface(desc.images[j].pathname);
++      if (!surface)
+       {
+         log_info("IMG: " << desc.images[j].pathname.str());
+         assert(false);
+       }
+ 
++      framebuffer_surfaces.push_back(Display::get_framebuffer()->create_surface(surface));
++
+       for(std::vector<GlyphDescription>::const_iterator i = desc.images[j].glyphs.begin();
+           i != desc.images[j].glyphs.end();
+           ++i)
+diff --git a/src/engine/display/sdl_framebuffer.cpp b/src/engine/display/sdl_framebuffer.cpp
+index a5ac35f4b..fe3f86e38 100644
+--- a/src/engine/display/sdl_framebuffer.cpp
++++ b/src/engine/display/sdl_framebuffer.cpp
+@@ -149,14 +149,7 @@ SDLFramebuffer::~SDLFramebuffer()
+ FramebufferSurface
+ SDLFramebuffer::create_surface(const Surface& surface)
+ {
+-  if (surface)
+-  {
+-    return FramebufferSurface(new SDLFramebufferSurfaceImpl(surface.get_surface()));
+-  }
+-  else
+-  {
+-    return FramebufferSurface();
+-  }
++  return FramebufferSurface(new SDLFramebufferSurfaceImpl(surface.get_surface()));
+ }
+ 
+ void
+diff --git a/src/engine/display/sprite_impl.cpp b/src/engine/display/sprite_impl.cpp
+index 5ce098114..5b1e3d30a 100644
+--- a/src/engine/display/sprite_impl.cpp
++++ b/src/engine/display/sprite_impl.cpp
+@@ -24,20 +24,22 @@
+ FramebufferSurface load_framebuffer_surface(const Pathname& filename, ResourceModifier::Enum modifier)
+ {
+   // FIXME: Implement proper cache 
+-  Surface surface(filename);
+-  if (modifier != ResourceModifier::ROT0)
++  try
+   {
+-    surface = surface.mod(modifier);
++    Surface surface(filename);
++    if (modifier != ResourceModifier::ROT0)
++    {
++      surface = surface.mod(modifier);
++    }
++    return Display::get_framebuffer()->create_surface(surface);
+   }
+-
+-  if (!surface)
++  catch(const std::exception& err)
+   {
+-    log_error("couldn't load '" << filename << "'");
+-    surface = Surface(Pathname("images/core/misc/404.png", Pathname::DATA_PATH));
+-    if (!surface) assert(!"Surface Couldn't find 404");
++    // return a dummy surface for cases where the image file can't be found
++    log_error(err.what());
++    Surface surface(Pathname("images/core/misc/404.png", Pathname::DATA_PATH));
++    return Display::get_framebuffer()->create_surface(surface);
+   }
+-
+-  return Display::get_framebuffer()->create_surface(surface);
+ }
+ 
+ SpriteImpl::SpriteImpl() :
+diff --git a/src/engine/display/surface.cpp b/src/engine/display/surface.cpp
+index 0cb502e81..5b5123365 100644
+--- a/src/engine/display/surface.cpp
++++ b/src/engine/display/surface.cpp
+@@ -18,10 +18,12 @@
+ 
+ #include <SDL_image.h>
+ #include <boost/format.hpp>
++#include <stdexcept>
+ 
+ #include "engine/display/blitter.hpp"
+ #include "math/rect.hpp"
+ #include "util/log.hpp"
++#include "util/raise_exception.hpp"
+ 
+ class SurfaceImpl
+ {
+@@ -65,14 +67,18 @@ Surface::Surface(const Pathname& pathname) :
+   impl()
+ {
+   SDL_Surface* surface = IMG_Load(pathname.get_sys_path().c_str());
+-  if (surface)
++  if (!surface)
+   {
+-    impl = std::shared_ptr<SurfaceImpl>(new SurfaceImpl(surface));
++    raise_exception(std::runtime_error, "couldn't load: " << pathname);
++  }
++  else
++  {
++    impl.reset(new SurfaceImpl(surface));
+   }
+ }
+ 
+-Surface::Surface(int width, int height, SDL_Palette* palette, int colorkey)
+-  : impl(new SurfaceImpl())
++Surface::Surface(int width, int height, SDL_Palette* palette, int colorkey) :
++  impl(new SurfaceImpl)
+ {
+   if (colorkey == -1)
+   {
+diff --git a/src/engine/display/surface.hpp b/src/engine/display/surface.hpp
+index 61533f459..91584ba61 100644
+--- a/src/engine/display/surface.hpp
++++ b/src/engine/display/surface.hpp
+@@ -34,8 +34,6 @@ class Surface
+ public:
+   Surface();
+ 
+-  Surface(std::shared_ptr<SurfaceImpl> impl);
+-
+   Surface(const Pathname& name);
+ 
+   /** Create an empty RGBA Surface */
+@@ -80,7 +78,9 @@ public:
+ 
+   void print(std::ostream& out);
+ 
+-protected:
++private:
++  Surface(std::shared_ptr<SurfaceImpl> impl);
++
+   std::shared_ptr<SurfaceImpl> impl;
+ };
+ 
+-- 
+2.51.2
+

@@ -1,0 +1,109 @@
+From b1b1126af2c699a853ab7b29773fa9287544bfd9 Mon Sep 17 00:00:00 2001
+From: Bugdebugger <bugdebugger@users.noreply.github.com>
+Date: Thu, 9 Apr 2015 08:16:29 +0200
+Subject: [PATCH 107/129] Set and display level time in editor in seconds
+
+Previously level time in the editor was shown/set in game engine ticks,
+which isn't something a normal user should have to worry about when
+designing a level.
+
+To make this possible GameTime was extended with two conversion
+functions between game engine ticks and real time seconds.
+---
+ src/editor/level_properties.cpp |  5 +++--
+ src/pingus/game_time.cpp        | 28 +++++++++++++++++++++++++++-
+ src/pingus/game_time.hpp        |  2 ++
+ 3 files changed, 32 insertions(+), 3 deletions(-)
+
+diff --git a/src/editor/level_properties.cpp b/src/editor/level_properties.cpp
+index 557511af7..edf4977c9 100644
+--- a/src/editor/level_properties.cpp
++++ b/src/editor/level_properties.cpp
+@@ -24,6 +24,7 @@
+ #include "editor/viewport.hpp"
+ #include "util/log.hpp"
+ #include "util/string_util.hpp"
++#include "pingus/game_time.hpp"
+ #include "pingus/gettext.h"
+ 
+ /*
+@@ -117,7 +118,7 @@ LevelProperties::set_level(EditorLevel* level_)
+   number_of_pingus->set_text(StringUtil::to_string(level->get_number_of_pingus()));
+   number_to_save->set_text(StringUtil::to_string(level->get_number_to_save()));
+ 
+-  time->set_text(StringUtil::to_string(level->get_time()));
++  time->set_text(StringUtil::to_string(GameTime::ticks_to_seconds(level->get_time())));
+   width->set_text(StringUtil::to_string(level->get_size().width));
+   height->set_text(StringUtil::to_string(level->get_size().height));
+   music->set_text(level->get_music());
+@@ -189,7 +190,7 @@ LevelProperties::on_number_of_pingus_change(const std::string& str)
+ void
+ LevelProperties::on_time_change(const std::string& str)
+ {
+-  level->set_time(StringUtil::to<int>(str));
++  level->set_time(GameTime::seconds_to_ticks(StringUtil::to<int>(str)));
+ }
+ 
+ void
+diff --git a/src/pingus/game_time.cpp b/src/pingus/game_time.cpp
+index d2ab44fc3..4981f4366 100644
+--- a/src/pingus/game_time.cpp
++++ b/src/pingus/game_time.cpp
+@@ -21,6 +21,32 @@
+ #include "gettext.h"
+ #include "pingus/globals.hpp"
+ 
++int
++GameTime::seconds_to_ticks(int seconds)
++{
++  if (seconds < 0)
++  {
++    return seconds;
++  }
++  else
++  {
++    return seconds * 1000 / globals::game_speed;
++  }
++}
++
++int
++GameTime::ticks_to_seconds(int ticks)
++{
++  if (ticks < 0)
++  {
++    return ticks;
++  }
++  else
++  {
++    return ticks * globals::game_speed / 1000;
++  }
++}
++
+ std::string
+ GameTime::ticks_to_realtime_string(int ticks)
+ {
+@@ -33,7 +59,7 @@ GameTime::ticks_to_realtime_string(int ticks)
+     const int time_str_size = 20;
+     char time_str[time_str_size];
+ 
+-    int total_seconds = ticks * globals::game_speed / 1000;
++    int total_seconds = ticks_to_seconds(ticks);
+     int seconds       = total_seconds % 60;
+     int minutes       = total_seconds / 60;
+ 
+diff --git a/src/pingus/game_time.hpp b/src/pingus/game_time.hpp
+index 30bb45b2f..0af22bb91 100644
+--- a/src/pingus/game_time.hpp
++++ b/src/pingus/game_time.hpp
+@@ -28,6 +28,8 @@ class GameTime
+ public:
+   /** Convert time given in ticks, into a string of Minutes:Seconds */
+   static std::string ticks_to_realtime_string(int ticks);
++  static int seconds_to_ticks(int seconds);
++  static int ticks_to_seconds(int ticks);
+ };
+ 
+ #endif
+-- 
+2.51.2
+

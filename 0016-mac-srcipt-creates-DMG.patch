@@ -1,0 +1,40 @@
+From 218cfd770af4c84ec84a3c268036fd4acf8f35d0 Mon Sep 17 00:00:00 2001
+From: Josh Dye <josh.jpenguin@gmail.com>
+Date: Thu, 29 Dec 2011 12:28:02 -0800
+Subject: [PATCH 016/129] mac srcipt creates DMG
+
+---
+ bundle_mac.sh | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/bundle_mac.sh b/bundle_mac.sh
+index ecbc899ac..e7fe1f8ac 100755
+--- a/bundle_mac.sh
++++ b/bundle_mac.sh
+@@ -1,5 +1,6 @@
+ echo "* Removing any existing installation"
+ rm -rf ./Pingus.app
++rm -rf ./Pingus-`cat VERSION`.dmg
+ 
+ echo "* Creating skeleton"
+ mkdir -p ./Pingus.app/Contents/Resources
+@@ -15,3 +16,15 @@ cp -r ./data/* ./Pingus.app/Contents/Resources/
+ 
+ echo "* Bunling dependencies"
+ dylibbundler -od -b -x ./Pingus.app/Contents/MacOS/pingus -d ./Pingus.app/Contents/libs/
++
++echo "* Creating DMG"
++	hdiutil create -size 100M -fs HFS+J -volname Pingus Pingus-tmp.dmg
++	hdiutil attach Pingus-tmp.dmg -readwrite -mount required
++	cp -R Pingus.app /Volumes/Pingus/
++	cp README /Volumes/Pingus
++	cp AUTHORS /Volumes/Pingus
++	cp COPYING /Volumes/Pingus
++	cp NEWS /Volumes/Pingus
++	hdiutil detach /Volumes/Pingus -force
++	hdiutil convert Pingus-tmp.dmg -format UDZO -imagekey zlib-level=9 -o Pingus-`cat VERSION`.dmg
++	rm Pingus-tmp.dmg
+\ No newline at end of file
+-- 
+2.51.2
+

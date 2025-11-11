@@ -1,0 +1,132 @@
+From e1356eb3b26a356c5ffe3b2ebcadab268c3b3613 Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Mon, 23 Mar 2015 18:59:41 +0100
+Subject: [PATCH 084/129] Converted README to README.md
+
+---
+ README    | 53 -----------------------------------------------------
+ README.md | 52 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 52 insertions(+), 53 deletions(-)
+ delete mode 100644 README
+ create mode 100644 README.md
+
+diff --git a/README b/README
+deleted file mode 100644
+index 149df0cdc..000000000
+--- a/README
++++ /dev/null
+@@ -1,53 +0,0 @@
+- 
+-Pingus 
+-     _________________________________________________________________
+-   
+-Introduction
+-
+-   Pingus is a free Lemmings(tm) clone for GNU/Linux, Win32 and other
+-   operating systems supported by SDL. It is covered under the GPL,
+-   check the file COPYING, for more information.
+-   
+-   See INSTALL for generic install instructions, INSTALL.unix for
+-   instructions on how to compile and run Pingus from source on
+-   GNU/Linux and INSTALL.Win32 for Windows.
+-
+-   Information about the game, new versions and additional
+-   documentation can be found at the Pingus webpage:
+-   
+-     * http://pingus.seul.org
+-       
+-     _________________________________________________________________
+-   
+-Mailing Lists
+-
+-   There are currently two mailing lists available:
+-
+-    * pingus-devel - A list for discussing development issues, like
+-      level creation or code changes, but might as well be used for
+-      user issues like how to solve levels and such
+-
+-    * pingus-cvs - Read-only list to which all CVS commits get
+-      submitted, only intersting for developers in general
+-
+-   For information on how to subscribe to any of these lists have a look at:
+-   
+-      http://pingus.seul.org/contact.html 
+-     _________________________________________________________________
+-   
+-IRC
+-
+-   For a quick help you can try the IRC server irc.freenode.net:6667
+-   and the channel #pingus, you can sometimes find the project
+-   maintainer (nick: grumbel) there. 
+-
+-     _________________________________________________________________
+-
+-Bug Reports
+-
+-   Bug reports, new levels and feature requests can be submitted to
+-   the issue tracker at:
+-
+-    * http://code.google.com/p/pingus/issues/list
+-
+-# EOF #
+diff --git a/README.md b/README.md
+new file mode 100644
+index 000000000..4036b7002
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,52 @@
++Pingus
++======
++
++Introduction
++------------
++
++Pingus is a free Lemmings(tm) clone for GNU/Linux, Win32 and other
++operating systems supported by SDL. It is covered under the GPL, check
++the file COPYING, for more information.
++
++See INSTALL for generic install instructions, INSTALL.unix for
++instructions on how to compile and run Pingus from source on GNU/Linux
++and INSTALL.Win32 for Windows.
++
++Information about the game, new versions and additional documentation
++can be found at the Pingus webpage:
++
++* http://pingus.seul.org
++
++
++Mailing Lists
++-------------
++
++There are currently two mailing lists available:
++
++* pingus-devel - A list for discussing development issues, like level
++  creation or code changes, but might as well be used for user issues
++  like how to solve levels and such
++
++* pingus-cvs - Read-only list to which all CVS commits get submitted,
++  only intersting for developers in general
++
++For information on how to subscribe to any of these lists have a look
++at:
++
++* http://pingus.seul.org/contact.html
++
++
++IRC
++---
++
++For a quick help you can try the IRC server irc.freenode.net:6667 and
++the channel #pingus, you can sometimes find the project maintainer
++(nick: grumbel) there.
++
++Bug Reports
++-----------
++
++Bug reports, new levels and feature requests can be submitted to the
++issue tracker at:
++
++* https://github.com/Pingus/pingus/issues
+-- 
+2.51.2
+

@@ -1,0 +1,25 @@
+From 0b4206c7c032fe1a1cf790410d807ec957269c69 Mon Sep 17 00:00:00 2001
+From: Bugdebugger <bugdebugger@users.noreply.github.com>
+Date: Thu, 9 Apr 2015 11:24:22 +0200
+Subject: [PATCH 097/129] Fix negative time left shown on result screen
+
+---
+ src/pingus/screens/result_screen.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/pingus/screens/result_screen.cpp b/src/pingus/screens/result_screen.cpp
+index 6c6224aa5..cb22d6e10 100644
+--- a/src/pingus/screens/result_screen.cpp
++++ b/src/pingus/screens/result_screen.cpp
+@@ -157,7 +157,7 @@ ResultScreenComponent::ResultScreenComponent(Result arg_result) :
+   if (result.max_time == -1)
+     time_str = "-";
+   else
+-    time_str = GameTime::ticks_to_realtime_string(result.max_time - result.used_time);
++    time_str = GameTime::ticks_to_realtime_string(std::max(0, result.max_time - result.used_time));
+ }
+ 
+ void
+-- 
+2.51.2
+

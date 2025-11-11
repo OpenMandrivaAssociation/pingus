@@ -1,0 +1,44 @@
+From 85487b7ef7c49e39be86a0b3346d395f073b04a8 Mon Sep 17 00:00:00 2001
+From: Ingo Ruhnke <grumbel@gmail.com>
+Date: Mon, 23 Mar 2015 17:39:05 +0100
+Subject: [PATCH 081/129] Added external/logmich and external/tinygettext as
+ git submodules
+
+---
+ .gitmodules          | 6 ++++++
+ external/logmich     | 1 +
+ external/tinygettext | 1 +
+ 3 files changed, 8 insertions(+)
+ create mode 100644 .gitmodules
+ create mode 160000 external/logmich
+ create mode 160000 external/tinygettext
+
+diff --git a/.gitmodules b/.gitmodules
+new file mode 100644
+index 000000000..a78b33808
+--- /dev/null
++++ b/.gitmodules
+@@ -0,0 +1,6 @@
++[submodule "external/logmich"]
++	path = external/logmich
++	url = https://github.com/logmich/logmich.git
++[submodule "external/tinygettext"]
++	path = external/tinygettext
++	url = https://github.com/tinygettext/tinygettext.git
+diff --git a/external/logmich b/external/logmich
+new file mode 160000
+index 000000000..78e7e7137
+--- /dev/null
++++ b/external/logmich
+@@ -0,0 +1 @@
++Subproject commit 78e7e71379fbb23b8382cfd5924b8c8c05b02379
+diff --git a/external/tinygettext b/external/tinygettext
+new file mode 160000
+index 000000000..f71a8e5e8
+--- /dev/null
++++ b/external/tinygettext
+@@ -0,0 +1 @@
++Subproject commit f71a8e5e84bffadd61ac93768b332262989844fd
+-- 
+2.51.2
+
