@@ -7,7 +7,7 @@
 Summary:	A free Lemmings clone
 Name:		pingus
 Version:	0.7.6
-Release:	6
+Release:	7
 License:	GPLv2+
 Group:		Games/Arcade
 URL:		https://pingus.seul.org/
