@@ -18,6 +18,7 @@ Source11:	%{name}.16.png
 Source12:	%{name}.32.png
 Source13:	%{name}.48.png
 BuildRequires:	scons
+BuildRequires:	make
 BuildRequires:	boost-devel
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(glu)
